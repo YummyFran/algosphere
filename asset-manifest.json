@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/algosphere/static/css/main.64ea5677.css",
+    "main.js": "/algosphere/static/js/main.97a39c68.js",
+    "index.html": "/algosphere/index.html",
+    "static/media/logo.svg": "/algosphere/static/media/logo.65b48a78417833d7867831f13ee35f55.svg",
+    "main.64ea5677.css.map": "/algosphere/static/css/main.64ea5677.css.map",
+    "main.97a39c68.js.map": "/algosphere/static/js/main.97a39c68.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.64ea5677.css",
+    "static/js/main.97a39c68.js"
+  ]
+}
