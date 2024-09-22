@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUser } from '../provider/UserProvider'
 import { Navigate } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -8,19 +8,31 @@ import '../styles/login.css'
 const Login = () => {
     const [user, loading] = useUser()
     const [error, setError] = useState("")
+    
+    const [credentials, setCredentials] = useState({ email: '', password: ''})
+    const [disabled, setDisabled] = useState(true)
 
     const handleSubmit = async e => {
         e.preventDefault()
 
-        const email = e.target[0].value
-        const password = e.target[1].value
-
-        const [user, err] = await signIn(email, password)
+        const [user, err] = await signIn(credentials.email, credentials.password)
 
         if(err) {
             setError(err.code)
         }
     }
+
+    const handleChange = e => {
+        setCredentials(prev => ({...prev, [e.target.name]: e.target.value}))
+    }
+
+    useEffect(() => {
+        if(credentials.email && credentials.password) {
+            setDisabled(false)
+        } else {
+            setDisabled(true)
+        }
+    }, [credentials])
 
     if (!loading && user) return <Navigate to='/'/>
     if (loading) return "loading..."
@@ -32,9 +44,9 @@ const Login = () => {
             <p>Crack the Code, Sharpen Your Skills.</p>
         </div>
         <form className='form' onSubmit={handleSubmit}>
-            <input type="text" placeholder='Email' autoComplete='on'/>
-            <input type="password" placeholder='Password' autoComplete='on'/>
-            <button>Log in</button>
+            <input type="text" placeholder='Email' name='email' value={credentials.email} autoComplete='on' required onChange={handleChange}/>
+            <input type="password" placeholder='Password' name='password' value={credentials.password} autoComplete='on' required onChange={handleChange}/>
+            <button disabled={disabled}>Log in</button>
             {error && <div className='error-message'>{error}</div>}
             <p>Don't have an account? <Link to="/signup" className='sign'>Sign up</Link></p>
         </form>

@@ -23,12 +23,25 @@
         gap: 1rem;
         width: min(400px, 90vw);
 
+        .name {
+            display: flex;
+            gap: 1rem;
+
+            * {
+                width: 100%;
+            }
+        }
+
         input {
             padding: 1rem 1.5rem;
             height: 3rem;
             border-radius: 3rem;
             border: 0.5px solid #949494;
             outline-color: var(--accent-color);
+
+            &:focus {
+                color: var(--accent-color);
+            }
         }
 
         button {
@@ -42,6 +55,16 @@
             align-items: center;
             background-color: var(--accent-color);
             color: white;
+            cursor: pointer;
+
+            &:not(:disabled):hover {
+                filter: brightness(0.9);
+            }
+
+            &:disabled {
+                cursor: default;
+                opacity: 0.5;
+            }
         }
 
         .error-message {
@@ -56,6 +79,7 @@
         & > p {
             font-size: 0.8rem;
             text-align: center;
+            color: #949494;
 
             a {
                 color: var(--accent-color);

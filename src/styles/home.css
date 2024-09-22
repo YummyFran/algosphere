@@ -1,71 +1,7 @@
 .home {
     display: grid;
-    grid-template-columns: 2fr 6fr 2fr;
+    grid-template-columns: 6fr 2fr;
     min-height: 100vh;
-
-    .left-panel {
-        display: flex;
-        flex-direction: column;
-        padding-left: 0.2rem;
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem;
-
-            .display-picture {
-                border-radius: 50%;
-                width: 2.3rem;
-                aspect-ratio: 1;
-                background-size: cover;
-                background-color: #c4c4c4;
-            }
-
-            .display-name {
-                font-weight: 600;
-            }
-        }
-
-        .nav {
-            display: flex;
-            flex-direction: column;
-
-            a {
-                padding: 0.7rem 1rem;
-                text-decoration: none;
-                color: black;
-                border-radius: 3rem 0 0 3rem;
-                font-size: 1rem;
-
-                &:hover {
-                    background-color: #f5f5f5;
-                }
-            }
-        }
-
-        .shortcuts {
-            flex: 1;
-        }
-
-        .options {
-            display: flex;
-            padding: 1rem;
-
-            .settings {
-                margin-right: auto;
-            }
-
-            button {
-                padding: 0.5rem 2rem;
-                border: none;
-                border-radius: 3rem;
-                background-color: var(--accent-color);
-                color: white;
-                cursor: pointer;
-            }
-        }
-    }
 
     .feed {
         display: flex;
@@ -73,47 +9,52 @@
 
         .news {
             width: min(500px, 90vw);
-            padding: 1rem 0;
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
 
             .create-post {
                 display: flex;
                 flex-direction: column;
-                background-color: #f5f5f5;
-                border-radius: 1rem;
+                background-color: var(--base-light);
                 overflow: hidden;
+                margin-bottom: 2rem;
+                padding: 1rem 0.5rem;
+                border-radius: 0.5rem;
+                box-shadow: 2px 2px 8px var(--shade-light);
 
                 .context {
-                    display: flex;
+                    display: grid;
+                    grid-template-columns: 2.5rem 1fr;
+                    gap: 0.5rem;
 
                     .display-photo {
-                        width: 52px;
+                        width: 100%;
+                        aspect-ratio: 1;
                         padding: 0.5rem;
-                        
-                        .photo {
-                            background-color: rgb(202, 202, 202);
-                            width: 100%;
-                            aspect-ratio: 1;
-                            border-radius: 50%;
-                        }
+                        background-color: var(--mono-light);
+                        border-radius: 50%;
                     }
 
                     textarea {
                         border: none;
+                        border-bottom: 1px solid var(--mono-light);
                         width: 100%;
-                        padding: 1rem;
+                        margin-right: 0.5rem;
+                        padding: 0.5rem 1rem 0.8rem;
                         padding-left: 0;
-                        background-color: transparent;
                         overflow: hidden;
                         resize: none;
                         height: fit-content;
                         outline: none;
+                        font-size: 1rem;
                     }
                 }
 
                 .attachments {
                     display: flex;
                     justify-content: flex-end;
-                    padding: 0.5rem;
+                    padding: 0.5rem 0;
 
                     button {
                         background-color: var(--accent-color);
@@ -123,6 +64,74 @@
                         color: white;
                         font-weight: 600;
                         cursor: pointer;
+
+                        &:disabled {
+                            opacity: 0.5;
+                        }
+                    }
+                }
+            }
+
+            .no-post {
+                text-align: center;
+                padding: 5rem;
+                font-size: 1.5rem;
+                color: var(--primary-color);
+                font-weight: 600;
+                opacity: 0.5;
+            }
+
+            .news-posts {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .post {
+                display: grid;
+                grid-template-rows: auto 2rem;
+                border-bottom: 0.5px solid var(--mono-light);
+                padding: 0.5rem;
+
+                .post-details {
+                    display: grid;
+                    grid-template-columns: 2.5rem 1fr;
+                    gap: 0.5rem;
+
+                    .display-picture {
+                        background-color: var(--mono-light);
+                        border-radius: 50%;
+                        width: 100%;
+                        aspect-ratio: 1;
+                    }
+
+                    .content {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0rem;
+
+                        .post-header {
+                            display: flex;
+                            align-items: center;
+                            gap: 0.2rem;
+                            font-size: 0.9rem;
+
+                            .name {
+                                font-weight: 600;
+                            }
+
+                            .username {
+                                font-weight: 300;
+                            }
+
+                            .post-time {
+                                color: var(--mono-light);
+                                font-size: 0.8rem;
+                            }
+                        }
+
+                        .context {
+                            font-size: 0.9rem;
+                        }
                     }
                 }
             }
