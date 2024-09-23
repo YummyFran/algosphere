@@ -11,14 +11,14 @@ const Signup = () => {
     const [user, loading] = useUser()
     const [error, setError] = useState("")
 
-    const [credentials, setCredentials] = useState({username: '', email: '', password: '', fname: '', lname: ''})
+    const [credentials, setCredentials] = useState({username: '', email: '', password: '', displayName: ''})
     const [disabled, setDisabled] = useState(true)
 
     const handleSubmit = async e => {
         e.preventDefault()
 
         if(await usernameExisted(credentials.username)) {
-            setError(`${credentials.username} haha`)
+            setError(`${credentials.username} already exist`)
             return
         }
 
@@ -30,7 +30,7 @@ const Signup = () => {
         }
 
         await updateProfile(user, {
-            displayName: `${credentials.fname.charAt(0).toUpperCase() + credentials.fname.slice(1)} ${credentials.lname.charAt(0).toUpperCase() + credentials.lname.slice(1)}`
+            displayName: credentials.displayName
         })
 
         await addUser(user, credentials.username)
@@ -44,7 +44,7 @@ const Signup = () => {
         if(credentials.email && 
             credentials.password && 
             credentials.username &&
-            credentials.fname) {
+            credentials.displayName) {
             setDisabled(false)
         } else {
             setDisabled(true)
@@ -61,10 +61,7 @@ const Signup = () => {
             <p>Crack the Code, Sharpen Your Skills.</p>
         </div>
         <form className='form' onSubmit={handleSubmit}>
-            <div className="name">
-                <input type="text" placeholder='First Name' name='fname' required onChange={handleChange} />
-                <input type="text" placeholder='Last Name (Optional)' name='lname' onChange={handleChange} />
-            </div>
+                <input type="text" placeholder='Display Name' name='displayName' required onChange={handleChange} />
             <input type="text" placeholder='Username' name='username' autoComplete='on' required onChange={handleChange}/>
             <input type="text" placeholder='Email' name='email' autoComplete='on' required onChange={handleChange}/>
             <input type="password" placeholder='Password' name='password' autoComplete='on'required onChange={handleChange}/>

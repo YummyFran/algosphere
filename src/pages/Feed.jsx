@@ -23,6 +23,7 @@ const Feed = () => {
         fetchNextPage, 
         hasNextPage, 
         isFetchingNextPage,
+        isLoading: isPostLoading
     } = useInfiniteQuery({
         queryKey: ['posts'],
         queryFn: async (param) => await getPosts(param),
@@ -83,16 +84,16 @@ const Feed = () => {
                     submitPost={submitPost}
                     isPending={isPending}
                 />
-                {posts?.pages[0].posts.length > 1 ? 
+                {posts?.pages[0].posts.length > 0 ? 
                     posts.pages.map((chunk, i) => (
                         <div key={i} className='news-posts'>
                             {chunk.posts.map(post => (
-                                <Post post={post} key={post.id}/>
+                                <Post post={post} key={post.id} currentUser={currentUser}/>
                             ))}
                         </div>
                     )) :
                     <div className="no-post">
-                        No Posts Yet
+                        {isPostLoading ? 'Loading' : 'No posts yet'}
                     </div>
                 }
                 {!hasNextPage && posts?.pages[0].posts.length > 1 && <div className='no-post'>You've reach the end</div>}

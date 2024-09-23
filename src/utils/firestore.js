@@ -1,4 +1,4 @@
-import { doc, setDoc, getDoc, updateDoc, deleteDoc, serverTimestamp, query, collection, getDocs, where, orderBy, limit, startAfter, addDoc, onSnapshot } from 'firebase/firestore'
+import { doc, setDoc, getDoc, updateDoc, deleteDoc, serverTimestamp, query, collection, getDocs, where, orderBy, limit, startAfter, addDoc, onSnapshot, increment, arrayUnion, arrayRemove } from 'firebase/firestore'
 import { db } from './firebase';
 
 export const addDocument = async (collectionName, docId, data) => {
@@ -99,7 +99,8 @@ export const addPost = async (user, content) => {
         attachments: content.attachments,  
         createdAt: serverTimestamp(), 
         likesCount: 0,  
-        commentsCount: 0 
+        commentsCount: 0,
+        likes: []
     })
 }
 
@@ -116,3 +117,35 @@ export const listenToPosts = (callback) => {
 
     return unsubscribe;
 };
+
+export const incrementData = async (postId, data, userId) => {
+    const postRef = doc(db, "posts", postId)
+    
+    await updateDoc(postRef, {
+        [data] : increment(1),
+        likes: arrayUnion(userId)
+    })
+}
+
+export const decrementData = async (postId, data, userId) => {
+    const postRef = doc(db, "posts", postId)
+
+    await updateDoc(postRef, {
+        [data] : increment(-1),
+        likes: arrayRemove(userId)
+    })
+
+}
+
+export const getCountData = async (postId) => {
+    const data = await getDocument("posts", postId)
+ 
+    return data.likesCount
+}
+
+export const isUserAlreadyLiked = async (postId, userId) => {
+    const likeDoc = await getDocument("posts", postId)
+    const likes = likeDoc.likes
+
+    return likes.includes(userId)
+}
