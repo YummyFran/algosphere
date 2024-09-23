@@ -7,6 +7,7 @@ import PlayGround from "./pages/PlayGround";
 import Saved from "./pages/Saved";
 import MainLayout from "./Layouts/MainLayout";
 import Feed from "./pages/Feed";
+import PostPage from "./pages/PostPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="problems" element={<Problems />} />
           <Route path="playground" element={<PlayGround />} />
           <Route path="saved" element={<Saved />} />
+          <Route path=":username/post/:postId" element={<PostPage />} />
         </Route>
         <Route path="*" element={'404 not found'} />
       </Routes>

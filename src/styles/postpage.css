@@ -1,0 +1,74 @@
+.post-page {
+    display: grid;
+    grid-template-columns: 6fr 2fr;
+    min-height: 100vh;
+
+    .post-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        padding: 1rem 0;
+
+
+        & > * {
+            width: min(500px, 90vw);
+        }
+
+        .divider {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 0.5px solid var(--mono-light);
+            padding: 0.8rem 0.5rem;
+            font-size: 0.9rem;
+
+            .replies {
+                font-weight: 600;
+            }
+
+            .view-activity {
+                color: #696969;
+            }
+        }
+
+        .add-comment {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            padding: 0.5rem;
+
+            textarea {
+                padding: 0.5rem 1rem;
+                width: 100%;
+                overflow: hidden;
+                resize: none;
+                height: fit-content;
+                outline: none;
+                font-size: 0.9rem;
+                border-radius: 2rem;
+                border: inset 1px solid #696969;
+            }
+
+            .attachments {
+                display: flex;
+                justify-content: flex-end;
+                padding: 0.5rem 0;
+                align-self: flex-end;
+
+                button {
+                    background-color: var(--accent-color);
+                    border: none;
+                    padding: 0.5rem 1rem;
+                    border-radius: 3rem;
+                    color: white;
+                    font-weight: 600;
+                    cursor: pointer;
+                    font-size: 0.9rem;
+
+                    &:disabled {
+                        opacity: 0.5;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,102 @@
+.post {
+    border-bottom: 0.5px solid var(--mono-light);
+    padding: 1rem 0.5rem 0.5em ;
+
+    .post-details {
+        display: grid;
+        grid-template-columns: 2.5rem 1fr;
+        gap: 0.5rem;
+
+        .display-picture {
+            background-color: var(--mono-light);
+            border-radius: 50%;
+            width: 100%;
+            aspect-ratio: 1;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+
+            .post-header {
+                display: flex;
+                align-items: center;
+                gap: 0.2rem;
+                font-size: 0.9rem;
+                cursor: pointer;
+
+                .name {
+                    font-weight: 600;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
+                .username {
+                    font-weight: 300;
+                }
+
+                .post-time {
+                    color: var(--mono-light);
+                    font-size: 0.8rem;
+                }
+            }
+
+            .context {
+                font-size: 0.9rem;
+            }
+            
+            .post-datas {
+                display: flex;
+                align-items: center;
+                padding: 0.5rem 0 0;
+                gap: 0.5rem;
+                margin-left: -0.85rem;
+
+                .data {
+                    font-size: 1.1rem;
+                    padding: 0.5rem 0.8rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 2rem;
+                    color: #696969;
+                    cursor: pointer;
+                    user-select: none;
+
+                    * {
+                        pointer-events: none;
+                    }
+
+                    &.likes {
+                        &.liked {
+                            color: red;
+                        }
+
+                        *:not(.count) {
+                            font-size: 1.2rem;
+                        }
+                    } 
+
+                    &.share *:not(.count) {
+                        font-size: 1.1rem;
+                    }
+
+                    .count {
+                        font-size: 0.8rem;
+                        margin-left: 0.2rem;
+
+                        &:empty {
+                            margin-left: 0;
+                        }
+                    }
+
+                    &:hover {
+                        background-color: var(--tone-light);
+                    }
+                }
+            }
+        }
+    }
+}

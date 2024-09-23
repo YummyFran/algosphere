@@ -55,8 +55,8 @@ export const addUser = async (user, username) => {
     })
 }
 
-export const getUser = async (user) => {
-    const userData = await getDocument("users", user)
+export const getUser = async (userId) => {
+    const userData = await getDocument("users", userId)
 
     return userData
 }
@@ -91,16 +91,20 @@ export const getPosts = async (param, lastVisible = null) => {
     return { posts, lastDoc }
 }
 
+export const getPost = async (postId) => {
+    const postData = await getDocument("posts", postId)
+
+    return {id: postId, ...postData}
+}
+
 export const addPost = async (user, content) => {
     await addDoc(collection(db, "posts"), {
-        postId: '', 
         userId: user.uid,  
         content: content.context,
         attachments: content.attachments,  
         createdAt: serverTimestamp(), 
         likesCount: 0,  
-        commentsCount: 0,
-        likes: []
+        commentsCount: 0
     })
 }
 
@@ -116,25 +120,35 @@ export const listenToPosts = (callback) => {
     });
 
     return unsubscribe;
-};
-
-export const incrementData = async (postId, data, userId) => {
-    const postRef = doc(db, "posts", postId)
-    
-    await updateDoc(postRef, {
-        [data] : increment(1),
-        likes: arrayUnion(userId)
-    })
 }
 
-export const decrementData = async (postId, data, userId) => {
-    const postRef = doc(db, "posts", postId)
+// Likes
 
+export const incrementLikes = async (postId, data, userId) => {
+    const postRef = doc(db, "posts", postId)
+    const col = doc(postRef, "likes", userId)
+    
     await updateDoc(postRef, {
-        [data] : increment(-1),
-        likes: arrayRemove(userId)
+        [data] : increment(1)
     })
 
+    await setDoc(col, {
+        userId: userId,
+        likedAt: serverTimestamp()
+    })
+
+    console.log("success")
+}
+
+export const decrementLikes = async (postId, data, userId) => {
+    const postRef = doc(db, "posts", postId)
+    const col = doc(postRef, "likes", userId)
+
+    await updateDoc(postRef, {
+        [data] : increment(-1)
+    })
+
+    await deleteDoc(col)
 }
 
 export const getCountData = async (postId) => {
@@ -144,8 +158,56 @@ export const getCountData = async (postId) => {
 }
 
 export const isUserAlreadyLiked = async (postId, userId) => {
-    const likeDoc = await getDocument("posts", postId)
-    const likes = likeDoc.likes
+    const postRef = doc(db, "posts", postId)
+    const col = doc(postRef, "likes", userId)
 
-    return likes.includes(userId)
+    const likeDoc = await getDoc(col)
+
+
+    return likeDoc.exists()
+}
+
+// Comments
+
+export const getComments = async (param = null, userId, postId) => {
+    const postRef = doc(db, "posts", postId)
+    const col = collection(postRef, "comments")
+
+    let q;
+
+    if(param?.pageParam) {
+        q = query(col, orderBy('createdAt', 'desc'), startAfter(param.pageParam), limit(10))
+    } else {
+        q = query(col, orderBy('createdAt', 'desc'), limit(10))
+    }
+
+    const snapshot = await getDocs(q)
+    const comments = [];
+    let lastDoc = null;
+
+    snapshot.forEach((doc) => {
+        comments.push({ id: doc.id, ...doc.data() });
+        lastDoc = doc;
+    });
+
+    return { comments, lastDoc }
+}
+
+export const addComment = async (userId, postId, content) => {
+    console.log("ey")
+    const postRef = doc(db, "posts", postId)
+    const col = collection(postRef, "comments")
+    
+    await addDoc(col, {
+        userId: userId,  
+        content: content.context,
+        attachments: content.attachments,  
+        createdAt: serverTimestamp(), 
+        likesCount: 0,  
+        commentsCount: 0
+    })
+
+    await updateDoc(postRef, {
+        commentsCount : increment(1)
+    })
 }

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { decrementData, getCountData, getUser, incrementData, isUserAlreadyLiked } from '../utils/firestore'
+import {  decrementLikes, getUser, incrementLikes, isUserAlreadyLiked } from '../utils/firestore'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { IoMdHeart, IoMdHeartEmpty, IoMdRepeat } from "react-icons/io";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { BsSend } from "react-icons/bs";
 import debounce from 'lodash.debounce';
+import { useNavigate } from 'react-router';
+import '../styles/post.css'
 
 function timeAgo(postedTime) {
     const now = new Date();
@@ -52,6 +54,7 @@ const Post = ({post, currentUser}) => {
     const [localLikesCount, setLocalLikesCount] = useState(post.likesCount)
     const [isMutating, setIsMutating] = useState(false)
     const queryClient = useQueryClient()
+    const navigate = useNavigate()
 
     const {data: postOwner, isLoading: isUserLoading} = useQuery({
         queryKey: ['user', post.userId],
@@ -68,9 +71,9 @@ const Post = ({post, currentUser}) => {
         mutationFn: async () => {
             console.log(hasLiked)
           if (!hasLiked) {
-            await incrementData(post.id, 'likesCount', currentUser.uid)
+            await incrementLikes(post.id, 'likesCount', currentUser.uid)
           } else {
-            await decrementData(post.id, 'likesCount', currentUser.uid)
+            await decrementLikes(post.id, 'likesCount', currentUser.uid)
           }
         },
         onMutate: async () => {
@@ -101,6 +104,10 @@ const Post = ({post, currentUser}) => {
         }
     }, 500)
 
+    const handlePostClicked = e => {
+        navigate(`/${postOwner.username}/post/${post.id}`)
+    }
+
     useEffect(() => {
         if(hasLiked) {
             setLiked(true)
@@ -110,14 +117,14 @@ const Post = ({post, currentUser}) => {
     },[hasLiked])
     
   return (
-    <div key={post.id} className='post'>
+    <div key={post.id} className='post'>    
         <div className="post-details">
             <div className="display-picture"></div>
             <div className="content">
                 <div className="post-header">
                     <div className="name">{postOwner?.displayName}</div>
                     <div className="username">@{postOwner?.username}</div>
-                    <div className="post-time">{timeAgo(post.createdAt)}</div>
+                    <div className="post-time" onClick={handlePostClicked}>{timeAgo(post.createdAt)}</div>
                 </div>
                 <div className="context">
                     {post.content.split("\n").map((line, i) => (
@@ -132,7 +139,7 @@ const Post = ({post, currentUser}) => {
                             {!!localLikesCount && formatNumber(localLikesCount)}
                         </div>
                     </div>
-                    <div className="data comments">
+                    <div className="data comments" onClick={handlePostClicked}>
                         <IoChatbubbleOutline />
                         <div className="count">
                             {!!post.commentsCount && post.commentsCount}
