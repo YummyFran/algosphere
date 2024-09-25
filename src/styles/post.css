@@ -1,6 +1,35 @@
 .post {
     border-bottom: 0.5px solid var(--mono-light);
     padding: 1rem 0.5rem 0.5em ;
+    position: relative;
+    cursor: default;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &.comment::before {
+        content: "";
+        position: absolute;
+        width: 2.4rem;
+        height: 2.4rem;
+        right: calc(100% - .4rem);
+        top: 0;
+        border-radius: 0 0 0 0.5rem;
+        border: 2px solid var(--mono-light);
+        border-top: none;
+        border-right: none;
+    }
+
+    &.hasReplies::after {
+        content: "";
+        position: absolute;
+        width: 2px;
+        height: var(--height);
+        background-color: var(--mono-light);
+        top: 3.6rem;
+        left: 1.5rem;
+    }
 
     .post-details {
         display: grid;

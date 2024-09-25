@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-
-import '../styles/postpage.css'
-import Post from '../components/Post'
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { addComment, getComments, getPost, getUser } from '../utils/firestore'
 import { useUser } from '../provider/UserProvider'
 import AddComment from '../components/AddComment'
+import Post from '../components/Post'
+import Comment from '../components/Comment'
+import '../styles/postpage.css'
 
 const PostPage = () => {
     const [commentContent, setCommentContent] = useState({context: '', attachments: []})
@@ -42,7 +42,7 @@ const PostPage = () => {
         enabled: !!user && !!post
     })
 
-    const {isPending, mutate: mutateComments} = useMutation({
+    const {isPending: isCommenting, mutate: mutateComments} = useMutation({
         mutationFn: async () => await addComment(user.uid, post.id, commentContent),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["comments"]})
@@ -83,19 +83,20 @@ const PostPage = () => {
                 commentContent={commentContent}
                 setCommentContent={setCommentContent}
                 submitComment={submitComment}
+                isCommenting={isCommenting}
             />
             {comments?.pages[0].comments.length > 0 ? 
-                    comments.pages.map((chunk, i) => (
-                        <div key={i} className='comment'>
-                            {chunk.comments.map(post => (
-                                <Post post={post} key={post.id} currentUser={currentUser}/>
-                            ))}
-                        </div>
-                    )) :
-                    <div className="no-post">
-                        {isCommentsLoading ? 'Loading' : 'No Commments yet'}
+                comments.pages.map((chunk, i) => (
+                    <div key={i} className='comment'>
+                        {chunk.comments.map(comment => (
+                            <Comment comment={comment} key={comment.id} currentUser={currentUser} parentsId={[post.id]}/>
+                        ))}
                     </div>
-                }
+                )) :
+                <div className="no-post">
+                    {isCommentsLoading ? 'Loading' : 'No Commments yet'}
+                </div>
+            }
         </div>
     </div>
   )

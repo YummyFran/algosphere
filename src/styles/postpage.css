@@ -35,6 +35,7 @@
             gap: 0.5rem;
             align-items: center;
             padding: 0.5rem;
+            padding-bottom: 0;
 
             textarea {
                 padding: 0.5rem 1rem;
@@ -55,17 +56,20 @@
                 align-self: flex-end;
 
                 button {
-                    background-color: var(--accent-color);
+                    background-color: transparent;
                     border: none;
-                    padding: 0.5rem 1rem;
-                    border-radius: 3rem;
                     color: white;
                     font-weight: 600;
                     cursor: pointer;
-                    font-size: 0.9rem;
+                    font-size: 1.7rem;
+                    color: var(--accent-color);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
 
                     &:disabled {
                         opacity: 0.5;
+                        cursor: default;
                     }
                 }
             }

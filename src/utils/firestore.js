@@ -124,29 +124,55 @@ export const listenToPosts = (callback) => {
 
 // Likes
 
-export const incrementLikes = async (postId, data, userId) => {
-    const postRef = doc(db, "posts", postId)
-    const col = doc(postRef, "likes", userId)
+export const incrementLikes = async (postId, data, userId, parents) => {
+    let parentRef;
+    
+    if(parents) {
+        parentRef = doc(db, "posts", parents[0])
+        parents.forEach((id, i) => {
+            if(i == 0) return
+
+            parentRef = doc(parentRef, "comments", id);
+        })
+    } else {
+        parentRef = db
+    }
+
+    const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId)
     
     await updateDoc(postRef, {
         [data] : increment(1)
     })
+    
+    const col = doc(postRef, "likes", userId)
 
     await setDoc(col, {
         userId: userId,
         likedAt: serverTimestamp()
     })
-
-    console.log("success")
 }
 
-export const decrementLikes = async (postId, data, userId) => {
-    const postRef = doc(db, "posts", postId)
-    const col = doc(postRef, "likes", userId)
+export const decrementLikes = async (postId, data, userId, parents) => {
+    let parentRef;
+    
+    if(parents) {
+        parentRef = doc(db, "posts", parents[0])
+        parents.forEach((id, i) => {
+            if(i == 0) return
 
+            parentRef = doc(parentRef, "comments", id);
+        })
+    } else {
+        parentRef = db
+    }
+
+    const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId)
+    
     await updateDoc(postRef, {
         [data] : increment(-1)
     })
+    
+    const col = doc(postRef, "likes", userId)
 
     await deleteDoc(col)
 }
@@ -157,8 +183,21 @@ export const getCountData = async (postId) => {
     return data.likesCount
 }
 
-export const isUserAlreadyLiked = async (postId, userId) => {
-    const postRef = doc(db, "posts", postId)
+export const isUserAlreadyLiked = async (postId, userId, parents) => {
+    let parentRef;
+    
+    if(parents) {
+        parentRef = doc(db, "posts", parents[0])
+        parents.forEach((id, i) => {
+            if(i == 0) return
+
+            parentRef = doc(parentRef, "comments", id);
+        })
+    } else {
+        parentRef = db
+    }
+
+    const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId)
     const col = doc(postRef, "likes", userId)
 
     const likeDoc = await getDoc(col)
@@ -169,8 +208,20 @@ export const isUserAlreadyLiked = async (postId, userId) => {
 
 // Comments
 
-export const getComments = async (param = null, userId, postId) => {
-    const postRef = doc(db, "posts", postId)
+export const getComments = async (param = null, userId, postId, parents) => {
+    let parentRef;
+    if(parents) {
+        parentRef = doc(db, "posts", parents[0])
+        parents.forEach((id, i) => {
+            if(i == 0) return
+
+            parentRef = doc(parentRef, "comments", id);
+        })
+    } else {
+        parentRef = db
+    }
+
+    const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId)
     const col = collection(postRef, "comments")
 
     let q;
@@ -193,9 +244,21 @@ export const getComments = async (param = null, userId, postId) => {
     return { comments, lastDoc }
 }
 
-export const addComment = async (userId, postId, content) => {
-    console.log("ey")
-    const postRef = doc(db, "posts", postId)
+export const addComment = async (userId, postId, content, parents) => {
+    let parentRef;
+    
+    if(parents) {
+        parentRef = doc(db, "posts", parents[0])
+        parents.forEach((id, i) => {
+            if(i == 0) return
+
+            parentRef = doc(parentRef, "comments", id);
+        })
+    } else {
+        parentRef = db
+    }
+
+    const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId)
     const col = collection(postRef, "comments")
     
     await addDoc(col, {
@@ -206,8 +269,36 @@ export const addComment = async (userId, postId, content) => {
         likesCount: 0,  
         commentsCount: 0
     })
+    
+    const updateCommentCountRecursively = async (parents) => {
+        if (parents && parents.length > 0) {
+            // Start from the root post
+            let currentRef = doc(db, "posts", parents[0]);
 
+            // Update each parent in the chain
+            for (let i = 0; i < parents.length; i++) {
+                if (i > 0) {
+                    currentRef = doc(currentRef, "comments", parents[i]);
+                }
+
+                // Increment the comment count for the current parent (either a post or a comment)
+                await updateDoc(currentRef, {
+                    commentsCount: increment(1)
+                });
+            }
+        } else {
+            // If there are no parents (top-level comment on a post), update the post's comment count
+            await updateDoc(doc(db, "posts", postId), {
+                commentsCount: increment(1)
+            });
+        }
+    };
+
+    // Increment the comment count for the direct parent (post or comment)
     await updateDoc(postRef, {
-        commentsCount : increment(1)
-    })
+        commentsCount: increment(1)
+    });
+
+    // Recursively update the comment count for all parents
+    await updateCommentCountRecursively(parents);
 }

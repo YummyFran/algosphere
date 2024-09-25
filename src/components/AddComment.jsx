@@ -1,11 +1,22 @@
 import React, { useEffect, useRef } from 'react'
+import { LuSendHorizonal } from "react-icons/lu";
 
 const AddComment = ({ 
     commentContent, 
     setCommentContent,
-    submitComment
+    submitComment,
+    placeholder,
+    replyRef,
+    isCommenting
 }) => {
     const textAreaRef = useRef()
+
+    const setTextareaRefs = (el) => {
+        textAreaRef.current = el;
+        if (replyRef) {
+            replyRef.current = el;
+        }
+    };
 
     useEffect(() => {
 
@@ -28,11 +39,11 @@ const AddComment = ({
             value={commentContent.context}
             onChange={(e) => setCommentContent(prev => ({...prev, context: e.target.value}))}
             rows={1}
-            placeholder={`Enter a comment`}
-            ref={textAreaRef}
+            placeholder={placeholder ? placeholder : "Enter a comment"}
+            ref={setTextareaRefs}
         ></textarea>
         <div className="attachments">
-            <button onClick={submitComment} disabled={commentContent.context.length == 0}>Comment</button>
+            <button onClick={submitComment} disabled={commentContent.context.length == 0 || isCommenting}><LuSendHorizonal /></button>
         </div>
     </div>
   )
