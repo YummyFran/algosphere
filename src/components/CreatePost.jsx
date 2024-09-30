@@ -7,12 +7,13 @@ const CreatePost = ({
     postContent,
     setPostContent,
     submitPost,
-    isPending
+    isPending,
+    theme
 }) => {
   return (
-    <div className="create-post">
+    <div className={`create-post ${theme}-shadow`}>
         <div className="context">
-            <div className="display-photo">
+            <div className={`display-photo mono-${theme}-bg`}>
             </div>
             <textarea 
                 ref={textAreaRef} 
@@ -22,6 +23,7 @@ const CreatePost = ({
                 placeholder={`What's new, ${isLoading ? "Today" : currentUser?.displayName.split(' ')[0]}?`}
                 value={postContent.context}
                 onChange={e => setPostContent(prev => ({...prev, context: e.target.value}))}
+                className={`post-area mono-${theme}-border midtone-${theme}`}
             ></textarea>
         </div>
         <div className="attachments">

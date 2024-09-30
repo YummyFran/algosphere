@@ -1,4 +1,4 @@
-import { doc, setDoc, getDoc, updateDoc, deleteDoc, serverTimestamp, query, collection, getDocs, where, orderBy, limit, startAfter, addDoc, onSnapshot, increment, arrayUnion, arrayRemove } from 'firebase/firestore'
+import { doc, setDoc, getDoc, updateDoc, deleteDoc, serverTimestamp, query, collection, getDocs, where, orderBy, limit, startAfter, addDoc, onSnapshot, increment } from 'firebase/firestore'
 import { db } from './firebase';
 
 export const addDocument = async (collectionName, docId, data) => {
@@ -130,7 +130,7 @@ export const incrementLikes = async (postId, data, userId, parents) => {
     if(parents) {
         parentRef = doc(db, "posts", parents[0])
         parents.forEach((id, i) => {
-            if(i == 0) return
+            if(i === 0) return
 
             parentRef = doc(parentRef, "comments", id);
         })
@@ -158,7 +158,7 @@ export const decrementLikes = async (postId, data, userId, parents) => {
     if(parents) {
         parentRef = doc(db, "posts", parents[0])
         parents.forEach((id, i) => {
-            if(i == 0) return
+            if(i === 0) return
 
             parentRef = doc(parentRef, "comments", id);
         })
@@ -189,7 +189,7 @@ export const isUserAlreadyLiked = async (postId, userId, parents) => {
     if(parents) {
         parentRef = doc(db, "posts", parents[0])
         parents.forEach((id, i) => {
-            if(i == 0) return
+            if(i === 0) return
 
             parentRef = doc(parentRef, "comments", id);
         })
@@ -213,7 +213,7 @@ export const getComments = async (param = null, userId, postId, parents) => {
     if(parents) {
         parentRef = doc(db, "posts", parents[0])
         parents.forEach((id, i) => {
-            if(i == 0) return
+            if(i === 0) return
 
             parentRef = doc(parentRef, "comments", id);
         })
@@ -250,7 +250,7 @@ export const addComment = async (userId, postId, content, parents) => {
     if(parents) {
         parentRef = doc(db, "posts", parents[0])
         parents.forEach((id, i) => {
-            if(i == 0) return
+            if(i === 0) return
 
             parentRef = doc(parentRef, "comments", id);
         })
@@ -272,33 +272,40 @@ export const addComment = async (userId, postId, content, parents) => {
     
     const updateCommentCountRecursively = async (parents) => {
         if (parents && parents.length > 0) {
-            // Start from the root post
             let currentRef = doc(db, "posts", parents[0]);
 
-            // Update each parent in the chain
             for (let i = 0; i < parents.length; i++) {
                 if (i > 0) {
                     currentRef = doc(currentRef, "comments", parents[i]);
                 }
 
-                // Increment the comment count for the current parent (either a post or a comment)
                 await updateDoc(currentRef, {
                     commentsCount: increment(1)
                 });
             }
         } else {
-            // If there are no parents (top-level comment on a post), update the post's comment count
             await updateDoc(doc(db, "posts", postId), {
                 commentsCount: increment(1)
             });
         }
     };
 
-    // Increment the comment count for the direct parent (post or comment)
     await updateDoc(postRef, {
         commentsCount: increment(1)
     });
 
-    // Recursively update the comment count for all parents
     await updateCommentCountRecursively(parents);
+}
+
+
+// Theme
+
+export const setTheme = async (user, theme) => {
+    await addDocument('users', user.uid, { theme })
+}
+
+export const getTheme = async (user) => {
+    const userData = await getDocument('users', user.uid)
+
+    return userData.theme
 }

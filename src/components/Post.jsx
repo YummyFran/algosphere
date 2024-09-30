@@ -8,12 +8,14 @@ import debounce from 'lodash.debounce';
 import { useNavigate } from 'react-router';
 import { timeAgo, formatNumber } from '../utils/helper';
 import '../styles/post.css'
+import { useTheme } from '../provider/ThemeProvider';
 
 
 const Post = ({post, currentUser}) => {
     const [liked, setLiked] = useState(false)
     const [localLikesCount, setLocalLikesCount] = useState(post.likesCount)
     const [isMutating, setIsMutating] = useState(false)
+    const [theme, setTheme] = useTheme()
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
@@ -77,14 +79,14 @@ const Post = ({post, currentUser}) => {
     },[hasLiked])
     
   return (
-    <div key={post.id} className='post'>    
+    <div className={`post mono-${theme}-border`}>
         <div className="post-details">
-            <div className="display-picture"></div>
+            <div className={`display-picture mono-${theme}-bg`}></div>
             <div className="content">
                 <div className="post-header">
                     <div className="name">{postOwner?.displayName}</div>
                     <div className="username">@{postOwner?.username}</div>
-                    <div className="post-time" onClick={handlePostClicked}>{timeAgo(post.createdAt)}</div>
+                    <div className={`post-time mono-${theme}`} onClick={handlePostClicked}>{timeAgo(post.createdAt)}</div>
                 </div>
                 <div className="context">
                     {post.content.split("\n").map((line, i) => (
@@ -93,24 +95,24 @@ const Post = ({post, currentUser}) => {
 
                 </div>
                 <div className="post-datas">
-                    <div className={`data likes ${liked && 'liked'}`} onClick={() => !isMutating && handleLike()} style={{ pointerEvents: isMutating ? 'none' : 'auto' }}>
+                    <div className={`data likes ${liked && 'liked'} ${theme}-hover`} onClick={() => !isMutating && handleLike()} style={{ pointerEvents: isMutating ? 'none' : 'auto' }}>
                         {liked ? <IoMdHeart /> : <IoMdHeartEmpty />}
                         <div className="count">
                             {!!localLikesCount && formatNumber(localLikesCount)}
                         </div>
                     </div>
-                    <div className="data comments" onClick={handlePostClicked}>
+                    <div className={`data comments ${theme}-hover`} onClick={handlePostClicked}>
                         <IoChatbubbleOutline />
                         <div className="count">
                             {!!post.commentsCount && post.commentsCount}
                         </div>
                     </div>
-                    <div className="data repost">
+                    <div className={`data repost ${theme}-hover`}>
                         <IoMdRepeat />
                         <div className="count">
                         </div>
                     </div>
-                    <div className="data share">
+                    <div className={`data share ${theme}-hover`}>
                         <BsSend />
                         <div className="count">
                         </div>

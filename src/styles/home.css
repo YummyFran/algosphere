@@ -2,10 +2,12 @@
     display: grid;
     grid-template-columns: 6fr 2fr;
     min-height: 100vh;
+    overflow: hidden;
 
     .feed {
         display: flex;
         justify-content: center;
+        position: relative;
 
         .news {
             width: min(500px, 90vw);
@@ -16,12 +18,10 @@
             .create-post {
                 display: flex;
                 flex-direction: column;
-                background-color: var(--base-light);
                 overflow: hidden;
                 margin-bottom: 2rem;
                 padding: 1rem 0.5rem;
                 border-radius: 0.5rem;
-                box-shadow: 2px 2px 8px var(--shade-light);
 
                 .context {
                     display: grid;
@@ -32,13 +32,14 @@
                         width: 100%;
                         aspect-ratio: 1;
                         padding: 0.5rem;
-                        background-color: var(--mono-light);
                         border-radius: 50%;
                     }
 
-                    textarea {
+                    .post-area {
                         border: none;
-                        border-bottom: 1px solid var(--mono-light);
+                        border-bottom-width: 1px;
+                        border-bottom-style: solid;
+                        background-color: transparent;
                         width: 100%;
                         margin-right: 0.5rem;
                         padding: 0.5rem 1rem 0.8rem;
@@ -48,6 +49,14 @@
                         height: fit-content;
                         outline: none;
                         font-size: 1rem;
+
+                        &.mono-dark-border {
+                            border-color: var(--mono-dark);
+                        }
+
+                        &.mono-light-border {
+                            border-color: var(--mono-light);
+                        }
                     }
                 }
 
@@ -89,5 +98,20 @@
     }
 
     .right-panel {
+    }
+}
+
+@media (max-width: 70em) {
+    .home {
+        grid-template-columns: 8fr;
+        justify-items: center;
+
+        .feed .news {
+            padding-right: 2rem;
+        }
+
+        .right-panel {
+            display: none;
+        }
     }
 }

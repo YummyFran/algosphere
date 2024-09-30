@@ -1,13 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-    --primary-color: #86D293;
-    --accent-color: #6256CA;
+    --accent-color: #76ABAE;
 
-    --base-light: #ffffff;
-    --mono-light: #d7d7d7;
-    --shade-light: #e7e7e7;
-    --tone-light: #f6f6f6;
+    --mono-light: #bfbfbf;
+    --mono-dark: #575757;
+
+    --primary-dark: #222831;
+    --secondary-dark: #31363F;
+    --midtone-dark: #EEEEEE;
+
+    --primary-light: #F8F9FA;  
+    --secondary-light: #eeeeee;
+    --midtone-light: #333333;
+    --accent-color: #76ABAE;
 }
 
 *, *::before, *::after {
@@ -16,13 +22,104 @@
     padding: 0;
     font-family: 'Poppins', Arial, Helvetica, sans-serif;
     outline-color: var(--accent-color);
-}
 
-body {
-    background-color: var(--base-light);
+    transition: background-color 0.2s;
 }
 
 a {
     text-decoration: none;
     color: #2f2f2f;
+}
+
+.mono-light-bg {
+    background-color: var(--mono-light);
+}
+
+.mono-light {
+    color: var(--mono-light);
+}
+
+.mono-light-border {
+    border-color: var(--mono-light);
+}
+
+.mono-dark-bg {
+    background-color: var(--mono-dark);
+}
+
+.mono-dark {
+    color: var(--mono-dark);
+}
+
+.mono-dark-border {
+    border-color: var(--mono-dark);
+}
+
+
+.dark-shadow {
+    box-shadow: 1.5px 1.5px 4px 1px var(--secondary-dark);
+}
+
+.dark-hover:hover {
+    background-color: var(--secondary-dark);
+}
+
+.primary-dark-bg {
+    background-color: var(--primary-dark);
+}
+
+.primary-dark {
+    color: var(--primary-dark);
+}
+
+.secondary-dark-bg {
+    background-color: var(--secondary-dark);
+}
+
+.secondary-dark {
+    color: var(--secondary-dark);
+}
+
+.midtone-dark {
+    color: var(--midtone-dark);
+}
+
+.light-shadow {
+    box-shadow: 2px 2px 4px var(--secondary-light);
+}
+
+.light-hover:hover {
+    background-color: var(--secondary-light);
+}
+
+.primary-light-bg {
+    background-color: var(--primary-light);
+}
+
+.primary-light {
+    color: var(--primary-light);
+}
+
+.secondary-light-bg {
+    background-color: var(--secondary-light);
+}
+
+.secondary-light {
+    color: var(--secondary-light);
+}
+
+.midtone-light {
+    color: var(--midtone-light);
+}
+
+.accent-color-bg {
+    background-color: var(--accent-color);
+}
+
+.accent-color {
+    color: var(--accent-color);
+}
+
+.red {
+    background-color: red !important;
 }

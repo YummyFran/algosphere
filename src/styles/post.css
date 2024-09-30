@@ -1,5 +1,6 @@
 .post {
-    border-bottom: 0.5px solid var(--mono-light);
+    border-bottom-width: 0.5px;
+    border-bottom-style: solid;
     padding: 1rem 0.5rem 0.5em ;
     position: relative;
     cursor: default;
@@ -37,7 +38,6 @@
         gap: 0.5rem;
 
         .display-picture {
-            background-color: var(--mono-light);
             border-radius: 50%;
             width: 100%;
             aspect-ratio: 1;
@@ -67,7 +67,6 @@
                 }
 
                 .post-time {
-                    color: var(--mono-light);
                     font-size: 0.8rem;
                 }
             }
@@ -100,7 +99,7 @@
 
                     &.likes {
                         &.liked {
-                            color: red;
+                            color: #ff0034;
                         }
 
                         *:not(.count) {
@@ -119,10 +118,6 @@
                         &:empty {
                             margin-left: 0;
                         }
-                    }
-
-                    &:hover {
-                        background-color: var(--tone-light);
                     }
                 }
             }

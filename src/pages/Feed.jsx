@@ -6,10 +6,12 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tansta
 import '../styles/home.css'
 import Post from '../components/Post'
 import CreatePost from '../components/CreatePost'
+import { useTheme } from '../provider/ThemeProvider'
 
 const Feed = () => {
     const [postContent, setPostContent] = useState({context: '', attachments: []})
     const [user, loading] = useUser()
+    const [theme, setTheme] = useTheme()
     const textAreaRef = useRef()
     const queryClient = useQueryClient()
 
@@ -72,7 +74,7 @@ const Feed = () => {
 
     if(!user) return <Navigate to="/login"/>
   return (
-    <div className='home'>
+    <div className={`home primary-${theme}-bg midtone-${theme}`}>
         <div className="feed">
             <div className="news">
                 <CreatePost 
@@ -83,6 +85,7 @@ const Feed = () => {
                     setPostContent={setPostContent}
                     submitPost={submitPost}
                     isPending={isPending}
+                    theme={theme}
                 />
                 {posts?.pages[0].posts.length > 0 ? 
                     posts.pages.map((chunk, i) => (

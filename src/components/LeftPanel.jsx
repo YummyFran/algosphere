@@ -1,31 +1,62 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { logOut } from '../utils/authentication'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { AiOutlineMore } from 'react-icons/ai'
+import { useTheme } from '../provider/ThemeProvider'
+import { GoHome, GoHomeFill } from "react-icons/go";
+import { 
+    IoBookOutline, 
+    IoBook, 
+    IoExtensionPuzzleOutline,
+     IoExtensionPuzzle, 
+     IoCodeOutline, 
+     IoCodeSharp, 
+     IoBookmarkOutline, 
+     IoBookmark 
+} from "react-icons/io5";
 import logo from '../assets/logo.svg'
 
+
 const LeftPanel = ({user, isLoading, menuRef}) => {
+    const [theme, setTheme] = useTheme()
+    const {pathname} = useLocation()
 
     const showMenu = () => {
         menuRef.current.classList.toggle("show")
     }
+
   return (
-    <div className="left-panel">
+    <div className={`left-panel primary-${theme}-bg midtone-${theme}`}>
         <div className="nav">
             <NavLink to="/" className="brand">
                 <div className="logo">
                     <img src={logo} alt="" />
                 </div>
-                <div className="name">Algo <span>Sphere</span></div>
+                <div className="name">AlgoSphere</div>
             </NavLink>
-            <NavLink to="/" className={({isActive}) => isActive ? 'active-link' : ""}>Feed</NavLink>
-            <NavLink to="/courses" className={({isActive}) => isActive ? 'active-link' : ""}>Courses</NavLink>
-            <NavLink to="/problems" className={({isActive}) => isActive ? 'active-link' : ""}>Problems</NavLink>
-            <NavLink to="/playground" className={({isActive}) => isActive ? 'active-link' : ""}>Playground</NavLink>
-            <NavLink to="/saved" className={({isActive}) => isActive ? 'active-link' : ""}>Saved</NavLink>
+            <NavLink to="/" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
+                {pathname === '/' ? <GoHomeFill /> : <GoHome />}
+                <span>Feed</span>
+            </NavLink>
+            <NavLink to="/courses" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
+                {pathname === '/courses' ? <IoBook /> : <IoBookOutline />} 
+                <span>Courses</span>
+            </NavLink>
+            <NavLink to="/problems" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
+                {pathname === '/problems' ? <IoExtensionPuzzle /> : <IoExtensionPuzzleOutline />} 
+                <span>Problems</span>
+            </NavLink>
+            <NavLink to="/playground" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
+                {pathname === '/playground' ? <IoCodeSharp /> : <IoCodeOutline />}
+                <span>Playground</span>
+            </NavLink>
+            <NavLink to="/saved" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
+                {pathname === '/saved' ? <IoBookmark /> : <IoBookmarkOutline />}
+                <span>Saved</span>
+            </NavLink>
         </div>
         <div className="shortcuts"></div>
-        <div className="profile">
+        <div className={`profile ${theme}-hover`}>
             <div className="display-picture"></div>
             <div className="name">
                 <div className={`display-name ${isLoading && 'loading'}`}>{user?.displayName.split(" ")[0]}</div>
@@ -34,8 +65,9 @@ const LeftPanel = ({user, isLoading, menuRef}) => {
             <div className="meatball-menu" onClick={() => showMenu()}>
                 <AiOutlineMore />
             </div>
-            <div className="menu" ref={menuRef}>
-                <div className="item" onClick={() => logOut()}>logout</div>
+            <div className={`menu primary-${theme}-bg ${theme}-shadow`} ref={menuRef}>
+                <div className="theme" onClick={() => setTheme()}>{`Turn on ${theme === 'dark' ? 'light' : 'dark'} mode`}</div>
+                <div className="item" onClick={() => logOut()}>Logout</div>
             </div>
         </div>
     </div>
