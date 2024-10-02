@@ -55,7 +55,6 @@ a {
     border-color: var(--mono-dark);
 }
 
-
 .dark-shadow {
     box-shadow: 1.5px 1.5px 4px 1px var(--secondary-dark);
 }

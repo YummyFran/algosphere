@@ -1,4 +1,21 @@
-import { doc, setDoc, getDoc, updateDoc, deleteDoc, serverTimestamp, query, collection, getDocs, where, orderBy, limit, startAfter, addDoc, onSnapshot, increment } from 'firebase/firestore'
+import { 
+    doc, 
+    setDoc, 
+    getDoc,
+    updateDoc,
+    deleteDoc,
+    serverTimestamp,
+    query,
+    collection,
+    getDocs,
+    where,
+    orderBy,
+    limit,
+    startAfter,
+    addDoc,
+    onSnapshot,
+    increment 
+} from 'firebase/firestore'
 import { db } from './firebase';
 
 export const addDocument = async (collectionName, docId, data) => {
@@ -98,14 +115,16 @@ export const getPost = async (postId) => {
 }
 
 export const addPost = async (user, content) => {
-    await addDoc(collection(db, "posts"), {
+    const docRef = await addDoc(collection(db, "posts"), {
         userId: user.uid,  
         content: content.context,
-        attachments: content.attachments,  
+        attachments: [],
         createdAt: serverTimestamp(), 
         likesCount: 0,  
         commentsCount: 0
     })
+
+    return docRef.id
 }
 
 export const listenToPosts = (callback) => {
@@ -120,6 +139,10 @@ export const listenToPosts = (callback) => {
     });
 
     return unsubscribe;
+}
+
+export const updatePost = async (postId, data) => {
+    await updateDocument('posts', postId, data)
 }
 
 // Likes
@@ -283,16 +306,16 @@ export const addComment = async (userId, postId, content, parents) => {
                     commentsCount: increment(1)
                 });
             }
+
+            await updateDoc(postRef, {
+                commentsCount: increment(1)
+            });
         } else {
             await updateDoc(doc(db, "posts", postId), {
                 commentsCount: increment(1)
             });
         }
     };
-
-    await updateDoc(postRef, {
-        commentsCount: increment(1)
-    });
 
     await updateCommentCountRecursively(parents);
 }

@@ -64,7 +64,7 @@ const Post = ({post, currentUser}) => {
         if (!isUserLoading && currentUser) {
             toggleLike();
         }
-    }, 500)
+    }, 1000)
 
     const handlePostClicked = e => {
         navigate(`/${postOwner.username}/post/${post.id}`)
@@ -92,7 +92,15 @@ const Post = ({post, currentUser}) => {
                     {post.content.split("\n").map((line, i) => (
                         <div className="text" key={i}>{line} <br/></div>
                     ))}
-
+                    {post.attachments.length > 0 &&
+                        <div className="medias">
+                            {post.attachments.map((link, i) => (
+                                <div className="media" key={i}>
+                                    <img key={link} src={link} alt="Attachment Preview" className="attachment-preview" />
+                                </div>
+                            ))}
+                        </div>
+                    }
                 </div>
                 <div className="post-datas">
                     <div className={`data likes ${liked && 'liked'} ${theme}-hover`} onClick={() => !isMutating && handleLike()} style={{ pointerEvents: isMutating ? 'none' : 'auto' }}>

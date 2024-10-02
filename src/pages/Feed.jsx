@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useUser } from '../provider/UserProvider'
 import { Navigate } from 'react-router'
-import { addPost, getPosts, getUser } from '../utils/firestore'
+import { addPost, getPosts, getUser, updatePost } from '../utils/firestore'
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import '../styles/home.css'
 import Post from '../components/Post'
 import CreatePost from '../components/CreatePost'
 import { useTheme } from '../provider/ThemeProvider'
+import { uploadPostMedias } from '../utils/bucket'
+import { arrayUnion } from 'firebase/firestore'
 
 const Feed = () => {
-    const [postContent, setPostContent] = useState({context: '', attachments: []})
+    const [postContent, setPostContent] = useState({context: '', attachments: [], attachmentPreviews: []})
     const [user, loading] = useUser()
     const [theme, setTheme] = useTheme()
     const textAreaRef = useRef()
@@ -34,10 +36,18 @@ const Feed = () => {
     })
 
     const {isPending, mutate: mutatePost} = useMutation({
-        mutationFn: async () => await addPost(user, postContent),
+        mutationFn: async () => {
+            const postId = await addPost(user, postContent)
+
+            const urls = await uploadPostMedias(postContent.attachments, user, postId)
+
+            await updatePost(postId, {
+                attachments: arrayUnion(...urls)
+            })
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["posts"]})
-            setPostContent(prev => ({...prev, context: ""}))
+            setPostContent(prev => ({...prev, context: "", attachments: [], attachmentPreviews: []}))
         }
     })
 

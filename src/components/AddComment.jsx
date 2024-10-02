@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { LuSendHorizonal } from "react-icons/lu";
+import { useTheme } from '../provider/ThemeProvider';
 
 const AddComment = ({ 
     commentContent, 
@@ -10,6 +11,7 @@ const AddComment = ({
     isCommenting
 }) => {
     const textAreaRef = useRef()
+    const [theme, setTheme] = useTheme()
 
     const setTextareaRefs = (el) => {
         textAreaRef.current = el;
@@ -41,6 +43,7 @@ const AddComment = ({
             rows={1}
             placeholder={placeholder ? placeholder : "Enter a comment"}
             ref={setTextareaRefs}
+            className={`mono-${theme}-bg midtone-${theme}`}
         ></textarea>
         <div className="attachments">
             <button onClick={submitComment} disabled={commentContent.context.length == 0 || isCommenting}><LuSendHorizonal /></button>

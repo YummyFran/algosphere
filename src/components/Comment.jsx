@@ -10,7 +10,7 @@ import '../styles/post.css'
 import AddComment from './AddComment';
 
 
-const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef}) => {
+const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef, theme}) => {
     const [liked, setLiked] = useState(false)
     const [localLikesCount, setLocalLikesCount] = useState(comment.likesCount)
     const [isMutating, setIsMutating] = useState(false)
@@ -83,7 +83,7 @@ const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef}) => 
 
     const connectReplies = () => {
         if(lastReplyRef.current) 
-            commentRef?.current.style.setProperty('--height', `calc(${getComputedStyle(commentRef?.current).height} - ${getComputedStyle(lastReplyRef?.current).height} - 4.2rem)`)
+            commentRef?.current.style.setProperty('--height', `calc(${getComputedStyle(commentRef?.current).height} - ${getComputedStyle(lastReplyRef?.current).height} - 3.6rem)`)
     }
 
     const {isPending: isReplying, mutate: mutateReply} = useMutation({
@@ -125,9 +125,11 @@ const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef}) => 
     },[hasLiked, lastReplyRef, isCommenting, isReplying])
     
   return (
-    <div className={`post ${parentsId.length > 1 ? 'comment' : ''} ${replies?.pages[0].comments.length > 0 && isCommenting? 'hasReplies' : ''}`} ref={setCommentRefs}>    
+    <div className={`post ${parentsId.length > 1 ? 'comment' : ''} ${replies?.pages[0].comments.length > 0 && isCommenting? 'hasReplies' : ''} mono-${theme}-border`} ref={setCommentRefs}>    
+        <div className={`before mono-${theme}-border`}></div>
+        <div className={`after mono-${theme}-bg`}></div>
         <div className="post-details">
-            <div className="display-picture"></div>
+            <div className={`display-picture mono-${theme}-bg`}></div>
             <div className="content">
                 <div className="post-header">
                     <div className="name">{postOwner?.displayName}</div>
@@ -178,9 +180,16 @@ const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef}) => 
                 {
                     replies?.pages[0].comments.length > 0 &&
                     replies.pages.map((chunk, i) => (
-                        <div key={i} className='comment'>
+                        <div key={i} className={`comment`}>
                             {chunk.comments.map((com, i) => isCommenting && 
-                                <Comment lastRef={chunk.comments.length - 1 == i && lastReplyRef} comment={com} key={com.id} currentUser={currentUser} parentsId={parentsId.length < 3 ? [...parentsId, comment.id] : [...parentsId]} parentReplyRef={replyRef}/>
+                                <Comment 
+                                    lastRef={chunk.comments.length - 1 == i && lastReplyRef} 
+                                    comment={com} key={com.id} 
+                                    currentUser={currentUser} 
+                                    parentsId={parentsId.length < 3 ? [...parentsId, comment.id] : [...parentsId]} 
+                                    parentReplyRef={replyRef} 
+                                    theme={theme}
+                                />
                             )}
                         </div>
                     ))

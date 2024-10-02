@@ -7,11 +7,13 @@ import AddComment from '../components/AddComment'
 import Post from '../components/Post'
 import Comment from '../components/Comment'
 import '../styles/postpage.css'
+import { useTheme } from '../provider/ThemeProvider'
 
 const PostPage = () => {
     const [commentContent, setCommentContent] = useState({context: '', attachments: []})
     const { username, postId } = useParams()
     const [user, loading] = useUser()
+    const [theme, setTheme] = useTheme()
     const queryClient = useQueryClient()
 
     const {data: currentUser, isLoading: loadingUser} = useQuery({
@@ -65,6 +67,8 @@ const PostPage = () => {
 
         window.addEventListener('scroll', checkScroll)
 
+        window.scrollTo(0,0)
+
         return () => {
             window.removeEventListener('scroll', checkScroll)
         }
@@ -72,10 +76,10 @@ const PostPage = () => {
 
     if(isLoading || loadingUser) return "Loading..."
   return (
-    <div className='post-page'>
+    <div className={`post-page primary-${theme}-bg midtone-${theme}`}>
         <div className="post-container">
             <Post post={post} currentUser={currentUser}/>
-            <div className="divider">
+            <div className={`divider mono-${theme}-border`}>
                 <div className="replies">Replies</div>
                 <div className="view-activity">View Activity</div>
             </div>
@@ -89,7 +93,7 @@ const PostPage = () => {
                 comments.pages.map((chunk, i) => (
                     <div key={i} className='comment'>
                         {chunk.comments.map(comment => (
-                            <Comment comment={comment} key={comment.id} currentUser={currentUser} parentsId={[post.id]}/>
+                            <Comment comment={comment} key={comment.id} currentUser={currentUser} parentsId={[post.id]} theme={theme}/>
                         ))}
                     </div>
                 )) :
