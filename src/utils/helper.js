@@ -38,3 +38,25 @@ export function formatNumber(num) {
         return num.toString();
     }
 }
+
+export function getFileType(url) {
+  const fileExtension = url.split('?')[0].split('.').pop();
+  
+  switch (fileExtension.toLowerCase()) {
+    case 'mp4':
+      return 'Video';
+    case 'jpg':
+    case 'jpeg':
+      return 'Image';
+    case 'png':
+      return 'Image';
+    case 'gif':
+      return 'Image';
+    case 'mp3':
+      return 'Audio';
+    case 'pdf':
+      return 'Document';
+    default:
+      return 'Unknown file type';
+  }
+}

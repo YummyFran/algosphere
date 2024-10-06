@@ -7,6 +7,27 @@ import { updateProfile } from 'firebase/auth'
 import { addUser, usernameExisted } from '../utils/firestore'
 import '../styles/login.css'
 
+const validateUsername = username => {
+    if (username.length < 3) {
+        return [false, "Username must contain atleast 3 characters"];
+    }
+    
+    if (username.length > 15) {
+        return [false, "Username must not exceed 15 characters"];
+    }
+    const validUsernamePattern = /^[A-Za-z0-9_]+$/;
+
+    if (!validUsernamePattern.test(username)) {
+        return [false, "Invalid username"];
+    }
+
+    if (/^[0-9]/.test(username)) {
+        return [false, "Username must not start with a number"];
+    }
+
+    return [true, ""];
+}
+
 const Signup = () => {
     const [user, loading] = useUser()
     const [error, setError] = useState("")
@@ -19,6 +40,11 @@ const Signup = () => {
 
         if(await usernameExisted(credentials.username)) {
             setError(`${credentials.username} already exist`)
+            return
+        }
+
+        if(!validateUsername(credentials.username)[0]) {
+            setError(validateUsername(credentials.username)[1])
             return
         }
 

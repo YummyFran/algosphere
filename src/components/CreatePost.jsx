@@ -9,10 +9,23 @@ const CreatePost = ({
     setPostContent,
     submitPost,
     isPending,
-    theme
+    theme,
+    progress
 }) => {
     const handleFileChange = e => {
+        console.log('changed')
         const files = Array.from(e.target.files)
+        
+        const hasVids = files.filter(file => file.type === 'video/mp4').length > 0 ||
+                        postContent.attachments.filter(file => file.type === 'video/mp4').length > 0
+        
+        console.log(hasVids, postContent.attachments.length > 0)
+
+        if(hasVids && postContent.attachments.length > 0) {
+            alert("attachments can only contain one video or multiple images without video")
+            return
+        }
+            
         const previews = files.map(file => URL.createObjectURL(file))
         setPostContent(prev => ({...prev, 
             attachments: [...prev.attachments, ...files],
@@ -21,6 +34,7 @@ const CreatePost = ({
     }
 
     const removeAttachment = i => {
+        console.log("click")
         setPostContent(prev => {
             const remainingFiles = [...prev.attachments]
             const remainingPrevs = [...prev.attachmentPreviews]
@@ -35,7 +49,7 @@ const CreatePost = ({
         })
     }
   return (
-    <div className={`create-post ${theme}-shadow`}>
+    <div className={`create-post ${theme}-shadow ${isPending ? 'posting':''}`}>
         <div className="context">
             <div className={`display-photo mono-${theme}-bg`}>
             </div>
@@ -55,7 +69,14 @@ const CreatePost = ({
                         {postContent.attachmentPreviews.map((link, i) => (
                             <div className="media" key={i}>
                                 <div className="close" onClick={() => removeAttachment(i)}><IoCloseOutline /></div>
-                                <img key={link} src={link} alt="Attachment Preview" className="attachment-preview" />
+                                <div className="progress" style={{ width: `${progress[i] ? progress[i] : 0}%`}}></div>
+                                {
+                                    postContent.attachments[i].type === 'video/mp4' ?
+                                    <video>
+                                        <source src={link}/>
+                                    </video> :
+                                    <img key={link} src={link} alt="Attachment Preview" className="attachment-preview" />
+                                }
                             </div>
                         ))}
                     </div>
@@ -66,7 +87,7 @@ const CreatePost = ({
             <label htmlFor="add-file" className={`add-file mono-${theme}`} title='add media'>
                 <IoImagesOutline />
             </label>
-            <input type="file" name="" id='add-file' multiple onChange={handleFileChange}/>
+            <input type="file" name="" id='add-file' multiple onChange={handleFileChange} accept='image/*,video/*'/>
             <button onClick={() => submitPost()} disabled={postContent.context.length == 0 || isPending}>{isPending ? 'Posting' : 'Post'} </button>
         </div>
     </div>

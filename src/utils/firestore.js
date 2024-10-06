@@ -68,6 +68,7 @@ export const addUser = async (user, username) => {
         photoURL: user.photoURL,
         email: user.email,
         bio: "Hello, I'm a new user",
+        theme: 'light',
         createdAt: serverTimestamp()
     })
 }

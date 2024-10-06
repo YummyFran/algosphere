@@ -12,6 +12,7 @@ import { arrayUnion } from 'firebase/firestore'
 
 const Feed = () => {
     const [postContent, setPostContent] = useState({context: '', attachments: [], attachmentPreviews: []})
+    const [progress, setProgress] = useState([])
     const [user, loading] = useUser()
     const [theme, setTheme] = useTheme()
     const textAreaRef = useRef()
@@ -39,7 +40,7 @@ const Feed = () => {
         mutationFn: async () => {
             const postId = await addPost(user, postContent)
 
-            const urls = await uploadPostMedias(postContent.attachments, user, postId)
+            const urls = await uploadPostMedias(postContent.attachments, user, postId, setProgress)
 
             await updatePost(postId, {
                 attachments: arrayUnion(...urls)
@@ -80,7 +81,7 @@ const Feed = () => {
             window.removeEventListener('scroll', checkScroll)
         }
 
-    }, [currentUser])
+    }, [currentUser, postContent])
 
     if(!user) return <Navigate to="/login"/>
   return (
@@ -96,6 +97,7 @@ const Feed = () => {
                     submitPost={submitPost}
                     isPending={isPending}
                     theme={theme}
+                    progress={progress}
                 />
                 {posts?.pages[0].posts.length > 0 ? 
                     posts.pages.map((chunk, i) => (

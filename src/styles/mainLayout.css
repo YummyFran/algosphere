@@ -56,6 +56,10 @@
                     color: var(--accent-color);
                 }
             }
+
+            &.mobile {
+                display: none;
+            }
         }
 
         .shortcuts {
@@ -209,6 +213,122 @@
                         display: none;
                     }
                 }
+            }
+        }
+    }
+}
+
+@media (max-width: 35em) {
+    .main {
+        grid-template-columns: 1fr;
+        position: relative;
+
+        .left-panel {
+            position: fixed;
+            bottom: 0; top: auto;
+            left: 0; right: 0;
+            flex-direction: row;
+            height: fit-content;
+            padding: 0;
+            justify-content: center;
+            z-index: 1;
+
+            .nav {
+                display: none;
+                width: 100%;
+                align-items: center;
+
+                .brand {
+                    display: none;
+                }
+
+                &.mobile {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                }
+            }
+
+            .profile {
+                flex-direction: row;
+                display: none;
+
+                &.mobile {
+                    display: flex;
+                }
+
+                .meatball-menu {
+                    font-size: 1.3rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .menu {
+                    display: none;
+                    width: min(300px, 70vw);
+                    position: fixed;
+                    bottom: 4rem;
+                    left: auto;
+                    right: 0.5rem;
+                    z-index: 100;
+
+                    .display-picture {
+                        border-radius: 50%;
+                        width: 2.3rem;
+                        aspect-ratio: 1;
+                        background-size: cover;
+                        background-color: var(--mono-light);
+                    }
+
+                    .user {
+                        display: flex;
+                        gap: 0.5rem;
+                        
+                        .name {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.5rem;
+                            flex: 1;
+                            
+                            .display-name {
+                                font-size: 0.9rem;
+                                font-weight: 600;
+                                line-height: 1;
+                                
+                                &.loading {
+                                    background-color: var(--mono-light);
+                                    width: 80%;
+                                    height: 0.9rem;
+                                }
+                            }
+            
+                            .username {
+                                font-size: 0.8rem;
+                                line-height: 1;
+            
+                                &.loading {
+                                    background-color: var(--mono-light);
+                                    width: 50%;
+                                    height: 0.8rem;
+                                }
+                            }
+                        }
+                    }
+        
+
+                    &.show {
+                        display: flex;
+                    }
+
+                    &::after {
+                        display: none;
+                    }
+                }
+            }
+
+            .shortcuts {
+                display: none;
             }
         }
     }

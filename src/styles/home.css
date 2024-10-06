@@ -10,7 +10,7 @@
         position: relative;
 
         .news {
-            width: min(500px, 90vw);
+            width: min(500px, 95vw);
             padding: 2rem 0;
             display: flex;
             flex-direction: column;
@@ -80,6 +80,11 @@
                                 overflow: hidden;
                                 position: relative;
 
+                                video {
+                                    height: 100%;
+                                    pointer-events: none;
+                                }
+
                                 img {
                                     height: 100%;
                                 }
@@ -95,6 +100,14 @@
                                     place-items: center;
                                     cursor: pointer;
                                 }
+
+                                .progress {
+                                    height: 3px;
+                                    background-color: var(--accent-color);
+                                    position: absolute;
+                                    bottom: 0;
+                                    left: 0;
+                                }
                             }
                         }
 
@@ -108,6 +121,8 @@
                 .attachments {
                     display: flex;
                     padding: 0.5rem 0 0.5rem 3rem;
+                    position: sticky;
+                    bottom: 10;
 
                     #add-file {
                         display: none;
@@ -132,6 +147,11 @@
                             opacity: 0.5;
                         }
                     }
+                }
+
+                &.posting {
+                    pointer-events: none;
+                    opacity: 0.8;
                 }
             }
 
@@ -159,10 +179,6 @@
     .home {
         grid-template-columns: 8fr;
         justify-items: center;
-
-        .feed .news {
-            padding-right: 2rem;
-        }
 
         .right-panel {
             display: none;

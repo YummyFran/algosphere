@@ -8,11 +8,12 @@
 
     --primary-dark: #222831;
     --secondary-dark: #31363F;
-    --midtone-dark: #EEEEEE;
+    --midtone-dark: #e8e8e8;
 
     --primary-light: #F8F9FA;  
     --secondary-light: #eeeeee;
     --midtone-light: #333333;
+    
     --accent-color: #76ABAE;
 }
 
@@ -29,6 +30,7 @@
 a {
     text-decoration: none;
     color: #2f2f2f;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .mono-light-bg {

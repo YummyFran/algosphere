@@ -9,11 +9,13 @@ import { getUser } from '../utils/firestore'
 const MainLayout = () => {
     const [user, loading] = useUser()
     const menuRef = useRef()
+    const menuMobileRef = useRef()
 
     const closeMenu = e => {
       if(e.target.className === 'meatball-menu') return
 
       menuRef.current.classList.remove('show')
+      menuMobileRef.current.classList.remove('show')
     }
 
     const { data: currentUser, isLoading } = useQuery({
@@ -32,7 +34,7 @@ const MainLayout = () => {
     if(!user) return <Navigate to='/login' />
   return (
     <div className='main'>
-        <LeftPanel user={currentUser} isLoading={isLoading} menuRef={menuRef}/>
+        <LeftPanel user={currentUser} isLoading={isLoading} menuRef={menuRef} menuMobileRef={menuMobileRef}/>
         <Outlet />
     </div>
   )

@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {  decrementLikes, getUser, incrementLikes, isUserAlreadyLiked } from '../utils/firestore'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { IoMdHeart, IoMdHeartEmpty, IoMdRepeat } from "react-icons/io";
-import { IoChatbubbleOutline } from "react-icons/io5";
+import { IoChatbubbleOutline, IoPause, IoPlay, IoVolumeHigh, IoVolumeMute } from "react-icons/io5";
 import { BsSend } from "react-icons/bs";
 import debounce from 'lodash.debounce';
 import { useNavigate } from 'react-router';
-import { timeAgo, formatNumber } from '../utils/helper';
+import { timeAgo, formatNumber, getFileType } from '../utils/helper';
 import '../styles/post.css'
 import { useTheme } from '../provider/ThemeProvider';
 
 
 const Post = ({post, currentUser}) => {
     const [liked, setLiked] = useState(false)
+    const [vidmMuted, setVidMuted] = useState(true)
+    const [vidPaused, setVidPaused] = useState(false)
     const [localLikesCount, setLocalLikesCount] = useState(post.likesCount)
     const [isMutating, setIsMutating] = useState(false)
     const [theme, setTheme] = useTheme()
     const queryClient = useQueryClient()
     const navigate = useNavigate()
+    const vidRef = useRef()
+    const playIconRef = useRef()
 
     const {data: postOwner, isLoading: isUserLoading} = useQuery({
         queryKey: ['user', post.userId],
@@ -70,6 +74,31 @@ const Post = ({post, currentUser}) => {
         navigate(`/${postOwner.username}/post/${post.id}`)
     }
 
+    const toggleMute = e => {
+        e.stopPropagation()
+
+        setVidMuted(prev => !prev)
+    }
+
+    const togglePaused = () => {
+        
+        if(vidPaused) {
+            vidRef.current.play()
+            playIconRef.current.classList.remove('paused')
+            playIconRef.current.classList.add('play')
+        } else {
+            vidRef.current.pause()
+            playIconRef.current.classList.remove('play')
+            playIconRef.current.classList.add('paused')
+        }
+        setVidPaused(!vidPaused)
+
+        setTimeout(() => {
+            playIconRef.current.classList.remove('play')
+            playIconRef.current.classList.remove('paused')
+        }, 600)
+    }
+
     useEffect(() => {
         if(hasLiked) {
             setLiked(true)
@@ -89,16 +118,32 @@ const Post = ({post, currentUser}) => {
                     <div className={`post-time mono-${theme}`} onClick={handlePostClicked}>{timeAgo(post.createdAt)}</div>
                 </div>
                 <div className="context">
-                    {post.content.split("\n").map((line, i) => (
-                        <div className="text" key={i}>{line} <br/></div>
-                    ))}
+                    <div className="texts">
+                        {post.content.split("\n").map((line, i) => (
+                            <div className="text" key={i}>{line} <br/></div>
+                        ))}
+                    </div>
                     {post.attachments.length > 0 &&
                         <div className="medias">
-                            {post.attachments.map((link, i) => (
-                                <div className="media" key={i}>
-                                    <img key={link} src={link} alt="Attachment Preview" className="attachment-preview" />
-                                </div>
-                            ))}
+                            {post.attachments.map((link, i) => {
+
+                                const fileType = getFileType(link)
+                                
+                                return (
+                                    <div className="media" key={i}>
+                                        {fileType === "Image" ?
+                                            <img src={link} alt="Attachment Preview" className="attachment-preview" /> :
+                                            <div className="video" onClick={() => togglePaused()}>
+                                                <video muted={vidmMuted} loop autoPlay ref={vidRef}>
+                                                    <source src={link} type="video/mp4" />
+                                                </video>
+                                                <div className={`toggle-mute`} onClick={toggleMute}>{vidmMuted ? <IoVolumeMute /> : <IoVolumeHigh />}</div>
+                                                <div className={`toggle-pause`} ref={playIconRef}>{!vidPaused ? <IoPlay /> : <IoPause />}</div>
+                                            </div>
+                                        }
+                                    </div>
+                                )
+                            })}
                         </div>
                     }
                 </div>
