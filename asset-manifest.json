@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/algosphere/static/css/main.d6900718.css",
-    "main.js": "/algosphere/static/js/main.7962c242.js",
-    "index.html": "/algosphere/index.html",
-    "static/media/logo.svg": "/algosphere/static/media/logo.efe55df1ea8cced03ea1c6af8260d4a6.svg",
-    "main.d6900718.css.map": "/algosphere/static/css/main.d6900718.css.map",
-    "main.7962c242.js.map": "/algosphere/static/js/main.7962c242.js.map"
+    "main.css": "/static/css/main.d6900718.css",
+    "main.js": "/static/js/main.ec4479c8.js",
+    "index.html": "/index.html",
+    "static/media/logo.svg": "/static/media/logo.efe55df1ea8cced03ea1c6af8260d4a6.svg",
+    "main.d6900718.css.map": "/static/css/main.d6900718.css.map",
+    "main.ec4479c8.js.map": "/static/js/main.ec4479c8.js.map"
   },
   "entrypoints": [
     "static/css/main.d6900718.css",
-    "static/js/main.7962c242.js"
+    "static/js/main.ec4479c8.js"
   ]
 }
