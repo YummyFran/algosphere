@@ -1,6 +1,6 @@
 .post-page {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 6fr 2fr;
     min-height: 100vh;
     padding-bottom: 4rem;
 
@@ -80,6 +80,8 @@
     }
 }
 
-@media (screen) {
-    
+@media (max-width: 70rem) {
+    .post-page {
+        grid-template-columns: 8fr;
+    }
 }

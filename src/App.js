@@ -11,7 +11,7 @@ import PostPage from "./pages/PostPage";
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -25,7 +25,7 @@ function App() {
         </Route>
         <Route path="*" element={'404 not found'} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 

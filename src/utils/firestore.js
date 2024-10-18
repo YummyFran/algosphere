@@ -18,11 +18,18 @@ import {
 } from 'firebase/firestore'
 import { db } from './firebase';
 
+// Generic Error Handler
+const handleError = (error) => {
+    console.error('Firebase Error:', error);
+    return { error: error.message || 'An unexpected error occurred.' };
+};
+
+// Generic Add Document
 export const addDocument = async (collectionName, docId, data) => {
     try {
         await setDoc(doc(db, collectionName, docId), data, { merge: true });
     } catch (error) {
-        throw error;
+        return handleError(error);
     }
 };
 
@@ -31,12 +38,12 @@ export const getDocument = async (collectionName, docId) => {
         const docRef = doc(db, collectionName, docId);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-        return docSnap.data();
+            return docSnap.data();
         } else {
-        throw new Error("Document not found");
+            throw new Error("Document not found");
         }
     } catch (error) {
-        throw error;
+        return handleError(error);
     }
 };
 
@@ -45,7 +52,7 @@ export const updateDocument = async (collectionName, docId, data) => {
         const docRef = doc(db, collectionName, docId);
         await updateDoc(docRef, data);
     } catch (error) {
-        throw error;
+        return handleError(error);
     }
 };
 
@@ -53,283 +60,239 @@ export const deleteDocument = async (collectionName, docId) => {
     try {
         await deleteDoc(doc(db, collectionName, docId));
     } catch (error) {
-        throw error;
+        return handleError(error);
     }
 };
 
 // Users
 
 export const addUser = async (user, username) => {
-
-    await addDocument("users", user.uid, {
-        uid: user.uid,
-        displayName: user.displayName,
-        username: username,
-        photoURL: user.photoURL,
-        email: user.email,
-        bio: "Hello, I'm a new user",
-        theme: 'light',
-        createdAt: serverTimestamp()
-    })
-}
+    try {
+        await addDocument("users", user.uid, {
+            uid: user.uid,
+            displayName: user.displayName,
+            username: username,
+            photoURL: user.photoURL,
+            email: user.email,
+            bio: "Hello, I'm a new user",
+            theme: 'light',
+            createdAt: serverTimestamp()
+        });
+    } catch (error) {
+        return handleError(error);
+    }
+};
 
 export const getUser = async (userId) => {
-    const userData = await getDocument("users", userId)
-
-    return userData
-}
+    return await getDocument("users", userId);
+};
 
 export const usernameExisted = async (username) => {
-    const q = query(collection(db, "users"), where("username", '==', username))
-    const snapshot = await getDocs(q)
-
-    return !snapshot.empty
-}
+    try {
+        const q = query(collection(db, "users"), where("username", '==', username));
+        const snapshot = await getDocs(q);
+        return !snapshot.empty;
+    } catch (error) {
+        return handleError(error);
+    }
+};
 
 // Posts
 
 export const getPosts = async (param, lastVisible = null) => {
-    let q;
+    try {
+        let q;
+        if (param.pageParam) {
+            q = query(
+                collection(db, "posts"), 
+                orderBy('createdAt', 'desc'), 
+                startAfter(param.pageParam), 
+                limit(10)
+            );
+        } else {
+            q = query(collection(db, "posts"), orderBy('createdAt', 'desc'), limit(10));
+        }
 
-    if(param.pageParam) {
-        q = query(collection(db, "posts"), orderBy('createdAt', 'desc'), startAfter(param.pageParam), limit(10))
-    } else {
-        q = query(collection(db, "posts"), orderBy('createdAt', 'desc'), limit(10))
+        const snapshot = await getDocs(q);
+        const posts = [];
+        let lastDoc = null;
+
+        snapshot.forEach((doc) => {
+            posts.push({ id: doc.id, ...doc.data() });
+            lastDoc = doc;
+        });
+
+        return { posts, lastDoc };
+    } catch (error) {
+        return handleError(error);
     }
-
-    const snapshot = await getDocs(q)
-    const posts = [];
-    let lastDoc = null;
-
-    snapshot.forEach((doc) => {
-        posts.push({ id: doc.id, ...doc.data() });
-        lastDoc = doc;
-    });
-
-    return { posts, lastDoc }
-}
+};
 
 export const getPost = async (postId) => {
-    const postData = await getDocument("posts", postId)
-
-    return {id: postId, ...postData}
-}
+    const postData = await getDocument("posts", postId);
+    return { id: postId, ...postData };
+};
 
 export const addPost = async (user, content) => {
-    const docRef = await addDoc(collection(db, "posts"), {
-        userId: user.uid,  
-        content: content.context,
-        attachments: [],
-        createdAt: serverTimestamp(), 
-        likesCount: 0,  
-        commentsCount: 0
-    })
-
-    return docRef.id
-}
+    try {
+        const docRef = await addDoc(collection(db, "posts"), {
+            userId: user.uid,
+            content: content.context,
+            attachments: [],
+            createdAt: serverTimestamp(),
+            likesCount: 0,
+            commentsCount: 0
+        });
+        return docRef.id;
+    } catch (error) {
+        return handleError(error);
+    }
+};
 
 export const listenToPosts = (callback) => {
-    const postsQuery = query(collection(db, 'posts'), orderBy('createdAt', 'desc'));
-    
-    const unsubscribe = onSnapshot(postsQuery, (snapshot) => {
-        const posts = snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-        }));
-        callback(posts);
-    });
-
-    return unsubscribe;
-}
+    try {
+        const postsQuery = query(collection(db, 'posts'), orderBy('createdAt', 'desc'));
+        const unsubscribe = onSnapshot(postsQuery, (snapshot) => {
+            const posts = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            callback(posts);
+        });
+        return unsubscribe;
+    } catch (error) {
+        console.error('Error in listening to posts:', error);
+    }
+};
 
 export const updatePost = async (postId, data) => {
-    await updateDocument('posts', postId, data)
-}
+    return await updateDocument('posts', postId, data);
+};
 
 // Likes
 
 export const incrementLikes = async (postId, data, userId, parents) => {
-    let parentRef;
-    
-    if(parents) {
-        parentRef = doc(db, "posts", parents[0])
-        parents.forEach((id, i) => {
-            if(i === 0) return
+    try {
+        let parentRef = getParentRef(parents);
+        const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId);
 
-            parentRef = doc(parentRef, "comments", id);
-        })
-    } else {
-        parentRef = db
+        await updateDoc(postRef, { [data]: increment(1) });
+
+        await setDoc(doc(postRef, "likes", userId), {
+            userId: userId,
+            likedAt: serverTimestamp()
+        });
+    } catch (error) {
+        return handleError(error);
     }
-
-    const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId)
-    
-    await updateDoc(postRef, {
-        [data] : increment(1)
-    })
-    
-    const col = doc(postRef, "likes", userId)
-
-    await setDoc(col, {
-        userId: userId,
-        likedAt: serverTimestamp()
-    })
-}
+};
 
 export const decrementLikes = async (postId, data, userId, parents) => {
-    let parentRef;
-    
-    if(parents) {
-        parentRef = doc(db, "posts", parents[0])
-        parents.forEach((id, i) => {
-            if(i === 0) return
+    try {
+        let parentRef = getParentRef(parents);
+        const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId);
 
-            parentRef = doc(parentRef, "comments", id);
-        })
-    } else {
-        parentRef = db
+        await updateDoc(postRef, { [data]: increment(-1) });
+        await deleteDoc(doc(postRef, "likes", userId));
+    } catch (error) {
+        return handleError(error);
     }
+};
 
-    const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId)
-    
-    await updateDoc(postRef, {
-        [data] : increment(-1)
-    })
-    
-    const col = doc(postRef, "likes", userId)
-
-    await deleteDoc(col)
-}
+// Helper to get parent reference
+const getParentRef = (parents) => {
+    let parentRef = db;
+    if (parents) {
+        parentRef = doc(db, "posts", parents[0]);
+        parents.forEach((id, i) => {
+            if (i > 0) {
+                parentRef = doc(parentRef, "comments", id);
+            }
+        });
+    }
+    return parentRef;
+};
 
 export const getCountData = async (postId) => {
-    const data = await getDocument("posts", postId)
- 
-    return data.likesCount
-}
+    const data = await getDocument("posts", postId);
+    return data.likesCount;
+};
 
 export const isUserAlreadyLiked = async (postId, userId, parents) => {
-    let parentRef;
-    
-    if(parents) {
-        parentRef = doc(db, "posts", parents[0])
-        parents.forEach((id, i) => {
-            if(i === 0) return
-
-            parentRef = doc(parentRef, "comments", id);
-        })
-    } else {
-        parentRef = db
+    try {
+        let parentRef = getParentRef(parents);
+        const likeDoc = await getDoc(doc(parentRef, "likes", userId));
+        return likeDoc.exists();
+    } catch (error) {
+        return handleError(error);
     }
-
-    const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId)
-    const col = doc(postRef, "likes", userId)
-
-    const likeDoc = await getDoc(col)
-
-
-    return likeDoc.exists()
-}
+};
 
 // Comments
 
 export const getComments = async (param = null, userId, postId, parents) => {
-    let parentRef;
-    if(parents) {
-        parentRef = doc(db, "posts", parents[0])
-        parents.forEach((id, i) => {
-            if(i === 0) return
+    try {
+        let parentRef = getParentRef(parents);
+        const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId);
+        const col = collection(postRef, "comments");
 
-            parentRef = doc(parentRef, "comments", id);
-        })
-    } else {
-        parentRef = db
+        let q;
+        if (param?.pageParam) {
+            q = query(col, orderBy('createdAt', 'desc'), startAfter(param.pageParam), limit(10));
+        } else {
+            q = query(col, orderBy('createdAt', 'desc'), limit(10));
+        }
+
+        const snapshot = await getDocs(q);
+        const comments = [];
+        let lastDoc = null;
+
+        snapshot.forEach((doc) => {
+            comments.push({ id: doc.id, ...doc.data() });
+            lastDoc = doc;
+        });
+
+        return { comments, lastDoc };
+    } catch (error) {
+        return handleError(error);
     }
-
-    const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId)
-    const col = collection(postRef, "comments")
-
-    let q;
-
-    if(param?.pageParam) {
-        q = query(col, orderBy('createdAt', 'desc'), startAfter(param.pageParam), limit(10))
-    } else {
-        q = query(col, orderBy('createdAt', 'desc'), limit(10))
-    }
-
-    const snapshot = await getDocs(q)
-    const comments = [];
-    let lastDoc = null;
-
-    snapshot.forEach((doc) => {
-        comments.push({ id: doc.id, ...doc.data() });
-        lastDoc = doc;
-    });
-
-    return { comments, lastDoc }
-}
+};
 
 export const addComment = async (userId, postId, content, parents) => {
-    let parentRef;
-    
-    if(parents) {
-        parentRef = doc(db, "posts", parents[0])
-        parents.forEach((id, i) => {
-            if(i === 0) return
+    try {
+        let parentRef = getParentRef(parents);
+        const col = collection(doc(parentRef, `${parents ? "comments" : "posts"}`, postId), "comments");
 
-            parentRef = doc(parentRef, "comments", id);
-        })
-    } else {
-        parentRef = db
+        await addDoc(col, {
+            userId: userId,
+            content: content.context,
+            attachments: content.attachments,
+            createdAt: serverTimestamp(),
+            likesCount: 0,
+            commentsCount: 0
+        });
+
+        await updateCommentCountRecursively(parents, postId);
+    } catch (error) {
+        return handleError(error);
     }
+};
 
-    const postRef = doc(parentRef, `${parents ? "comments" : "posts"}`, postId)
-    const col = collection(postRef, "comments")
-    
-    await addDoc(col, {
-        userId: userId,  
-        content: content.context,
-        attachments: content.attachments,  
-        createdAt: serverTimestamp(), 
-        likesCount: 0,  
-        commentsCount: 0
-    })
-    
-    const updateCommentCountRecursively = async (parents) => {
-        if (parents && parents.length > 0) {
-            let currentRef = doc(db, "posts", parents[0]);
-
-            for (let i = 0; i < parents.length; i++) {
-                if (i > 0) {
-                    currentRef = doc(currentRef, "comments", parents[i]);
-                }
-
-                await updateDoc(currentRef, {
-                    commentsCount: increment(1)
-                });
-            }
-
-            await updateDoc(postRef, {
-                commentsCount: increment(1)
-            });
-        } else {
-            await updateDoc(doc(db, "posts", postId), {
-                commentsCount: increment(1)
-            });
-        }
-    };
-
-    await updateCommentCountRecursively(parents);
-}
-
+const updateCommentCountRecursively = async (parents, postId) => {
+    let currentRef = doc(db, "posts", parents[0]);
+    for (let i = 1; i < parents.length; i++) {
+        currentRef = doc(currentRef, "comments", parents[i]);
+    }
+    await updateDoc(currentRef, { commentsCount: increment(1) });
+};
 
 // Theme
 
 export const setTheme = async (user, theme) => {
-    await addDocument('users', user.uid, { theme })
-}
+    return await addDocument('users', user.uid, { theme });
+};
 
 export const getTheme = async (user) => {
-    const userData = await getDocument('users', user.uid)
-
-    return userData.theme
-}
+    const userData = await getDocument('users', user.uid);
+    return userData.theme;
+};

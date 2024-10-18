@@ -68,7 +68,7 @@ const Post = ({post, currentUser}) => {
         if (!isUserLoading && currentUser) {
             toggleLike();
         }
-    }, 1000)
+    }, 500)
 
     const handlePostClicked = e => {
         navigate(`/${postOwner.username}/post/${post.id}`)
