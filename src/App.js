@@ -8,6 +8,10 @@ import Saved from "./pages/Saved";
 import MainLayout from "./Layouts/MainLayout";
 import Feed from "./pages/Feed";
 import PostPage from "./pages/PostPage";
+import Profile from "./pages/Profile";
+import Timeline from "./components/Timeline";
+import Wall from "./components/Wall";
+import Reposts from "./components/Reposts";
 
 function App() {
   return (
@@ -15,14 +19,22 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Feed />} />
           <Route path="courses" element={<Courses />} />
-          <Route path="problems" element={<Problems />} />
+          <Route path="excercise" element={<Problems />} />
           <Route path="playground" element={<PlayGround />} />
           <Route path="saved" element={<Saved />} />
-          <Route path=":username/post/:postId" element={<PostPage />} />
         </Route>
+
+        <Route path=":username/post/:postId" element={<PostPage />} />
+        <Route path=":username" element={<Profile />}>
+          <Route index element={<Timeline />} />
+          <Route path="wall" element={<Wall />} />
+          <Route path="reposts" element={<Reposts />} />
+        </Route>
+        
         <Route path="*" element={'404 not found'} />
       </Routes>
     </BrowserRouter>

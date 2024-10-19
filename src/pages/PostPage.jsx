@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { addComment, getComments, getPost, getUser } from '../utils/firestore'
 import { useUser } from '../provider/UserProvider'
@@ -8,6 +8,7 @@ import Post from '../components/Post'
 import Comment from '../components/Comment'
 import '../styles/postpage.css'
 import { useTheme } from '../provider/ThemeProvider'
+import { IoArrowBackOutline } from 'react-icons/io5'
 
 const PostPage = () => {
     const [commentContent, setCommentContent] = useState({context: '', attachments: []})
@@ -15,6 +16,7 @@ const PostPage = () => {
     const [user, loading] = useUser()
     const [theme, setTheme] = useTheme()
     const queryClient = useQueryClient()
+    const nav = useNavigate()
 
     const {data: currentUser, isLoading: loadingUser} = useQuery({
         queryKey: ['user'],
@@ -40,7 +42,7 @@ const PostPage = () => {
             }
         },
         initialPageParam: null,
-        getNextPageParam: last => last.lastDoc,
+        getNextPageParam: last => last?.lastDoc,
         enabled: !!user && !!post
     })
 
@@ -78,6 +80,12 @@ const PostPage = () => {
   return (
     <div className={`post-page primary-${theme}-bg midtone-${theme}`}>
         <div className="post-container">
+            <div className="header">
+                <div className={`back ${theme}-hover`} onClick={() => nav(-1)}>
+                    <IoArrowBackOutline />
+                </div>
+                <p>AlgoSphere</p>
+            </div>
             <Post post={post} currentUser={currentUser}/>
             <div className={`divider mono-${theme}-border`}>
                 <div className="replies">Replies</div>

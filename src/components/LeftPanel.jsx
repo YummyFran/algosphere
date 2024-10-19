@@ -1,6 +1,6 @@
 import React from 'react'
 import { logOut } from '../utils/authentication'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { AiOutlineMore } from 'react-icons/ai'
 import { useTheme } from '../provider/ThemeProvider'
 import { GoHome, GoHomeFill } from "react-icons/go";
@@ -21,8 +21,10 @@ import logo from '../assets/logo.svg'
 const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
     const [theme, setTheme] = useTheme()
     const {pathname} = useLocation()
+    const nav = useNavigate()
 
-    const showMenu = () => {
+    const showMenu = e => {
+        e.stopPropagation()
         menuRef.current.classList.toggle("show")
         menuMobileRef.current.classList.toggle("show")
     }
@@ -34,7 +36,7 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                 <div className="logo">
                     <img src={logo} alt="" />
                 </div>
-                <div className="name">AlgoSphere</div>
+                <div className="name">AlgoSpherehh</div>
             </NavLink>
             <NavLink to="/" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
                 {pathname === '/' ? <GoHomeFill /> : <GoHome />}
@@ -44,9 +46,9 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                 {pathname === '/courses' ? <IoBook /> : <IoBookOutline />} 
                 <span>Courses</span>
             </NavLink>
-            <NavLink to="/problems" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
-                {pathname === '/problems' ? <IoExtensionPuzzle /> : <IoExtensionPuzzleOutline />} 
-                <span>Problems</span>
+            <NavLink to="/excercise" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
+                {pathname === '/excercise' ? <IoExtensionPuzzle /> : <IoExtensionPuzzleOutline />} 
+                <span>Excercise</span>
             </NavLink>
             <NavLink to="/playground" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
                 {pathname === '/playground' ? <IoCodeSharp /> : <IoCodeOutline />}
@@ -56,7 +58,7 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                 {pathname === '/saved' ? <IoBookmark /> : <IoBookmarkOutline />}
                 <span>Saved</span>
             </NavLink>
-            <div className={`profile ${theme}-hover mobile`}>
+            <div className={`profile ${theme}-hover mobile`} onClick={() => nav(`/${user?.username}`)}>
                 <div className="meatball-menu" onClick={() => showMenu()}>
                     <IoMenu />
                 </div>
@@ -88,9 +90,9 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                 {pathname === '/courses' ? <IoBook /> : <IoBookOutline />} 
                 <span>Courses</span>
             </NavLink>
-            <NavLink to="/problems" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
-                {pathname === '/problems' ? <IoExtensionPuzzle /> : <IoExtensionPuzzleOutline />} 
-                <span>Problems</span>
+            <NavLink to="/excercise" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
+                {pathname === '/excercise' ? <IoExtensionPuzzle /> : <IoExtensionPuzzleOutline />} 
+                <span>Excerise</span>
             </NavLink>
             <NavLink to="/playground" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
                 {pathname === '/playground' ? <IoCodeSharp /> : <IoCodeOutline />}
@@ -102,13 +104,13 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
             </NavLink>
         </div>
         <div className="shortcuts"></div>
-        <div className={`profile ${theme}-hover`}>
+        <div className={`profile ${theme}-hover`} onClick={() => nav(`/${user?.username}`)}>
             <div className="display-picture"></div>
             <div className="name">
                 <div className={`display-name ${isLoading && 'loading'}`}>{user?.displayName.split(" ")[0]}</div>
                 <div className={`username ${isLoading && 'loading'}`}>{user && `@${user.username}`}</div>
             </div>
-            <div className="meatball-menu" onClick={() => showMenu()}>
+            <div className="meatball-menu" onClick={showMenu}>
                 <AiOutlineMore />
             </div>
             <div className={`menu primary-${theme}-bg ${theme}-shadow`} ref={menuRef}>

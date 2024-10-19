@@ -74,6 +74,10 @@ const Post = ({post, currentUser}) => {
         navigate(`/${postOwner.username}/post/${post.id}`)
     }
 
+    const handleProfileClicked = () => {
+        navigate(`/${postOwner.username}`)
+    }
+
     const toggleMute = e => {
         e.stopPropagation()
 
@@ -113,13 +117,13 @@ const Post = ({post, currentUser}) => {
             <div className={`display-picture mono-${theme}-bg`}></div>
             <div className="content">
                 <div className="post-header">
-                    <div className="name">{postOwner?.displayName}</div>
-                    <div className="username">@{postOwner?.username}</div>
+                    <div className="name" onClick={handleProfileClicked}>{postOwner?.displayName}</div>
+                    <div className="username" onClick={handleProfileClicked}>@{postOwner?.username}</div>
                     <div className={`post-time mono-${theme}`} onClick={handlePostClicked}>{timeAgo(post.createdAt)}</div>
                 </div>
                 <div className="context">
                     <div className="texts">
-                        {post.content.split("\n").map((line, i) => (
+                        {post?.content?.split("\n").map((line, i) => (
                             <div className="text" key={i}>{line} <br/></div>
                         ))}
                     </div>

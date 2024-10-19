@@ -73,6 +73,7 @@
             padding: 1rem;
             border-radius: 3rem;
             position: relative;
+            cursor: pointer;
 
             .display-picture {
                 border-radius: 50%;

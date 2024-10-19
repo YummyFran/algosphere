@@ -1,4 +1,6 @@
 export function timeAgo(postedTime) {
+    if(!postedTime) return
+
     const now = new Date();
     const postedDate = postedTime.toDate();
     
