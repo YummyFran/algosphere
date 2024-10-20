@@ -24,8 +24,6 @@ const Profile = () => {
         refetch()
     }, [username, refetch])
 
-    console.log(currentUser)
-
     if (isLoading || username != user?.username) return <div>Loading...</div>
   return (
     <div className={`profile-page primary-${theme}-bg midtone-${theme}`}>
@@ -79,7 +77,7 @@ const Profile = () => {
                 <NavLink to={`wall`} className={({ isActive }) => `${isActive ? 'active-link' : ''}`} replace>Wall</NavLink>
                 <NavLink to={`reposts`} className={({ isActive }) => `${isActive ? 'active-link' : ''}`} replace>Reposts</NavLink>
             </div>
-            <Outlet />
+            <Outlet context={[user, username, isLoading]}/>
         </div>
     </div>
   )

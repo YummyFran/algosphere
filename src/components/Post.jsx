@@ -1,14 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {  decrementLikes, getUser, incrementLikes, isUserAlreadyLiked } from '../utils/firestore'
+import {  decrementLikes, deletePost, getUser, incrementLikes, isUserAlreadyLiked } from '../utils/firestore'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { IoMdHeart, IoMdHeartEmpty, IoMdRepeat } from "react-icons/io";
-import { IoChatbubbleOutline, IoPause, IoPlay, IoVolumeHigh, IoVolumeMute } from "react-icons/io5";
+import { IoIosLink, IoMdHeart, IoMdHeartEmpty, IoMdRepeat } from "react-icons/io";
+import { IoBookmarkOutline, IoChatbubbleOutline, IoHeartDislikeOutline, IoPause, IoPlay, IoVolumeHigh, IoVolumeMute } from "react-icons/io5";
+import { TiPinOutline } from "react-icons/ti";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { BsSend } from "react-icons/bs";
 import debounce from 'lodash.debounce';
 import { useNavigate } from 'react-router';
 import { timeAgo, formatNumber, getFileType } from '../utils/helper';
 import '../styles/post.css'
 import { useTheme } from '../provider/ThemeProvider';
+import { GoTrash } from 'react-icons/go';
 
 
 const Post = ({post, currentUser}) => {
@@ -22,6 +25,7 @@ const Post = ({post, currentUser}) => {
     const navigate = useNavigate()
     const vidRef = useRef()
     const playIconRef = useRef()
+    const menuRef = useRef()
 
     const {data: postOwner, isLoading: isUserLoading} = useQuery({
         queryKey: ['user', post.userId],
@@ -64,6 +68,13 @@ const Post = ({post, currentUser}) => {
         },
     });
 
+    const {mutate: mutateDelete} = useMutation({
+        mutationFn: async () => await deletePost(post.id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["posts"]})
+        }
+    })
+
     const handleLike = debounce(() => {
         if (!isUserLoading && currentUser) {
             toggleLike();
@@ -103,6 +114,29 @@ const Post = ({post, currentUser}) => {
         }, 600)
     }
 
+    const showMenu = e => {
+        e.stopPropagation()
+        menuRef.current.classList.toggle("show")
+    }
+
+    const closeMenu = e => {
+        if(e.target.className === 'meatball') return
+  
+        menuRef.current.classList.remove('show')
+    }
+    
+    const copyLink = () => {
+        navigator.clipboard.writeText(`${window.location.origin}/${postOwner.username}/post/${post.id}`)
+    }
+
+    useEffect(() => {
+        window.addEventListener('click', closeMenu)
+  
+        return () => {
+            window.removeEventListener('click', closeMenu)
+        }
+    }, [])
+
     useEffect(() => {
         if(hasLiked) {
             setLiked(true)
@@ -115,11 +149,54 @@ const Post = ({post, currentUser}) => {
     <div className={`post mono-${theme}-border`}>
         <div className="post-details">
             <div className={`display-picture mono-${theme}-bg`}></div>
+            <div className={`menu ${theme}-shadow primary-${theme}-bg`} ref={menuRef} onClick={e => e.stopPropagation()}>
+            {
+                postOwner?.uid === currentUser?.uid ?
+                <>
+                    <div className="temporary">
+                        <div className="edit">
+                            <span>Edit</span>
+                            <div className="timer"></div>
+                        </div>
+                    </div>
+                    <div className="accessibility">
+                        <div className="save">
+                            <span>Save</span>
+                            <IoBookmarkOutline />
+                        </div>
+                        <div className="pin-to-profile">
+                            <span>Pin to profile</span>
+                            <TiPinOutline />
+                        </div>
+                        <div className="hide-metrics">
+                            <span>Hide like and share counts</span>
+                            <IoHeartDislikeOutline />
+                        </div>
+                    </div>
+                    <div className="danger">
+                        <div className="delete" onClick={() => mutateDelete()}>
+                            <span>Delete</span>
+                            <GoTrash />
+                        </div>
+                    </div>
+                    <div className="necessary">
+                        <div className="copy-link" onClick={() => copyLink()}>
+                            <span>Copy link</span>
+                            <IoIosLink />
+                        </div>
+                    </div>
+                </>:
+                <></>
+            }
+                    </div>
             <div className="content">
                 <div className="post-header">
                     <div className="name" onClick={handleProfileClicked}>{postOwner?.displayName}</div>
                     <div className="username" onClick={handleProfileClicked}>@{postOwner?.username}</div>
                     <div className={`post-time mono-${theme}`} onClick={handlePostClicked}>{timeAgo(post.createdAt)}</div>
+                    <div className={`meatball ${theme}-hover`} onClick={showMenu}>
+                        <HiOutlineDotsHorizontal />
+                    </div>
                 </div>
                 <div className="context">
                     <div className="texts">

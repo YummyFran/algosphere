@@ -41,6 +41,56 @@
             aspect-ratio: 1;
         }
 
+        .menu {
+            position: absolute;
+            top: 3rem; right: 0.5rem;
+            z-index: 2;
+            padding: 0 0.5rem;
+            border-radius: 0.5rem;
+            display: none;
+
+            &.show {
+                display: block;
+            }
+
+            & > :last-child {
+                border: none !important;
+            }
+
+            &.dark-shadow > * {
+                border-bottom: 1px solid var(--mono-dark);
+                padding: 0.5rem 0;
+
+                &.danger > * {
+                    color: #ff0034;
+                }
+
+                & > * {
+                    padding: 0.7rem;
+                    border-radius: 0.5rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 1rem;
+                    cursor: pointer;
+
+                    & > *:not(span) {
+                        font-size: 1.3rem;
+                    }
+
+                    &:hover {
+                        background-color: var(--primary-dark);
+                        filter: brightness(1.2);
+                    }
+    
+                    /* &:hover {
+                        background-color: var(--primary-light);
+                        filter: brightness(0.9);
+                    } */
+                }
+            }
+        }
+
         .content {
             display: flex;
             flex-direction: column;
@@ -51,6 +101,7 @@
             .post-header {
                 display: flex;
                 align-items: center;
+                justify-content: flex-start;
                 gap: 0.2rem;
                 font-size: 0.9rem;
                 cursor: pointer;
@@ -74,6 +125,16 @@
                     &:hover {
                         text-decoration: underline;
                     }
+                }
+
+                .meatball {
+                    margin-left: auto;
+                    font-size: 1rem;
+                    aspect-ratio: 1;
+                    display: flex;
+                    border-radius: 50%;
+                    padding: 0.3rem;
+
                 }
             }
 

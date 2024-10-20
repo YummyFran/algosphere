@@ -113,7 +113,7 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
             <div className="meatball-menu" onClick={showMenu}>
                 <AiOutlineMore />
             </div>
-            <div className={`menu primary-${theme}-bg ${theme}-shadow`} ref={menuRef}>
+            <div className={`menu primary-${theme}-bg ${theme}-shadow`} ref={menuRef} onClick={e => e.stopPropagation()}>
                 <div className="theme" onClick={() => setTheme()}>{`Turn on ${theme === 'dark' ? 'light' : 'dark'} mode`}</div>
                 <div className="item" onClick={() => logOut()}>Logout</div>
             </div>

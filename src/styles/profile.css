@@ -145,5 +145,10 @@
                 border-bottom: 1px solid var(--accent-color);
             }
         }
+        
+        .timeline {
+            display: flex;
+            flex-direction: column;
+        }
     }
 }

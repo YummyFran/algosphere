@@ -121,6 +121,27 @@ export const getPosts = async (param, lastVisible = null) => {
     return { posts, lastDoc }
 }
 
+export const getUserPosts = async (param, userId) => {
+    let q;
+
+    if(param?.pageParam) {
+        q = query(collection(db, "posts"), where("userId", "==", userId), orderBy('createdAt', 'desc'), startAfter(param.pageParam), limit(10))
+    } else {
+        q = query(collection(db, "posts"), where("userId", "==", userId), orderBy('createdAt', 'desc'), limit(10))
+    }
+
+    const snapshot = await getDocs(q)
+    const posts = [];
+    let lastDoc = null;
+
+    snapshot.forEach((doc) => {
+        posts.push({ id: doc.id, ...doc.data() });
+        lastDoc = doc;
+    });
+
+    return { posts, lastDoc }
+}
+
 export const getPost = async (postId) => {
     const postData = await getDocument("posts", postId)
 
@@ -156,6 +177,10 @@ export const listenToPosts = (callback) => {
 
 export const updatePost = async (postId, data) => {
     await updateDocument('posts', postId, data)
+}
+
+export const deletePost = async (postId) => {
+    await deleteDocument('posts', postId)
 }
 
 // Likes
