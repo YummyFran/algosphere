@@ -241,7 +241,7 @@ export const decrementLikes = async (postId, data, userId, parents) => {
 export const getCountData = async (postId) => {
     const data = await getDocument("posts", postId)
  
-    return data.likesCount
+    return data.likesCount  
 }
 
 export const isUserAlreadyLiked = async (postId, userId, parents) => {
@@ -369,4 +369,39 @@ export const getTheme = async (user) => {
     const userData = await getDocument('users', user.uid)
 
     return userData.theme
+}
+
+// Follows
+
+export const followUser = async (currentUserId, userId) => {
+    const currentUserRef = doc(db, "users", currentUserId)
+    const userRef = doc(db, "users", userId)
+
+    const followingCol = doc(currentUserRef, "following", userId)
+    const followersCol = doc(userRef, "followers", currentUserId)
+
+    await setDoc(followingCol, {
+        userId: userId,
+        followedAt: serverTimestamp()
+    })
+
+    await setDoc(followersCol, {
+        userId: currentUserId,
+        followedAt: serverTimestamp()
+    })
+
+    await updateDoc(currentUserRef, {
+        followingCount: increment(1)
+    })
+
+    await updateDoc(userRef, {
+        followersCount: increment(1)
+    })
+}
+
+export const checkIfFollowing = async (currentUserId, followedUserId) => {
+    const docRef = doc(doc(db, "users", currentUserId), "following", followedUserId)
+    const docSnap = await getDoc(docRef)
+  
+    return docSnap.exists()
 }

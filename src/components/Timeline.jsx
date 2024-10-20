@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { getUser, getUserPosts } from '../utils/firestore'
 import Post from './Post'
 import { useUser } from '../provider/UserProvider'
@@ -11,7 +11,7 @@ const Timeline = () => {
 
   const {data: currentUser, isLoading} = useQuery({
     queryKey: ['user'],
-    queryFn: async () => await getUser(user.uid),
+    queryFn: async () => await getUser(user.uid)
   })
 
   const {
@@ -19,13 +19,34 @@ const Timeline = () => {
     fetchNextPage, 
     hasNextPage, 
     isFetchingNextPage,
-    isLoading: isPostLoading
+    isLoading: isPostLoading,
   } = useInfiniteQuery({
-    queryKey: ['posts', 'userposts'],
+    queryKey: ['userposts', timelineUser?.uid],
     queryFn: async (param) => await getUserPosts(param, timelineUser?.uid),
     initialPageParam: 0,
     getNextPageParam: last => last?.lastDoc
   })
+
+  useEffect(() => {
+    if(!currentUser) return
+
+    window.scrollTo(0,0)
+
+    const checkScroll = () => {
+        if(window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100) {
+            fetchNextPage()
+        }
+    }
+
+    checkScroll()
+
+    window.addEventListener('scroll', checkScroll)
+
+    return () => {
+        window.removeEventListener('scroll', checkScroll)
+    }
+
+  }, [currentUser])
 
   if(isTimelineUserLoading || posts?.pages[0]?.posts[0]?.userId != timelineUser?.uid) return <div>Loading...</div>
 
@@ -43,6 +64,7 @@ const Timeline = () => {
               {isPostLoading ? 'Loading' : 'No posts yet'}
           </div>
       }
+      {isFetchingNextPage && "loading..."}
       {!hasNextPage && posts?.pages[0].posts.length > 1 && <div className='no-post'>You've reach the end</div>}
     </div>
   )

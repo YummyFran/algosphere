@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import { getUserByUsername } from '../utils/firestore'
-import { useQuery } from '@tanstack/react-query'
+import { checkIfFollowing, followUser, getUserByUsername } from '../utils/firestore'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { IoArrowBackOutline } from 'react-icons/io5'
 import "../styles/profile.css"
 import { useTheme } from '../provider/ThemeProvider'
@@ -13,12 +13,36 @@ const Profile = () => {
     const { username } = useParams()
     const [theme, setTheme] = useTheme()
     const [currentUser, loading] = useUser()
+    const [isFollowPending, setIsFollowPending] = useState(false)
+    const queryClient = useQueryClient()
     const nav = useNavigate()
 
     const { data: user, isLoading, refetch } = useQuery({
         queryKey: ["userdata"],
         queryFn: async () => await getUserByUsername(username)
     })
+
+    const { data: isFollowing } = useQuery({
+        queryKey: ["isFollowing", user?.uid],
+        queryFn: async () => await checkIfFollowing(currentUser?.uid, user.uid)
+    })
+
+
+    const { mutate: mutateFollow } = useMutation({
+        mutationFn: async () => await followUser(currentUser?.uid, user.uid),
+        onMutate: () => {
+            setIsFollowPending(true)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["isFollowing", user?.uid])
+            setIsFollowPending(false)
+        },
+        onError: () => {
+            setIsFollowPending(false)
+        }
+    })
+
+    console.log(isFollowing)
 
     useEffect(() => {
         refetch()
@@ -54,11 +78,11 @@ const Profile = () => {
                         <div className="title">Reputation</div>
                     </div>
                     <div className={`following ${theme}-hover`}>
-                        <div className="count">0</div>
+                        <div className="count">{user?.followingCount ? user?.followingCount : 0}</div>
                         <div className="title">Following</div>
                     </div>
                     <div className={`followers ${theme}-hover`}>
-                        <div className="count">0</div>
+                        <div className="count">{user?.followersCount ? user?.followersCount : 0}</div>
                         <div className="title">Followers</div>
                     </div>
                 </div>
@@ -66,7 +90,7 @@ const Profile = () => {
                 {user.uid === currentUser?.uid ? 
                     <button className='edit'>Edit Profile</button> :
                     <>
-                        <button className='follow'>Follow</button>
+                        <button className={`follow-btn ${isFollowing ? "following" : "follow"}`} onClick={() => mutateFollow()} disabled={isFollowPending}>{isFollowing ? "Following" : "Follow"}</button>
                         <button className='message'>Message</button>
                     </>
                 }

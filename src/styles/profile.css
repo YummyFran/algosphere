@@ -128,6 +128,11 @@
                     color: var(--midtone-dark);
                     border: none;
                 }
+
+                .follow-btn:disabled {
+                    opacity: 0.5;
+                    cursor: default;
+                }
             }
         }
     

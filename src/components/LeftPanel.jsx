@@ -59,11 +59,11 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                 <span>Saved</span>
             </NavLink>
             <div className={`profile ${theme}-hover mobile`} onClick={() => nav(`/${user?.username}`)}>
-                <div className="meatball-menu" onClick={() => showMenu()}>
+                <div className="meatball-menu" onClick={e => showMenu(e)}>
                     <IoMenu />
                 </div>
-                <div className={`menu primary-${theme}-bg ${theme}-shadow`} ref={menuMobileRef}>
-                    <div className="user">
+                <div className={`menu primary-${theme}-bg ${theme}-shadow`} ref={menuMobileRef} onClick={e => e.stopPropagation()}>
+                    <div className="user" onClick={() => nav(`/${user?.username}`)}>
                         <div className="display-picture"></div>
                         <div className="name">
                             <div className={`display-name ${isLoading && 'loading'}`}>{user?.displayName.split(" ")[0]}</div>
@@ -113,7 +113,7 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
             <div className="meatball-menu" onClick={showMenu}>
                 <AiOutlineMore />
             </div>
-            <div className={`menu primary-${theme}-bg ${theme}-shadow`} ref={menuRef} onClick={e => e.stopPropagation()}>
+            <div className={`menu primary-${theme}-bg ${theme}-shadow`} ref={menuRef} onClick={e => e.stopPropagation}>
                 <div className="theme" onClick={() => setTheme()}>{`Turn on ${theme === 'dark' ? 'light' : 'dark'} mode`}</div>
                 <div className="item" onClick={() => logOut()}>Logout</div>
             </div>
