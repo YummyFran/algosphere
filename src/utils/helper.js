@@ -62,3 +62,19 @@ export function getFileType(url) {
       return 'Unknown file type';
   }
 }
+
+const colors = [
+  "#FF6B6B", "#FF8C42", "#FFC75F", "#F9ED69", "#8FD3F4",
+  "#4D96FF", "#845EC2", "#D65DB1", "#F3A683", "#81B214",
+  "#00C9A7", "#6A0572", "#2C698D", "#FFCCF9", "#40514E", "#1B262C"
+]
+
+export function getRandomGradientPair() {
+  const color1 = colors[Math.floor(Math.random() * colors.length)];
+  let color2;
+  do {
+    color2 = colors[Math.floor(Math.random() * colors.length)];
+  } while (color1 === color2); // Ensure different colors
+
+  return `linear-gradient(135deg, ${color1}, ${color2})`;
+}

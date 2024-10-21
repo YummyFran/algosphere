@@ -399,6 +399,23 @@ export const followUser = async (currentUserId, userId) => {
     })
 }
 
+export const unFollowUser = async (currentUserId, userId) => {
+    const currentUserRef = doc(db, "users", currentUserId)
+    const userRef = doc(db, "users", userId)
+
+    await deleteDoc(doc(currentUserRef, "following", userId))
+    await deleteDoc(doc(userRef, "followers", currentUserId))
+
+    await updateDoc(currentUserRef, {
+        followingCount: increment(-1)
+    })
+
+    await updateDoc(userRef, {
+        followersCount: increment(-1)
+    })
+}
+
+
 export const checkIfFollowing = async (currentUserId, followedUserId) => {
     const docRef = doc(doc(db, "users", currentUserId), "following", followedUserId)
     const docSnap = await getDoc(docRef)

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import { checkIfFollowing, followUser, getUserByUsername } from '../utils/firestore'
+import { checkIfFollowing, followUser, getUserByUsername, unFollowUser } from '../utils/firestore'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { IoArrowBackOutline } from 'react-icons/io5'
 import "../styles/profile.css"
@@ -42,7 +42,20 @@ const Profile = () => {
         }
     })
 
-    console.log(isFollowing)
+    const { mutate: mutateUnFollow } = useMutation({
+        mutationFn: async () => await unFollowUser(currentUser?.uid, user.uid),
+        onMutate: () => {
+            setIsFollowPending(true)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["isFollowing", user?.uid])
+            setIsFollowPending(false)
+        },
+        onError: () => {
+            setIsFollowPending(false)
+        }
+    })
+
 
     useEffect(() => {
         refetch()
@@ -90,7 +103,7 @@ const Profile = () => {
                 {user.uid === currentUser?.uid ? 
                     <button className='edit'>Edit Profile</button> :
                     <>
-                        <button className={`follow-btn ${isFollowing ? "following" : "follow"}`} onClick={() => mutateFollow()} disabled={isFollowPending}>{isFollowing ? "Following" : "Follow"}</button>
+                        <button className={`follow-btn ${isFollowing ? "following" : "follow"}`} onClick={() => isFollowing ? mutateUnFollow() : mutateFollow()} disabled={isFollowPending}>{isFollowing ? "Following" : "Follow"}</button>
                         <button className='message'>Message</button>
                     </>
                 }

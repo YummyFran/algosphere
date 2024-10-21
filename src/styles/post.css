@@ -74,6 +74,10 @@
                     gap: 1rem;
                     cursor: pointer;
 
+                    &.report {
+                        color: #ff0034;
+                    }
+
                     & > *:not(span) {
                         font-size: 1.3rem;
                     }

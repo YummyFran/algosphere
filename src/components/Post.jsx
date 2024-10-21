@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import {  decrementLikes, deletePost, getUser, incrementLikes, isUserAlreadyLiked } from '../utils/firestore'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { IoIosLink, IoMdHeart, IoMdHeartEmpty, IoMdRepeat } from "react-icons/io";
-import { IoBookmarkOutline, IoChatbubbleOutline, IoHeartDislikeOutline, IoPause, IoPlay, IoVolumeHigh, IoVolumeMute } from "react-icons/io5";
+import { IoBookmarkOutline, IoChatbubbleOutline, IoEyeOffOutline, IoHeartDislikeOutline, IoPause, IoPlay, IoVolumeHigh, IoVolumeMute } from "react-icons/io5";
 import { TiPinOutline } from "react-icons/ti";
+import { LiaUserClockSolid, LiaUserMinusSolid } from "react-icons/lia";
+import { TbMessageReport } from "react-icons/tb";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { BsSend } from "react-icons/bs";
 import debounce from 'lodash.debounce';
@@ -26,6 +28,7 @@ const Post = ({post, currentUser}) => {
     const vidRef = useRef()
     const playIconRef = useRef()
     const menuRef = useRef()
+    const meatballRef = useRef()
 
     const {data: postOwner, isLoading: isUserLoading} = useQuery({
         queryKey: ['user', post.userId],
@@ -120,8 +123,6 @@ const Post = ({post, currentUser}) => {
     }
 
     const closeMenu = e => {
-        if(e.target.className === 'meatball') return
-  
         menuRef.current.classList.remove('show')
     }
     
@@ -179,22 +180,48 @@ const Post = ({post, currentUser}) => {
                             <GoTrash />
                         </div>
                     </div>
-                    <div className="necessary">
-                        <div className="copy-link" onClick={() => copyLink()}>
-                            <span>Copy link</span>
-                            <IoIosLink />
+                </>:
+                <>
+                    <div className="necessity">
+                        <div className="save">
+                            <span>Save</span>
+                            <IoBookmarkOutline />
+                        </div>
+                        <div className="not-interested">
+                            <span>Not interested</span>
+                            <IoEyeOffOutline />
                         </div>
                     </div>
-                </>:
-                <></>
-            }
+                    <div className="accesibility">
+                        <div className="mute">
+                            <span>Mute</span>
+                            <LiaUserClockSolid />
+                        </div>
+                        <div className="unfollow">
+                            <span>Unfollow</span>
+                            <LiaUserMinusSolid />
+                        </div>
+                        <div className="report">
+                            <span>Report</span>
+                            <TbMessageReport />
+                        </div>
                     </div>
+                    
+                </>
+            }
+                <div className="necessary">
+                    <div className="copy-link" onClick={() => copyLink()}>
+                        <span>Copy link</span>
+                        <IoIosLink />
+                    </div>
+                </div>
+            </div>
             <div className="content">
                 <div className="post-header">
                     <div className="name" onClick={handleProfileClicked}>{postOwner?.displayName}</div>
                     <div className="username" onClick={handleProfileClicked}>@{postOwner?.username}</div>
                     <div className={`post-time mono-${theme}`} onClick={handlePostClicked}>{timeAgo(post.createdAt)}</div>
-                    <div className={`meatball ${theme}-hover`} onClick={showMenu}>
+                    <div className={`meatball ${theme}-hover`} onClick={showMenu} ref={meatballRef}>
                         <HiOutlineDotsHorizontal />
                     </div>
                 </div>
