@@ -20,8 +20,8 @@ const CourseCard = ({course}) => {
                 <div className={`label mono-${theme}`}>Lessons</div>
             </div>
             <div className="progress">
-                <div className={`enroll-btn secondary-${theme}-bg`}>
-                    <div className={`conic-progress primary-${theme}-bg`}></div>
+                <div className={`conic-progress secondary-${theme}-bg`}>
+                    <div className={`enroll-btn primary-${theme}-bg`}></div>
                     <IoMdPlay />
                 </div>
                 <div className={`percentile midtone-${theme}`}>0%</div>

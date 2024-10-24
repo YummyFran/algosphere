@@ -9,9 +9,9 @@ const Collection = ({collection}) => {
         <h2 className={`collection-name midtone-${theme}`}>{collection.name}</h2>
         <div className="courses-list">
         {
-            collection.courses.map((course, index) => {
-                return <CourseCard key={index} course={course}/>
-            })
+            collection.courses.map((course, index) => 
+                <CourseCard key={index} course={course}/>
+            )
         }
         </div>
     </div>
