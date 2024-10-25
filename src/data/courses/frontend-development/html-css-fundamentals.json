@@ -1,0 +1,109 @@
+{
+    "title": "HTML & CSS Fundamentals",
+    "slug": "html-css-fundamentals",
+    "description": "Learn the basics of building web pages using HTML and CSS.",
+    "level": "Beginner",
+    "chapters": [
+      {
+        "title": "Introduction to HTML & CSS",
+        "slug": "introduction",
+        "description": "Overview of HTML, CSS, and how they work together to build web pages.",
+        "lessons": [
+          { "title": "What is HTML?", "duration": "10 min" },
+          { "title": "What is CSS?", "duration": "8 min" },
+          { "title": "Setting Up Your Development Environment", "duration": "12 min" }
+        ]
+      },
+      {
+        "title": "HTML Basics",
+        "slug" : "html-basics",
+        "description": "Learn the structure of HTML documents and essential elements.",
+        "lessons": [
+          { "title": "HTML Document Structure", "duration": "15 min" },
+          { "title": "Headings, Paragraphs, and Text Formatting", "duration": "20 min" },
+          { "title": "Lists: Ordered and Unordered", "duration": "18 min" },
+          { "title": "Images and Image Attributes", "duration": "15 min" },
+          { "title": "Links and Anchor Tags", "duration": "12 min" }
+        ]
+      },
+      {
+        "title": "HTML Forms and Inputs",
+        "slug": "html-forms-and-inputs",
+        "description": "How to create forms for user input.",
+        "lessons": [
+          { "title": "Creating Basic Forms", "duration": "15 min" },
+          { "title": "Text Inputs, Passwords, and Text Areas", "duration": "14 min" },
+          { "title": "Checkboxes, Radio Buttons, and Select Menus", "duration": "16 min" },
+          { "title": "Buttons and Form Submission", "duration": "12 min" },
+          { "title": "Validation with HTML5", "duration": "20 min" }
+        ]
+      },
+      {
+        "title": "CSS Basics",
+        "slug": "css-basics",
+        "description": "The fundamentals of CSS styling and how to apply it to HTML elements.",
+        "lessons": [
+          { "title": "CSS Syntax and Selectors", "duration": "18 min" },
+          { "title": "Using Inline, Internal, and External CSS", "duration": "14 min" },
+          { "title": "Styling Text and Fonts", "duration": "20 min" },
+          { "title": "Colors and Backgrounds", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "CSS Box Model",
+        "slug": "css-box-model",
+        "description": "Understand the box model and how it affects layout.",
+        "lessons": [
+          { "title": "Margins, Borders, and Padding", "duration": "18 min" },
+          { "title": "Width, Height, and Overflow", "duration": "16 min" },
+          { "title": "Using Box Sizing", "duration": "10 min" }
+        ]
+      },
+      {
+        "title": "Layout and Positioning",
+        "slug": "layout-and-positioning",
+        "description": "Learn to arrange elements using CSS layouts.",
+        "lessons": [
+          { "title": "CSS Display Property", "duration": "12 min" },
+          { "title": "CSS Float and Clear", "duration": "15 min" },
+          { "title": "Position: Static, Relative, Absolute, and Fixed", "duration": "20 min" },
+          { "title": "Flexbox Basics", "duration": "25 min" },
+          { "title": "CSS Grid Basics", "duration": "30 min" }
+        ]
+      },
+      {
+        "title": "Responsive Design",
+        "slug": "responsive-design",
+        "description": "Learn techniques for building mobile-friendly websites.",
+        "lessons": [
+          { "title": "Introduction to Responsive Design", "duration": "15 min" },
+          { "title": "Media Queries", "duration": "20 min" },
+          { "title": "Responsive Images", "duration": "10 min" },
+          { "title": "Mobile-First Design", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "Project: Build a Personal Portfolio",
+        "slug": "project",
+        "description": "Apply what you've learned by building a simple portfolio website.",
+        "lessons": [
+          { "title": "Setting Up Your Project Structure", "duration": "20 min" },
+          { "title": "Creating the Home Page", "duration": "25 min" },
+          { "title": "Adding About and Contact Sections", "duration": "20 min" },
+          { "title": "Styling the Portfolio with CSS", "duration": "30 min" },
+          { "title": "Making the Site Responsive", "duration": "35 min" },
+          { "title": "Publishing Your Portfolio Online", "duration": "20 min" }
+        ]
+      }
+    ],
+    "totalLessons": 45,
+    "duration": "8-10 hours",
+    "prerequisites": "No prior experience required.",
+    "learningOutcomes": [
+      "Understand the fundamentals of HTML and CSS.",
+      "Be able to structure a basic web page using HTML.",
+      "Apply CSS to style web pages effectively.",
+      "Build and publish a simple, responsive website."
+    ]
+  }
+  

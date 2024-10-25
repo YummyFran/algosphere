@@ -1,0 +1,120 @@
+{
+    "title": "JavaScript Essentials",
+    "slug": "javascript-essentials",
+    "description": "Master JavaScript and create interactive web apps.",
+    "level": "Intermediate",
+    "chapters": [
+      {
+        "title": "Introduction to JavaScript",
+        "slug": "introduction",
+        "description": "Get started with JavaScript and understand its purpose.",
+        "lessons": [
+          { "title": "What is JavaScript?", "duration": "10 min" },
+          { "title": "Setting Up Your Environment", "duration": "12 min" },
+          { "title": "JavaScript Syntax Basics", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "Variables and Data Types",
+        "slug": "variables-and-data-types",
+        "description": "Learn how to declare variables and understand JavaScript data types.",
+        "lessons": [
+          { "title": "Variables: let, const, and var", "duration": "20 min" },
+          { "title": "Primitive Data Types", "duration": "15 min" },
+          { "title": "Type Conversion and Coercion", "duration": "18 min" }
+        ]
+      },
+      {
+        "title": "Functions and Scope",
+        "slug": "functions-and-scope",
+        "description": "Explore how functions work and how scope affects variables.",
+        "lessons": [
+          { "title": "Defining and Calling Functions", "duration": "18 min" },
+          { "title": "Function Expressions and Arrow Functions", "duration": "20 min" },
+          { "title": "Scope: Block, Function, and Global", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "Control Structures",
+        "slug": "control-structures",
+        "description": "Understand how to control the flow of your code using conditions and loops.",
+        "lessons": [
+          { "title": "If Statements and Switch Cases", "duration": "20 min" },
+          { "title": "For, While, and Do-While Loops", "duration": "18 min" },
+          { "title": "Break and Continue Statements", "duration": "12 min" }
+        ]
+      },
+      {
+        "title": "Objects and Arrays",
+        "slug": "objects-and-arrays",
+        "description": "Learn how to use objects and arrays to store collections of data.",
+        "lessons": [
+          { "title": "Creating and Accessing Objects", "duration": "15 min" },
+          { "title": "Working with Arrays", "duration": "20 min" },
+          { "title": "Array Methods and Iteration", "duration": "25 min" }
+        ]
+      },
+      {
+        "title": "DOM Manipulation",
+        "slug": "dom-manipulation",
+        "description": "Interact with the Document Object Model to dynamically change web pages.",
+        "lessons": [
+          { "title": "Selecting DOM Elements", "duration": "18 min" },
+          { "title": "Adding and Modifying Content", "duration": "20 min" },
+          { "title": "Handling Events", "duration": "25 min" }
+        ]
+      },
+      {
+        "title": "ES6 and Beyond",
+        "slug": "es6-and-beyond",
+        "description": "Discover new features in modern JavaScript.",
+        "lessons": [
+          { "title": "Template Literals and Default Parameters", "duration": "15 min" },
+          { "title": "Destructuring and Spread Operator", "duration": "20 min" },
+          { "title": "Modules and Imports", "duration": "22 min" }
+        ]
+      },
+      {
+        "title": "Asynchronous JavaScript",
+        "slug": "asynchronous-javascript",
+        "description": "Learn how to handle asynchronous operations with callbacks, promises, and async/await.",
+        "lessons": [
+          { "title": "Callbacks and the Event Loop", "duration": "18 min" },
+          { "title": "Promises: Resolving and Rejecting", "duration": "22 min" },
+          { "title": "Using async/await", "duration": "25 min" }
+        ]
+      },
+      {
+        "title": "Error Handling and Debugging",
+        "slug": "error-handling-and-debugging",
+        "description": "Handle errors gracefully and debug JavaScript code.",
+        "lessons": [
+          { "title": "Try-Catch and Error Objects", "duration": "15 min" },
+          { "title": "Handling Common JavaScript Errors", "duration": "18 min" },
+          { "title": "Using the Browser Console for Debugging", "duration": "12 min" }
+        ]
+      },
+      {
+        "title": "Project: Create an Interactive To-Do List",
+        "slug": "project",
+        "description": "Apply your knowledge to build a dynamic to-do list app.",
+        "lessons": [
+          { "title": "Setting Up the Project", "duration": "20 min" },
+          { "title": "Creating the To-Do List Interface", "duration": "25 min" },
+          { "title": "Adding and Removing Tasks", "duration": "30 min" },
+          { "title": "Persisting Tasks with LocalStorage", "duration": "25 min" },
+          { "title": "Deploying the App Online", "duration": "20 min" }
+        ]
+      }
+    ],
+    "totalLessons": 60,
+    "duration": "10-12 hours",
+    "prerequisites": "Basic understanding of HTML and CSS.",
+    "learningOutcomes": [
+      "Understand JavaScript fundamentals and syntax.",
+      "Manipulate the DOM to create dynamic web pages.",
+      "Handle asynchronous operations with promises and async/await.",
+      "Develop and deploy a functional JavaScript-based to-do list app."
+    ]
+  }
+  

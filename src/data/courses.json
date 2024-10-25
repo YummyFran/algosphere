@@ -1,235 +1,259 @@
 {
-    "collections": [
-      {
-        "name": "Frontend Development",
-        "slug": "frontend-development",
-        "courses": [
-          {
-            "title": "HTML & CSS Fundamentals",
-            "slug": "html-css-fundamentals",
-            "chapters": 8,
-            "lessons": 45,
-            "description": "Learn the basics of building web pages using HTML and CSS.",
-            "level": "Beginner"
-          },
-          {
-            "title": "JavaScript Essentials",
-            "slug": "javascript-essentials",
-            "chapters": 10,
-            "lessons": 60,
-            "description": "Master JavaScript and create interactive web apps.",
-            "level": "Intermediate"
-          },
-          {
-            "title": "Responsive Web Design",
-            "slug": "responsive-web-design",
-            "chapters": 7,
-            "lessons": 35,
-            "description": "Understand how to design responsive websites for multiple devices.",
-            "level": "Intermediate"
-          },
-          {
-            "title": "CSS Frameworks: Tailwind & Bootstrap",
-            "slug": "css-frameworks-tailwind-bootstrap",
-            "chapters": 6,
-            "lessons": 25,
-            "description": "Learn to use CSS frameworks to speed up your development process.",
-            "level": "Intermediate"
-          },
-          {
-            "title": "Frontend with React",
-            "slug": "frontend-with-react",
-            "chapters": 12,
-            "lessons": 75,
-            "description": "Dive into building frontend applications using React.",
-            "level": "Advanced"
-          }
-        ]
-      },
-      {
-        "name": "Backend Development",
-        "slug": "backend-development",
-        "courses": [
-          {
-            "title": "Node.js for Beginners",
-            "slug": "nodejs-for-beginners",
-            "chapters": 8,
-            "lessons": 50,
-            "description": "Learn how to build server-side applications with Node.js.",
-            "level": "Beginner"
-          },
-          {
-            "title": "Express.js & REST API Development",
-            "slug": "expressjs-rest-api-development",
-            "chapters": 9,
-            "lessons": 45,
-            "description": "Learn to create robust APIs using Express.js.",
-            "level": "Intermediate"
-          },
-          {
-            "title": "Database Design with MongoDB",
-            "slug": "database-design-with-mongodb",
-            "chapters": 10,
-            "lessons": 55,
-            "description": "Explore MongoDB and its role in backend development.",
-            "level": "Intermediate"
-          },
-          {
-            "title": "Authentication with JWT and OAuth",
-            "slug": "authentication-jwt-oauth",
-            "chapters": 6,
-            "lessons": 35,
-            "description": "Secure your applications using JWT and OAuth protocols.",
-            "level": "Advanced"
-          },
-          {
-            "title": "Fullstack with MERN",
-            "slug": "fullstack-with-mern",
-            "chapters": 12,
-            "lessons": 80,
-            "description": "Master fullstack development with MongoDB, Express, React, and Node.",
-            "level": "Advanced"
-          }
-        ]
-      },
-      {
-        "name": "Software Engineering & DevOps",
-        "slug": "software-engineering-devops",
-        "courses": [
-          {
-            "title": "Version Control with Git & GitHub",
-            "slug": "version-control-git-github",
-            "chapters": 7,
-            "lessons": 40,
-            "description": "Learn how to manage code versions and collaborate using Git.",
-            "level": "Beginner"
-          },
-          {
-            "title": "Agile Software Development",
-            "slug": "agile-software-development",
-            "chapters": 6,
-            "lessons": 30,
-            "description": "Get familiar with Agile methodology and project management.",
-            "level": "Intermediate"
-          },
-          {
-            "title": "Continuous Integration & Deployment (CI/CD)",
-            "slug": "continuous-integration-deployment",
-            "chapters": 8,
-            "lessons": 50,
-            "description": "Automate your development workflow with CI/CD pipelines.",
-            "level": "Intermediate"
-          },
-          {
-            "title": "Cloud Computing with AWS",
-            "slug": "cloud-computing-aws",
-            "chapters": 10,
-            "lessons": 65,
-            "description": "Understand cloud infrastructure and deploy services on AWS.",
-            "level": "Advanced"
-          },
-          {
-            "title": "Containerization with Docker & Kubernetes",
-            "slug": "containerization-docker-kubernetes",
-            "chapters": 9,
-            "lessons": 55,
-            "description": "Learn to containerize applications using Docker and manage them with Kubernetes.",
-            "level": "Advanced"
-          }
-        ]
-      },
-      {
-        "name": "Data Science & Machine Learning",
-        "slug": "data-science-machine-learning",
-        "courses": [
-          {
-            "title": "Python for Data Science",
-            "slug": "python-for-data-science",
-            "chapters": 10,
-            "lessons": 50,
-            "description": "Use Python libraries to analyze and visualize data.",
-            "level": "Beginner"
-          },
-          {
-            "title": "Statistics for Machine Learning",
-            "slug": "statistics-for-machine-learning",
-            "chapters": 7,
-            "lessons": 35,
-            "description": "Learn the core statistical concepts needed for ML.",
-            "level": "Intermediate"
-          },
-          {
-            "title": "Introduction to Machine Learning",
-            "slug": "introduction-machine-learning",
-            "chapters": 8,
-            "lessons": 45,
-            "description": "Understand machine learning fundamentals and algorithms.",
-            "level": "Intermediate"
-          },
-          {
-            "title": "Deep Learning with TensorFlow",
-            "slug": "deep-learning-tensorflow",
-            "chapters": 9,
-            "lessons": 60,
-            "description": "Explore deep learning and build neural networks with TensorFlow.",
-            "level": "Advanced"
-          },
-          {
-            "title": "Natural Language Processing (NLP)",
-            "slug": "natural-language-processing",
-            "chapters": 8,
-            "lessons": 40,
-            "description": "Learn NLP techniques to process and analyze text data.",
-            "level": "Advanced"
-          }
-        ]
-      },
-      {
-        "name": "Cybersecurity & Ethical Hacking",
-        "slug": "cybersecurity-ethical-hacking",
-        "courses": [
-          {
-            "title": "Fundamentals of Cybersecurity",
-            "slug": "fundamentals-cybersecurity",
-            "chapters": 6,
-            "lessons": 30,
-            "description": "Understand the basics of securing systems and networks.",
-            "level": "Beginner"
-          },
-          {
-            "title": "Penetration Testing & Vulnerability Assessment",
-            "slug": "penetration-testing-vulnerability-assessment",
-            "chapters": 8,
-            "lessons": 50,
-            "description": "Learn how to identify vulnerabilities through penetration testing.",
-            "level": "Intermediate"
-          },
-          {
-            "title": "Network Security",
-            "slug": "network-security",
-            "chapters": 7,
-            "lessons": 40,
-            "description": "Protect networks from attacks using security protocols.",
-            "level": "Intermediate"
-          },
-          {
-            "title": "Ethical Hacking with Kali Linux",
-            "slug": "ethical-hacking-kali-linux",
-            "chapters": 9,
-            "lessons": 55,
-            "description": "Perform ethical hacking using Kali Linux tools.",
-            "level": "Advanced"
-          },
-          {
-            "title": "Digital Forensics",
-            "slug": "digital-forensics",
-            "chapters": 8,
-            "lessons": 45,
-            "description": "Learn to investigate cybercrimes using digital forensic techniques.",
-            "level": "Advanced"
-          }
-        ]
-      }
-    ]
-  }
-  
+  "collections": [
+    {
+      "name": "Frontend Development",
+      "slug": "frontend-development",
+      "courses": [
+        {
+          "title": "HTML & CSS Fundamentals",
+          "slug": "html-css-fundamentals",
+          "chapters": 8,
+          "lessons": 45,
+          "description": "Learn the basics of building web pages using HTML and CSS.",
+          "level": "Beginner",
+          "bgColor": ["#FF7E5F", "#FEB47B"]
+        },
+        {
+          "title": "JavaScript Essentials",
+          "slug": "javascript-essentials",
+          "chapters": 10,
+          "lessons": 60,
+          "description": "Master JavaScript and create interactive web apps.",
+          "level": "Intermediate",
+          "bgColor": ["#F7971E", "#FFD200"]
+        },
+        {
+          "title": "Responsive Web Design",
+          "slug": "responsive-web-design",
+          "chapters": 7,
+          "lessons": 35,
+          "description": "Understand how to design responsive websites for multiple devices.",
+          "level": "Intermediate",
+          "bgColor": ["#56CCF2", "#2F80ED"]
+        },
+        {
+          "title": "CSS Frameworks: Tailwind & Bootstrap",
+          "slug": "css-frameworks-tailwind-bootstrap",
+          "chapters": 6,
+          "lessons": 25,
+          "description": "Learn to use CSS frameworks to speed up your development process.",
+          "level": "Intermediate",
+          "bgColor": ["#4A90E2", "#9013FE"]
+        },
+        {
+          "title": "Frontend with React",
+          "slug": "frontend-with-react",
+          "chapters": 12,
+          "lessons": 75,
+          "description": "Dive into building frontend applications using React.",
+          "level": "Advanced",
+          "bgColor": ["#61DAFB", "#007ACC"]
+        }
+      ]
+    },
+    {
+      "name": "Backend Development",
+      "slug": "backend-development",
+      "courses": [
+        {
+          "title": "Node.js for Beginners",
+          "slug": "nodejs-for-beginners",
+          "chapters": 8,
+          "lessons": 50,
+          "description": "Learn how to build server-side applications with Node.js.",
+          "level": "Beginner",
+          "bgColor": ["#68A063", "#3C763D"]
+        },
+        {
+          "title": "Express.js & REST API Development",
+          "slug": "expressjs-rest-api-development",
+          "chapters": 9,
+          "lessons": 45,
+          "description": "Learn to create robust APIs using Express.js.",
+          "level": "Intermediate",
+          "bgColor": ["#2E2E2E", "#FF6F61"]
+        },
+        {
+          "title": "Database Design with MongoDB",
+          "slug": "database-design-with-mongodb",
+          "chapters": 10,
+          "lessons": 55,
+          "description": "Explore MongoDB and its role in backend development.",
+          "level": "Intermediate",
+          "bgColor": ["#4DB33D", "#A3D500"]
+        },
+        {
+          "title": "Authentication with JWT and OAuth",
+          "slug": "authentication-jwt-oauth",
+          "chapters": 6,
+          "lessons": 35,
+          "description": "Secure your applications using JWT and OAuth protocols.",
+          "level": "Advanced",
+          "bgColor": ["#FF512F", "#DD2476"]
+        },
+        {
+          "title": "Fullstack with MERN",
+          "slug": "fullstack-with-mern",
+          "chapters": 12,
+          "lessons": 80,
+          "description": "Master fullstack development with MongoDB, Express, React, and Node.",
+          "level": "Advanced",
+          "bgColor": ["#61DAFB", "#68A063"]
+        }
+      ]
+    },
+    {
+      "name": "Software Engineering & DevOps",
+      "slug": "software-engineering-devops",
+      "courses": [
+        {
+          "title": "Version Control with Git & GitHub",
+          "slug": "version-control-git-github",
+          "chapters": 7,
+          "lessons": 40,
+          "description": "Learn how to manage code versions and collaborate using Git.",
+          "level": "Beginner",
+          "bgColor": ["#F05033", "#24292E"]
+        },
+        {
+          "title": "Agile Software Development",
+          "slug": "agile-software-development",
+          "chapters": 6,
+          "lessons": 30,
+          "description": "Get familiar with Agile methodology and project management.",
+          "level": "Intermediate",
+          "bgColor": ["#3A7BD5", "#00D2FF"]
+        },
+        {
+          "title": "Continuous Integration & Deployment (CI/CD)",
+          "slug": "continuous-integration-deployment",
+          "chapters": 8,
+          "lessons": 50,
+          "description": "Automate your development workflow with CI/CD pipelines.",
+          "level": "Intermediate",
+          "bgColor": ["#FF512F", "#F09819"]
+        },
+        {
+          "title": "Cloud Computing with AWS",
+          "slug": "cloud-computing-aws",
+          "chapters": 10,
+          "lessons": 65,
+          "description": "Understand cloud infrastructure and deploy services on AWS.",
+          "level": "Advanced",
+          "bgColor": ["#FF9900", "#FF5A00"]
+        },
+        {
+          "title": "Containerization with Docker & Kubernetes",
+          "slug": "containerization-docker-kubernetes",
+          "chapters": 9,
+          "lessons": 55,
+          "description": "Learn to containerize applications using Docker and manage them with Kubernetes.",
+          "level": "Advanced",
+          "bgColor": ["#2496ED", "#326CE5"]
+        }
+      ]
+    },
+    {
+      "name": "Data Science & Machine Learning",
+      "slug": "data-science-machine-learning",
+      "courses": [
+        {
+          "title": "Python for Data Science",
+          "slug": "python-for-data-science",
+          "chapters": 10,
+          "lessons": 50,
+          "description": "Use Python libraries to analyze and visualize data.",
+          "level": "Beginner",
+          "bgColor": ["#306998", "#FFD43B"]
+        },
+        {
+          "title": "Statistics for Machine Learning",
+          "slug": "statistics-for-machine-learning",
+          "chapters": 7,
+          "lessons": 35,
+          "description": "Learn the core statistical concepts needed for ML.",
+          "level": "Intermediate",
+          "bgColor": ["#00C6FF", "#0072FF"]
+        },
+        {
+          "title": "Introduction to Machine Learning",
+          "slug": "introduction-machine-learning",
+          "chapters": 8,
+          "lessons": 45,
+          "description": "Understand machine learning fundamentals and algorithms.",
+          "level": "Intermediate",
+          "bgColor": ["#0F2027", "#203A43"]
+        },
+        {
+          "title": "Deep Learning with TensorFlow",
+          "slug": "deep-learning-tensorflow",
+          "chapters": 9,
+          "lessons": 60,
+          "description": "Explore deep learning and build neural networks with TensorFlow.",
+          "level": "Advanced",
+          "bgColor": ["#FF6F00", "#FF8F00"]
+        },
+        {
+          "title": "Natural Language Processing (NLP)",
+          "slug": "natural-language-processing",
+          "chapters": 8,
+          "lessons": 40,
+          "description": "Learn NLP techniques to process and analyze text data.",
+          "level": "Advanced",
+          "bgColor": ["#4E4376", "#2B5876"]
+        }
+      ]
+    },
+    {
+      "name": "Cybersecurity & Ethical Hacking",
+      "slug": "cybersecurity-ethical-hacking",
+      "courses": [
+        {
+          "title": "Fundamentals of Cybersecurity",
+          "slug": "fundamentals-cybersecurity",
+          "chapters": 6,
+          "lessons": 30,
+          "description": "Understand the basics of securing systems and networks.",
+          "level": "Beginner",
+          "bgColor": ["#0F2027", "#203A43"]
+        },
+        {
+          "title": "Penetration Testing & Vulnerability Assessment",
+          "slug": "penetration-testing-vulnerability-assessment",
+          "chapters": 8,
+          "lessons": 50,
+          "description": "Learn how to identify vulnerabilities through penetration testing.",
+          "level": "Intermediate",
+          "bgColor": ["#3A1C71", "#D76D77"]
+        },
+        {
+          "title": "Network Security",
+          "slug": "network-security",
+          "chapters": 7,
+          "lessons": 40,
+          "description": "Protect networks from attacks using security protocols.",
+          "level": "Intermediate",
+          "bgColor": ["#314755", "#26A0DA"]
+        },
+        {
+          "title": "Ethical Hacking with Kali Linux",
+          "slug": "ethical-hacking-kali-linux",
+          "chapters": 9,
+          "lessons": 55,
+          "description": "Perform ethical hacking using Kali Linux tools.",
+          "level": "Advanced",
+          "bgColor": ["#FF416C", "#FF4B2B"]
+        },
+        {
+          "title": "Digital Forensics",
+          "slug": "digital-forensics",
+          "chapters": 8,
+          "lessons": 45,
+          "description": "Learn to investigate cybercrimes using digital forensic techniques.",
+          "level": "Advanced",
+          "bgColor": ["#141E30", "#243B55"]
+        }
+      ]
+    }
+  ]
+}

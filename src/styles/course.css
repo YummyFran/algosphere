@@ -1,0 +1,90 @@
+.course-page {
+    display: flex;
+    flex-direction: column;
+
+    .hero {
+        min-height: 50vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background-color: aliceblue;
+        color: var(--midtone-dark);
+        
+        .header {
+            position: absolute;
+            top: 1rem; left: 4rem;
+
+            .back {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                cursor: pointer;
+                padding: 0.5rem;
+
+                & *:not(span) {
+                    font-size: 1.3rem;
+                }
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .content {
+        display: flex;
+        padding: 1rem 4rem;
+
+        .chapters {
+            display: flex;
+            flex-direction: column;
+            flex: 0 1 30%;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            gap: 0.2rem;
+            position: relative;
+            top: -3.5rem;
+
+            a {
+                padding: 1rem 1.5rem;
+                border-radius: 0.5rem;
+                font-size: 1.3rem;
+                font-weight: 500;
+                color: inherit;
+
+                &.active {
+                    color: var(--accent-color);
+                }
+
+                &:hover {
+                    backdrop-filter: brightness(1.2);
+                }
+            }
+        }
+
+        .lessons {
+            flex: 1;
+
+            .lessons-outlet {
+                padding: 1rem 3rem;
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+
+                .links {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+
+                    a {
+                        padding: 1.5rem 2rem;
+                        border-radius: 0.5rem;
+                    }
+                }
+            }
+        }
+    }
+}

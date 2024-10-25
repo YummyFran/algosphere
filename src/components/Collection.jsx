@@ -10,7 +10,7 @@ const Collection = ({collection}) => {
         <div className="courses-list">
         {
             collection.courses.map((course, index) => 
-                <CourseCard key={index} course={course}/>
+                <CourseCard key={index} collection={collection} course={course}/>
             )
         }
         </div>

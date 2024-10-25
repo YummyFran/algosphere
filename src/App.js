@@ -12,6 +12,8 @@ import Profile from "./pages/Profile";
 import Timeline from "./components/Timeline";
 import Wall from "./components/Wall";
 import Reposts from "./components/Reposts";
+import Course from "./pages/Course";
+import Lessons from "./components/Lessons";
 
 function App() {
   return (
@@ -33,6 +35,10 @@ function App() {
           <Route index element={<Timeline />} />
           <Route path="wall" element={<Wall />} />
           <Route path="reposts" element={<Reposts />} />
+        </Route>
+
+        <Route path="/courses/:collectionSlug/:courseSlug" element={<Course />}>
+          <Route path=":lessonSlug" element={<Lessons />}/>
         </Route>
         
         <Route path="*" element={'404 not found'} />
