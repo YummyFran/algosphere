@@ -1,0 +1,83 @@
+[
+    {
+      "id": 1,
+      "name": "Typing Challenge",
+      "category": "Typing Test",
+      "description": "Test your typing speed and accuracy under time pressure.",
+      "requiredSkills": ["Typing"],
+      "gradientColor": ["#FFC107", "#FF5722"]
+    },
+    {
+      "id": 2,
+      "name": "Code Breaker",
+      "category": "Coding Challenge",
+      "description": "Solve algorithmic problems inspired by competitive programming.",
+      "requiredSkills": ["Algorithms", "Data Structures"],
+      "gradientColor": ["#42A5F5", "#0D47A1"]
+    },
+    {
+      "id": 3,
+      "name": "CSS Duel",
+      "category": "CSS Battle",
+      "description": "Match design targets using efficient and creative CSS.",
+      "requiredSkills": ["CSS", "Design Principles"],
+      "gradientColor": ["#FF7043", "#D32F2F"]
+    },
+    {
+      "id": 4,
+      "name": "Quiz Whiz",
+      "category": "Coding Quiz",
+      "description": "Test your programming knowledge with engaging multiple-choice questions.",
+      "requiredSkills": ["General Programming", "Problem Solving"],
+      "gradientColor": ["#7E57C2", "#311B92"]
+    },
+    {
+      "id": 5,
+      "name": "SQL Sprint",
+      "category": "SQL Practice",
+      "description": "Write SQL queries to solve database challenges quickly.",
+      "requiredSkills": ["SQL", "Database Management"],
+      "gradientColor": ["#8D6E63", "#3E2723"]
+    },
+    {
+      "id": 6,
+      "name": "React Race",
+      "category": "Web Development",
+      "description": "Create interactive components using React in a timed challenge.",
+      "requiredSkills": ["React", "JavaScript", "Frontend Development"],
+      "gradientColor": ["#61DAFB", "#1976D2"]
+    },
+    {
+      "id": 7,
+      "name": "Python Prowess",
+      "category": "Coding Challenge",
+      "description": "Complete a series of Python challenges to enhance your skills.",
+      "requiredSkills": ["Python", "Algorithms", "Scripting"],
+      "gradientColor": ["#FFD54F", "#F57F17"]
+    },
+    {
+      "id": 8,
+      "name": "Debugging Dash",
+      "category": "SQL Practice",
+      "description": "Identify and fix errors in provided SQL queries.",
+      "requiredSkills": ["SQL", "Debugging", "Database Management"],
+      "gradientColor": ["#EF5350", "#B71C1C"]
+    },
+    {
+      "id": 9,
+      "name": "HTML Mastery",
+      "category": "Web Development",
+      "description": "Build semantic HTML structures for effective web layouts.",
+      "requiredSkills": ["HTML", "Accessibility", "SEO"],
+      "gradientColor": ["#FF8A65", "#BF360C"]
+    },
+    {
+      "id": 10,
+      "name": "Creative CSS Clash",
+      "category": "CSS Battle",
+      "description": "Create visually stunning layouts using advanced CSS techniques.",
+      "requiredSkills": ["Advanced CSS", "Animations", "Design Principles"],
+      "gradientColor": ["#E57373", "#C62828"]
+    }
+  ]
+  

@@ -1,0 +1,121 @@
+{
+    "title": "Python for Data Science",
+    "slug": "python-for-data-science",
+    "description": "Use Python libraries to analyze and visualize data.",
+    "level": "Beginner",
+    "chapters": [
+      {
+        "title": "Introduction to Python and Data Science",
+        "slug": "intro-python-data-science",
+        "description": "Get an overview of Python and its role in data science.",
+        "lessons": [
+          { "title": "What is Data Science?", "duration": "10 min" },
+          { "title": "Setting Up Python Environment", "duration": "12 min" },
+          { "title": "Introduction to Jupyter Notebooks", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "Python Basics for Data Science",
+        "slug": "python-basics",
+        "description": "Learn the fundamentals of Python programming.",
+        "lessons": [
+          { "title": "Variables and Data Types", "duration": "15 min" },
+          { "title": "Control Structures and Loops", "duration": "20 min" },
+          { "title": "Functions and Modules", "duration": "18 min" }
+        ]
+      },
+      {
+        "title": "Data Structures in Python",
+        "slug": "data-structures-python",
+        "description": "Explore lists, dictionaries, tuples, and sets for data manipulation.",
+        "lessons": [
+          { "title": "Working with Lists and Tuples", "duration": "18 min" },
+          { "title": "Dictionaries and Sets", "duration": "15 min" },
+          { "title": "List Comprehensions", "duration": "12 min" }
+        ]
+      },
+      {
+        "title": "Handling Data with Pandas",
+        "slug": "handling-data-pandas",
+        "description": "Learn to manipulate datasets using the Pandas library.",
+        "lessons": [
+          { "title": "Introduction to Pandas", "duration": "15 min" },
+          { "title": "Working with DataFrames", "duration": "18 min" },
+          { "title": "Filtering and Sorting Data", "duration": "20 min" },
+          { "title": "Handling Missing Data", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "Data Visualization with Matplotlib & Seaborn",
+        "slug": "data-visualization",
+        "description": "Visualize data using popular Python libraries.",
+        "lessons": [
+          { "title": "Introduction to Matplotlib", "duration": "18 min" },
+          { "title": "Creating Basic Charts", "duration": "20 min" },
+          { "title": "Using Seaborn for Advanced Visuals", "duration": "22 min" }
+        ]
+      },
+      {
+        "title": "Descriptive Statistics and Data Analysis",
+        "slug": "descriptive-statistics",
+        "description": "Analyze datasets using statistical methods.",
+        "lessons": [
+          { "title": "Measures of Central Tendency", "duration": "15 min" },
+          { "title": "Measures of Dispersion", "duration": "18 min" },
+          { "title": "Correlation and Covariance", "duration": "20 min" }
+        ]
+      },
+      {
+        "title": "Data Cleaning and Preprocessing",
+        "slug": "data-cleaning-preprocessing",
+        "description": "Prepare raw data for analysis.",
+        "lessons": [
+          { "title": "Data Cleaning Techniques", "duration": "22 min" },
+          { "title": "Handling Outliers", "duration": "18 min" },
+          { "title": "Feature Engineering", "duration": "20 min" }
+        ]
+      },
+      {
+        "title": "Working with Numpy Arrays",
+        "slug": "numpy-arrays",
+        "description": "Learn how to use Numpy for numerical computing.",
+        "lessons": [
+          { "title": "Introduction to Numpy", "duration": "15 min" },
+          { "title": "Creating and Manipulating Arrays", "duration": "18 min" },
+          { "title": "Performing Mathematical Operations", "duration": "20 min" }
+        ]
+      },
+      {
+        "title": "Exploratory Data Analysis (EDA)",
+        "slug": "exploratory-data-analysis",
+        "description": "Explore and summarize datasets.",
+        "lessons": [
+          { "title": "Introduction to EDA", "duration": "20 min" },
+          { "title": "Analyzing Trends and Patterns", "duration": "18 min" },
+          { "title": "Using Visuals for EDA", "duration": "22 min" }
+        ]
+      },
+      {
+        "title": "Project: Analyzing a Real-World Dataset",
+        "slug": "project-real-world-dataset",
+        "description": "Apply your skills to analyze a real-world dataset.",
+        "lessons": [
+          { "title": "Choosing a Dataset", "duration": "15 min" },
+          { "title": "Exploring the Data", "duration": "20 min" },
+          { "title": "Creating Visualizations", "duration": "25 min" },
+          { "title": "Summarizing Findings", "duration": "30 min" }
+        ]
+      }
+    ],
+    "totalLessons": 50,
+    "duration": "10-12 hours",
+    "prerequisites": "Basic programming knowledge is helpful but not required.",
+    "learningOutcomes": [
+      "Use Python to manipulate and analyze data.",
+      "Create data visualizations using Matplotlib and Seaborn.",
+      "Work with Pandas for data analysis and manipulation.",
+      "Apply statistical methods to analyze datasets.",
+      "Complete a real-world data analysis project."
+    ]
+  }
+  

@@ -2,9 +2,8 @@ import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Courses from "./pages/Courses";
-import Problems from "./pages/Problems";
+import Excercises from "./pages/Excercises";
 import PlayGround from "./pages/PlayGround";
-import Saved from "./pages/Saved";
 import MainLayout from "./Layouts/MainLayout";
 import Feed from "./pages/Feed";
 import PostPage from "./pages/PostPage";
@@ -25,9 +24,8 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Feed />} />
           <Route path="courses" element={<Courses />} />
-          <Route path="excercise" element={<Problems />} />
+          <Route path="exercises" element={<Excercises />} />
           <Route path="playground" element={<PlayGround />} />
-          <Route path="saved" element={<Saved />} />
         </Route>
 
         <Route path=":username/post/:postId" element={<PostPage />} />

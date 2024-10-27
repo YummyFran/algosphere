@@ -1,0 +1,10 @@
+.playground {
+    padding: 1rem 2rem;
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        color: var(--accent-color);
+    }
+}

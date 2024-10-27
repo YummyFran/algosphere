@@ -1,0 +1,81 @@
+{
+    "title": "Agile Software Development",
+    "slug": "agile-software-development",
+    "description": "Get familiar with Agile methodology and project management.",
+    "level": "Intermediate",
+    "chapters": [
+      {
+        "title": "Introduction to Agile",
+        "slug": "introduction-to-agile",
+        "description": "Understand the core principles and benefits of Agile development.",
+        "lessons": [
+          { "title": "What is Agile?", "duration": "10 min" },
+          { "title": "Agile vs Traditional Development", "duration": "12 min" },
+          { "title": "The Agile Manifesto", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "Agile Frameworks and Methodologies",
+        "slug": "agile-frameworks-methodologies",
+        "description": "Explore popular Agile frameworks like Scrum and Kanban.",
+        "lessons": [
+          { "title": "Introduction to Scrum", "duration": "20 min" },
+          { "title": "Kanban Basics", "duration": "18 min" },
+          { "title": "Comparing Agile Frameworks", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "Planning and Estimation in Agile",
+        "slug": "planning-estimation-agile",
+        "description": "Learn how to plan and estimate work in Agile projects.",
+        "lessons": [
+          { "title": "User Stories and Story Points", "duration": "18 min" },
+          { "title": "Sprint Planning", "duration": "20 min" },
+          { "title": "Backlog Refinement", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "Executing Agile Projects",
+        "slug": "executing-agile-projects",
+        "description": "Understand how Agile projects are executed and managed.",
+        "lessons": [
+          { "title": "Daily Standups", "duration": "10 min" },
+          { "title": "Sprint Review and Retrospective", "duration": "20 min" },
+          { "title": "Managing Changes in Agile", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "Agile Tools and Techniques",
+        "slug": "agile-tools-techniques",
+        "description": "Discover tools that help manage Agile projects effectively.",
+        "lessons": [
+          { "title": "Using Jira for Agile Management", "duration": "25 min" },
+          { "title": "Tracking Progress with Kanban Boards", "duration": "20 min" },
+          { "title": "Burndown Charts and Velocity Tracking", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "Project: Plan and Execute an Agile Sprint",
+        "slug": "project-plan-execute-agile-sprint",
+        "description": "Apply Agile techniques in a real-world project scenario.",
+        "lessons": [
+          { "title": "Defining Sprint Goals", "duration": "20 min" },
+          { "title": "Creating User Stories", "duration": "25 min" },
+          { "title": "Managing the Sprint Backlog", "duration": "20 min" },
+          { "title": "Conducting a Retrospective", "duration": "15 min" },
+          { "title": "Presenting Sprint Results", "duration": "30 min" }
+        ]
+      }
+    ],
+    "totalLessons": 30,
+    "duration": "8-10 hours",
+    "prerequisites": "Basic knowledge of software development recommended.",
+    "learningOutcomes": [
+      "Understand the principles and benefits of Agile development.",
+      "Apply Scrum, Kanban, and other Agile frameworks.",
+      "Plan and estimate work using Agile techniques.",
+      "Manage Agile projects using tools like Jira.",
+      "Execute Agile sprints and conduct retrospectives effectively."
+    ]
+  }
+  

@@ -1,0 +1,82 @@
+{
+    "title": "Authentication with JWT and OAuth",
+    "slug": "authentication-jwt-oauth",
+    "description": "Secure your applications using JWT and OAuth protocols.",
+    "level": "Advanced",
+    "chapters": [
+      {
+        "title": "Introduction to Authentication",
+        "slug": "introduction-to-authentication",
+        "description": "Overview of authentication protocols and why they matter.",
+        "lessons": [
+          { "title": "What is Authentication?", "duration": "10 min" },
+          { "title": "Understanding Tokens", "duration": "12 min" },
+          { "title": "Session vs Token-Based Authentication", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "JSON Web Tokens (JWT) Basics",
+        "slug": "jwt-basics",
+        "description": "Learn the fundamentals of JWT and how it works.",
+        "lessons": [
+          { "title": "What is JWT?", "duration": "10 min" },
+          { "title": "JWT Structure and Payload", "duration": "15 min" },
+          { "title": "Generating and Verifying JWTs", "duration": "20 min" }
+        ]
+      },
+      {
+        "title": "Implementing JWT Authentication",
+        "slug": "implementing-jwt-authentication",
+        "description": "Use JWT for secure authentication in web apps.",
+        "lessons": [
+          { "title": "Setting Up JWT in Express", "duration": "15 min" },
+          { "title": "Token Generation and Storage", "duration": "20 min" },
+          { "title": "Protecting Routes with JWT", "duration": "18 min" },
+          { "title": "Handling JWT Expiration and Refresh Tokens", "duration": "25 min" }
+        ]
+      },
+      {
+        "title": "OAuth 2.0 Overview",
+        "slug": "oauth-overview",
+        "description": "Understand the OAuth 2.0 framework for authorization.",
+        "lessons": [
+          { "title": "What is OAuth 2.0?", "duration": "12 min" },
+          { "title": "Roles in OAuth: Client, Resource Owner, and Provider", "duration": "15 min" },
+          { "title": "OAuth Grant Types", "duration": "18 min" }
+        ]
+      },
+      {
+        "title": "Integrating OAuth with Applications",
+        "slug": "integrating-oauth",
+        "description": "Learn to integrate OAuth with popular platforms.",
+        "lessons": [
+          { "title": "Setting Up OAuth with Google", "duration": "20 min" },
+          { "title": "Adding OAuth Login to Your App", "duration": "25 min" },
+          { "title": "Handling User Data from OAuth Providers", "duration": "22 min" },
+          { "title": "Securing OAuth Tokens", "duration": "18 min" }
+        ]
+      },
+      {
+        "title": "Project: Build a Secure Application",
+        "slug": "project-secure-application",
+        "description": "Apply your knowledge by building a secure app using JWT and OAuth.",
+        "lessons": [
+          { "title": "Setting Up Your Project", "duration": "20 min" },
+          { "title": "Implementing JWT Authentication", "duration": "25 min" },
+          { "title": "Integrating OAuth Login", "duration": "30 min" },
+          { "title": "Testing and Securing the Application", "duration": "35 min" }
+        ]
+      }
+    ],
+    "totalLessons": 35,
+    "duration": "10-12 hours",
+    "prerequisites": "Basic knowledge of web development and Node.js.",
+    "learningOutcomes": [
+      "Understand authentication protocols like JWT and OAuth.",
+      "Implement secure JWT authentication in web apps.",
+      "Integrate OAuth 2.0 with external providers like Google.",
+      "Handle token expiration, refresh tokens, and user data securely.",
+      "Build and test a secure application using both JWT and OAuth."
+    ]
+  }
+  

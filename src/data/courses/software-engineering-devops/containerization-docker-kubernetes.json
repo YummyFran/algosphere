@@ -1,0 +1,112 @@
+{
+    "title": "Containerization with Docker & Kubernetes",
+    "slug": "containerization-docker-kubernetes",
+    "description": "Learn to containerize applications using Docker and manage them with Kubernetes.",
+    "level": "Advanced",
+    "chapters": [
+      {
+        "title": "Introduction to Containers",
+        "slug": "introduction-to-containers",
+        "description": "Get an overview of containers and their benefits in modern development.",
+        "lessons": [
+          { "title": "What Are Containers?", "duration": "12 min" },
+          { "title": "Containers vs Virtual Machines", "duration": "15 min" },
+          { "title": "Benefits of Containerization", "duration": "10 min" }
+        ]
+      },
+      {
+        "title": "Getting Started with Docker",
+        "slug": "getting-started-docker",
+        "description": "Set up Docker and understand how to create containerized applications.",
+        "lessons": [
+          { "title": "Installing Docker", "duration": "12 min" },
+          { "title": "Docker CLI Basics", "duration": "15 min" },
+          { "title": "Creating and Running Containers", "duration": "20 min" },
+          { "title": "Using Docker Hub", "duration": "18 min" }
+        ]
+      },
+      {
+        "title": "Docker Images and Containers",
+        "slug": "docker-images-containers",
+        "description": "Learn to build, manage, and optimize Docker images.",
+        "lessons": [
+          { "title": "Creating Docker Images with Dockerfile", "duration": "25 min" },
+          { "title": "Optimizing Docker Images", "duration": "22 min" },
+          { "title": "Managing Containers with Docker Compose", "duration": "20 min" }
+        ]
+      },
+      {
+        "title": "Networking and Volumes in Docker",
+        "slug": "networking-volumes-docker",
+        "description": "Manage networking and data persistence for containers.",
+        "lessons": [
+          { "title": "Docker Networking Basics", "duration": "15 min" },
+          { "title": "Creating Bridges and Overlay Networks", "duration": "20 min" },
+          { "title": "Using Docker Volumes", "duration": "18 min" }
+        ]
+      },
+      {
+        "title": "Introduction to Kubernetes",
+        "slug": "introduction-to-kubernetes",
+        "description": "Understand Kubernetes architecture and how it orchestrates containers.",
+        "lessons": [
+          { "title": "What is Kubernetes?", "duration": "15 min" },
+          { "title": "Kubernetes Architecture and Components", "duration": "22 min" },
+          { "title": "Setting Up a Kubernetes Cluster", "duration": "25 min" }
+        ]
+      },
+      {
+        "title": "Deploying Applications with Kubernetes",
+        "slug": "deploying-applications-kubernetes",
+        "description": "Learn to deploy and manage applications in Kubernetes clusters.",
+        "lessons": [
+          { "title": "Creating Pods and Deployments", "duration": "22 min" },
+          { "title": "Managing Services and Load Balancers", "duration": "20 min" },
+          { "title": "Scaling Applications with ReplicaSets", "duration": "25 min" }
+        ]
+      },
+      {
+        "title": "Kubernetes Networking and Storage",
+        "slug": "kubernetes-networking-storage",
+        "description": "Manage networking and storage resources in Kubernetes.",
+        "lessons": [
+          { "title": "Kubernetes Networking Basics", "duration": "18 min" },
+          { "title": "Using Persistent Volumes", "duration": "20 min" },
+          { "title": "ConfigMaps and Secrets", "duration": "18 min" }
+        ]
+      },
+      {
+        "title": "Advanced Kubernetes Management",
+        "slug": "advanced-kubernetes-management",
+        "description": "Learn advanced management practices in Kubernetes.",
+        "lessons": [
+          { "title": "Monitoring and Logging with Prometheus & Grafana", "duration": "25 min" },
+          { "title": "Using Helm for Package Management", "duration": "20 min" },
+          { "title": "Implementing Rolling Updates", "duration": "18 min" }
+        ]
+      },
+      {
+        "title": "Project: Deploy a Microservices Application",
+        "slug": "project-deploy-microservices",
+        "description": "Apply your knowledge by deploying a microservices-based application.",
+        "lessons": [
+          { "title": "Setting Up the Project Infrastructure", "duration": "30 min" },
+          { "title": "Building and Pushing Docker Images", "duration": "25 min" },
+          { "title": "Deploying Services to Kubernetes", "duration": "25 min" },
+          { "title": "Configuring Networking and Storage", "duration": "30 min" },
+          { "title": "Monitoring and Scaling the Application", "duration": "35 min" }
+        ]
+      }
+    ],
+    "totalLessons": 55,
+    "duration": "10-12 hours",
+    "prerequisites": "Basic knowledge of web applications and server management.",
+    "learningOutcomes": [
+      "Understand the fundamentals of containerization using Docker.",
+      "Build, manage, and deploy Docker containers effectively.",
+      "Set up and manage Kubernetes clusters for application orchestration.",
+      "Implement networking, storage, and scaling in Kubernetes.",
+      "Deploy a microservices application using Docker and Kubernetes."
+    ]
+  }
+  

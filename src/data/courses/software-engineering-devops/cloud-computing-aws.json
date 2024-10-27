@@ -1,0 +1,122 @@
+{
+    "title": "Cloud Computing with AWS",
+    "slug": "cloud-computing-aws",
+    "description": "Understand cloud infrastructure and deploy services on AWS.",
+    "level": "Advanced",
+    "chapters": [
+      {
+        "title": "Introduction to Cloud Computing",
+        "slug": "introduction-cloud-computing",
+        "description": "Get an overview of cloud computing and its benefits.",
+        "lessons": [
+          { "title": "What is Cloud Computing?", "duration": "10 min" },
+          { "title": "Types of Cloud Services (IaaS, PaaS, SaaS)", "duration": "12 min" },
+          { "title": "Benefits and Use Cases", "duration": "15 min" }
+        ]
+      },
+      {
+        "title": "Getting Started with AWS",
+        "slug": "getting-started-aws",
+        "description": "Create an AWS account and explore the AWS Management Console.",
+        "lessons": [
+          { "title": "Creating an AWS Account", "duration": "15 min" },
+          { "title": "Overview of the AWS Console", "duration": "18 min" },
+          { "title": "Understanding Billing and Pricing", "duration": "20 min" }
+        ]
+      },
+      {
+        "title": "AWS Core Services",
+        "slug": "aws-core-services",
+        "description": "Learn about essential AWS services and how to use them.",
+        "lessons": [
+          { "title": "EC2: Virtual Servers", "duration": "25 min" },
+          { "title": "S3: Storage Solutions", "duration": "20 min" },
+          { "title": "RDS: Managed Databases", "duration": "22 min" },
+          { "title": "Lambda: Serverless Functions", "duration": "18 min" }
+        ]
+      },
+      {
+        "title": "Networking with AWS",
+        "slug": "networking-aws",
+        "description": "Understand AWS networking and create virtual private networks.",
+        "lessons": [
+          { "title": "Introduction to VPC (Virtual Private Cloud)", "duration": "18 min" },
+          { "title": "Setting Up Subnets and Gateways", "duration": "20 min" },
+          { "title": "Managing Security Groups and Network ACLs", "duration": "22 min" }
+        ]
+      },
+      {
+        "title": "Deploying Applications on AWS",
+        "slug": "deploying-applications-aws",
+        "description": "Learn to deploy web applications on AWS infrastructure.",
+        "lessons": [
+          { "title": "Deploying with EC2 Instances", "duration": "25 min" },
+          { "title": "Using Elastic Beanstalk for Simple Deployments", "duration": "20 min" },
+          { "title": "Scaling with Load Balancers and Auto-Scaling Groups", "duration": "30 min" }
+        ]
+      },
+      {
+        "title": "Database Management on AWS",
+        "slug": "database-management-aws",
+        "description": "Explore AWS database services and management strategies.",
+        "lessons": [
+          { "title": "Introduction to DynamoDB", "duration": "18 min" },
+          { "title": "Using RDS for Relational Databases", "duration": "20 min" },
+          { "title": "Backup and Restore Strategies", "duration": "22 min" }
+        ]
+      },
+      {
+        "title": "Security and Identity Management",
+        "slug": "security-identity-management",
+        "description": "Learn how to secure AWS resources and manage identities.",
+        "lessons": [
+          { "title": "Managing Access with IAM", "duration": "22 min" },
+          { "title": "Setting Up Multi-Factor Authentication (MFA)", "duration": "18 min" },
+          { "title": "AWS Security Best Practices", "duration": "25 min" }
+        ]
+      },
+      {
+        "title": "Monitoring and Logging",
+        "slug": "monitoring-logging",
+        "description": "Monitor resources and log events for troubleshooting.",
+        "lessons": [
+          { "title": "Using CloudWatch for Monitoring", "duration": "20 min" },
+          { "title": "Centralizing Logs with CloudTrail", "duration": "18 min" },
+          { "title": "Automating Responses with CloudWatch Alarms", "duration": "22 min" }
+        ]
+      },
+      {
+        "title": "Serverless Architecture on AWS",
+        "slug": "serverless-architecture-aws",
+        "description": "Learn to build applications without managing servers.",
+        "lessons": [
+          { "title": "Creating Serverless APIs with API Gateway", "duration": "20 min" },
+          { "title": "Executing Code with Lambda Functions", "duration": "25 min" },
+          { "title": "Managing Data with DynamoDB", "duration": "18 min" }
+        ]
+      },
+      {
+        "title": "Project: Deploy a Fullstack Application",
+        "slug": "project-deploy-fullstack-application",
+        "description": "Apply your knowledge by deploying a fullstack application.",
+        "lessons": [
+          { "title": "Setting Up the Infrastructure", "duration": "30 min" },
+          { "title": "Deploying Backend Services", "duration": "25 min" },
+          { "title": "Configuring Frontend Deployment", "duration": "25 min" },
+          { "title": "Monitoring and Optimizing the Application", "duration": "30 min" },
+          { "title": "Final Testing and Deployment", "duration": "35 min" }
+        ]
+      }
+    ],
+    "totalLessons": 65,
+    "duration": "12-14 hours",
+    "prerequisites": "Basic understanding of software development and web applications.",
+    "learningOutcomes": [
+      "Understand the fundamentals of cloud computing and AWS services.",
+      "Set up virtual servers, databases, and networks on AWS.",
+      "Deploy and manage applications using AWS infrastructure.",
+      "Implement security, monitoring, and logging in cloud environments.",
+      "Build serverless applications and deploy fullstack solutions on AWS."
+    ]
+  }
+  

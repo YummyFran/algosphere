@@ -39,17 +39,13 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                 {pathname === '/courses' ? <IoBook /> : <IoBookOutline />} 
                 <span>Courses</span>
             </NavLink>
-            <NavLink to="/excercise" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
-                {pathname === '/excercise' ? <IoExtensionPuzzle /> : <IoExtensionPuzzleOutline />} 
-                <span>Excercise</span>
+            <NavLink to="/exercises" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
+                {pathname === '/exercises' ? <IoExtensionPuzzle /> : <IoExtensionPuzzleOutline />} 
+                <span>Exercises</span>
             </NavLink>
             <NavLink to="/playground" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
                 {pathname === '/playground' ? <IoCodeSharp /> : <IoCodeOutline />}
                 <span>Playground</span>
-            </NavLink>
-            <NavLink to="/saved" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
-                {pathname === '/saved' ? <IoBookmark /> : <IoBookmarkOutline />}
-                <span>Saved</span>
             </NavLink>
             <div className={`profile ${theme}-hover mobile`} onClick={() => nav(`/${user?.username}`)}>
                 <div className="meatball-menu" onClick={e => showMenu(e)}>
@@ -83,17 +79,13 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                 {pathname === '/courses' ? <IoBook /> : <IoBookOutline />} 
                 <span>Courses</span>
             </NavLink>
-            <NavLink to="/excercise" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
-                {pathname === '/excercise' ? <IoExtensionPuzzle /> : <IoExtensionPuzzleOutline />} 
-                <span>Excerise</span>
+            <NavLink to="/exercises" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
+                {pathname === '/exercises' ? <IoExtensionPuzzle /> : <IoExtensionPuzzleOutline />} 
+                <span>Exercises</span>
             </NavLink>
             <NavLink to="/playground" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
                 {pathname === '/playground' ? <IoCodeSharp /> : <IoCodeOutline />}
                 <span>Playground</span>
-            </NavLink>
-            <NavLink to="/saved" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
-                {pathname === '/saved' ? <IoBookmark /> : <IoBookmarkOutline />}
-                <span>Saved</span>
             </NavLink>
         </div>
         <div className="shortcuts"></div>

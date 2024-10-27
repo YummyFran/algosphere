@@ -78,3 +78,26 @@ export function getRandomGradientPair() {
 
   return `linear-gradient(135deg, ${color1}, ${color2})`;
 }
+
+export const skillColor = {
+  "Typing": "#FFB74D",
+  "Algorithms": "#42A5F5",
+  "Data Structures": "#64B5F6",
+  "CSS": "#FF7043",
+  "Design Principles": "#AB47BC",
+  "General Programming": "#4DB6AC",
+  "Problem Solving": "#7E57C2",
+  "SQL": "#8D6E63",
+  "Database Management": "#6D4C41",
+  "React": "#61DAFB",
+  "JavaScript": "#FDD835",
+  "Frontend Development": "#4FC3F7",
+  "Python": "#FFD54F",
+  "Scripting": "#81C784",
+  "Debugging": "#EF5350",
+  "HTML": "#FF8A65",
+  "Accessibility": "#66BB6A",
+  "SEO": "#DCE775",
+  "Advanced CSS": "#FF5252",
+  "Animations": "#FFCA28"
+}

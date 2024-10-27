@@ -1,0 +1,92 @@
+.exercises {
+    padding: 1rem 10rem 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        color: var(--accent-color);
+    }
+
+    .exercise {
+        display: flex;
+        gap: 1rem;
+        cursor: pointer;
+
+        &:hover {
+            .play.dark-hover {
+                background-color: var(--secondary-dark);
+                color: var(--accent-color);
+            }
+        }
+
+        .thumbnail {
+            flex: 0 0 10rem;
+            aspect-ratio: 1;
+            border-radius: 1rem;
+            overflow: hidden;
+
+            img {
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        .details {
+            flex: 1;
+            .title {
+                display: flex;
+                flex-direction: column;
+                gap: 0.2rem;
+
+                .name {
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                }
+
+                .category {
+                    font-size: 0.8rem;
+                    filter: brightness(0.7);
+                    font-weight: 600;
+                }
+
+                .easy {
+                    color: red;
+                }
+            }
+
+            .description {
+                padding: 0.5rem 0 1.5rem;
+            }
+
+            .pre-requisites {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 0.9rem;
+                
+                .skill {
+                    padding: 0.2rem 1rem;
+                    border: 1px solid;
+                    border-radius: 1rem;
+                    font-size: 0.8rem;
+                }
+            }
+        }
+
+        .play {
+            display: flex;
+            align-items: center;
+            line-height: 1;
+            padding: 1.5rem;
+            border-radius: 0 50% 50% 0;
+
+            &:hover {
+                color: var(--accent-color);
+            }
+        }
+    }
+}
