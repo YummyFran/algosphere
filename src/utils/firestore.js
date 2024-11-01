@@ -91,11 +91,35 @@ export const getUserByUsername = async (username) => {
     return data
 }
 
+export const userExists = async (uid) => {
+    const res = await getDoc(doc(db, "users", uid))
+    console.log(res.exists())
+    return res.exists()
+}
+
 export const usernameExisted = async (username) => {
     const q = query(collection(db, "users"), where("username", '==', username))
     const snapshot = await getDocs(q)
 
     return !snapshot.empty
+}
+
+export const updateUsername = async (user, username) => {
+    await updateDocument('users', user.uid, {
+        username: username
+    })
+}
+
+export const hasPhotoUrl = async (uid) => {
+    const userData = await getUser(uid)
+
+    return !!userData.photoURL
+}
+
+export const updatePhotoUrl = async (uid, url) => {
+    await updateDocument('users', uid, {
+        photoURL: url
+    })
 }
 
 // Posts

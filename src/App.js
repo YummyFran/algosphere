@@ -13,12 +13,14 @@ import Wall from "./components/Wall";
 import Reposts from "./components/Reposts";
 import Course from "./pages/Course";
 import Lessons from "./components/Lessons";
+import NewUser from "./pages/NewUser";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/login/newuser" element={<NewUser />} />
         <Route path="/signup" element={<Signup />} />
 
         <Route path="/" element={<MainLayout />}>

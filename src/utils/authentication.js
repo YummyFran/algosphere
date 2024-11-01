@@ -1,5 +1,6 @@
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth'
-import { auth } from "./firebase";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, signInWithPopup } from 'firebase/auth'
+import { auth, google } from "./firebase";
+import { userExists } from './firestore';
 
 export const signUp = async (email, password) => {
     let user, err
@@ -25,6 +26,17 @@ export const signIn = async (email, password) => {
     }
   
     return [user, err]
+}
+
+export const signInWithGoogle = async () => {
+    try {
+        const res = await signInWithPopup(auth, google)
+        const isExisting = await userExists(res.user.uid)
+
+        return [isExisting, res.user]
+    } catch (error) {
+        console.error("An error occurred:", error)
+    }
 }
   
 export const logOut = async () => {

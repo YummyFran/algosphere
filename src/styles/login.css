@@ -1,4 +1,4 @@
-.login {
+.login, .new-user {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -83,6 +83,36 @@
 
             a {
                 color: var(--accent-color);
+            }
+        }
+
+        .login-btns {
+            button {
+                width: 100%;
+                padding: 1rem 1.5rem;
+                height: 3rem;
+                font-size: 0.85rem;
+                border-radius: 3rem;
+                border: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+            }
+    
+            .google {
+                background-color: transparent;
+                border: 0.5px solid #949494;
+                gap: 1rem;
+                color: #949494;
+    
+                svg {
+                    font-size: 1.5rem;
+                }
+
+                &:hover {
+                    color: black;
+                }
             }
         }
     }

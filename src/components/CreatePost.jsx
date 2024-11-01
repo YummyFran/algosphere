@@ -52,6 +52,7 @@ const CreatePost = ({
     <div className={`create-post ${theme}-shadow ${isPending ? 'posting':''}`}>
         <div className="context">
             <div className={`display-photo mono-${theme}-bg`}>
+                {currentUser?.photoURL && <img src={currentUser.photoURL} />}
             </div>
             <div className={`datas mono-${theme}-border`}>
                 <textarea 

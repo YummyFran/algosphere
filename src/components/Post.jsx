@@ -149,7 +149,9 @@ const Post = ({post, currentUser}) => {
   return (
     <div className={`post mono-${theme}-border`}>
         <div className="post-details">
-            <div className={`display-picture mono-${theme}-bg`}></div>
+            <div className={`display-picture mono-${theme}-bg`}>
+                {postOwner?.photoURL && <img src={postOwner.photoURL} />}
+            </div>
             <div className={`menu ${theme}-shadow primary-${theme}-bg`} ref={menuRef} onClick={e => e.stopPropagation()}>
             {
                 postOwner?.uid === currentUser?.uid ?

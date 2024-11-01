@@ -81,7 +81,7 @@ const Profile = () => {
                         <div className="username">@{user.username}</div>
                     </div>
                     <div className={`profile-picture secondary-${theme}-bg`}>
-                        <img src={user.photoURL} />
+                        {user?.photoURL && <img src={user.photoURL} />}
                     </div>
                 </div>
                 <div className="bio">{user.bio}</div>

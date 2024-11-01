@@ -90,7 +90,9 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
         </div>
         <div className="shortcuts"></div>
         <div className={`profile ${theme}-hover`} onClick={() => nav(`/${user?.username}`)}>
-            <div className="display-picture"></div>
+            <div className="display-picture">
+                {user?.photoURL && <img src={user.photoURL} />}
+            </div>
             <div className="name">
                 <div className={`display-name ${isLoading && 'loading'}`}>{user?.displayName.split(" ")[0]}</div>
                 <div className={`username ${isLoading && 'loading'}`}>{user && `@${user.username}`}</div>

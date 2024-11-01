@@ -82,6 +82,13 @@
                 aspect-ratio: 1;
                 background-size: cover;
                 background-color: var(--mono-light);
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
             }
 
             .name {

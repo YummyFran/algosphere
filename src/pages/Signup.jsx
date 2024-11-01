@@ -1,32 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useUser } from '../provider/UserProvider'
-import { Navigate } from 'react-router'
+import { Navigate, useNavigate, useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import { signUp } from '../utils/authentication'
 import { updateProfile } from 'firebase/auth'
 import { addUser, usernameExisted } from '../utils/firestore'
 import '../styles/login.css'
-
-const validateUsername = username => {
-    if (username.length < 3) {
-        return [false, "Username must contain atleast 3 characters"];
-    }
-    
-    if (username.length > 15) {
-        return [false, "Username must not exceed 15 characters"];
-    }
-    const validUsernamePattern = /^[A-Za-z0-9_]+$/;
-
-    if (!validUsernamePattern.test(username)) {
-        return [false, "Invalid username"];
-    }
-
-    if (/^[0-9]/.test(username)) {
-        return [false, "Username must not start with a number"];
-    }
-
-    return [true, ""];
-}
+import { validateUsername } from '../utils/helper'
 
 const Signup = () => {
     const [user, loading] = useUser()
@@ -87,10 +67,10 @@ const Signup = () => {
             <p>Crack the Code, Sharpen Your Skills.</p>
         </div>
         <form className='form' onSubmit={handleSubmit}>
-                <input type="text" placeholder='Display Name' name='displayName' required onChange={handleChange} />
-            <input type="text" placeholder='Username' name='username' autoComplete='on' required onChange={handleChange}/>
-            <input type="text" placeholder='Email' name='email' autoComplete='on' required onChange={handleChange}/>
-            <input type="password" placeholder='Password' name='password' autoComplete='on'required onChange={handleChange}/>
+            <input type="text" placeholder='Display Name' name='displayName' required onChange={handleChange}  value={credentials.displayName}/>
+            <input type="text" placeholder='Username' name='username' autoComplete='on' required onChange={handleChange} value={credentials.username}/>
+            <input type="text" placeholder='Email' name='email' autoComplete='on' required onChange={handleChange} value={credentials.email}/>
+            <input type="password" placeholder='Password' name='password' autoComplete='on'required onChange={handleChange} value={credentials.password}/>
             <button disabled={disabled}>Sign up</button>
             {error && <div className='error-message'>{error}</div>}
             <p>Already have an account? <Link to="/login" className='sign'>Sign in</Link></p>

@@ -101,3 +101,24 @@ export const skillColor = {
   "Advanced CSS": "#FF5252",
   "Animations": "#FFCA28"
 }
+
+export const validateUsername = username => {
+  if (username.length < 3) {
+      return [false, "Username must contain atleast 3 characters"];
+  }
+  
+  if (username.length > 15) {
+      return [false, "Username must not exceed 15 characters"];
+  }
+  const validUsernamePattern = /^[A-Za-z0-9_]+$/;
+
+  if (!validUsernamePattern.test(username)) {
+      return [false, "Invalid username"];
+  }
+
+  if (/^[0-9]/.test(username)) {
+      return [false, "Username must not start with a number"];
+  }
+
+  return [true, ""];
+}

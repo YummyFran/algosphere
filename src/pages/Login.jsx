@@ -4,6 +4,7 @@ import { Navigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import { signIn } from '../utils/authentication'
 import '../styles/login.css'
+import LoginButtons from '../components/LoginButtons'
 
 const Login = () => {
     const [user, loading] = useUser()
@@ -49,6 +50,7 @@ const Login = () => {
             <button disabled={disabled}>Log in</button>
             {error && <div className='error-message'>{error}</div>}
             <p>Don't have an account? <Link to="/signup" className='sign'>Sign up</Link></p>
+            <LoginButtons />
         </form>
     </div>
   )

@@ -129,7 +129,9 @@ const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef, them
         <div className={`before mono-${theme}-border`}></div>
         <div className={`after mono-${theme}-bg`}></div>
         <div className="post-details">
-            <div className={`display-picture mono-${theme}-bg`}></div>
+            <div className={`display-picture mono-${theme}-bg`}>
+                {postOwner?.photoURL && <img src={postOwner.photoURL} />}
+            </div>
             <div className="content">
                 <div className="post-header">
                     <div className="name">{postOwner?.displayName}</div>
