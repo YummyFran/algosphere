@@ -9,6 +9,7 @@ import Comment from '../components/Comment'
 import '../styles/postpage.css'
 import { useTheme } from '../provider/ThemeProvider'
 import { IoArrowBackOutline } from 'react-icons/io5'
+import { Link } from 'react-router-dom'
 
 const PostPage = () => {
     const [commentContent, setCommentContent] = useState({context: '', attachments: []})
@@ -89,7 +90,7 @@ const PostPage = () => {
             <Post post={post} currentUser={currentUser}/>
             <div className={`divider mono-${theme}-border`}>
                 <div className="replies">Replies</div>
-                <div className="view-activity">View Activity</div>
+                <Link to='activity' className="view-activity">View Activity</Link>
             </div>
             <AddComment 
                 commentContent={commentContent}

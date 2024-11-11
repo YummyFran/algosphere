@@ -17,6 +17,7 @@ import NewUser from "./pages/NewUser";
 import Metrics from "./Layouts/Metrics";
 import Following from "./components/Following";
 import Followers from "./components/Followers";
+import PostActivity from "./pages/PostActivity";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         </Route>
 
         <Route path=":username/post/:postId" element={<PostPage />} />
+        <Route path=":username/post/:postId/activity" element={<PostActivity />} />
         <Route path=":username" element={<Profile />}>
           <Route index element={<Timeline />} />
           <Route path="wall" element={<Wall />} />

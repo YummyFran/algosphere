@@ -4,12 +4,21 @@
     gap: 1rem;
     padding: 0.5rem 0;
     cursor: pointer;
+    position: relative;
 
     .display-photo {
         height: 3rem;
         aspect-ratio: 1/1;
         border-radius: 50%;
         overflow: hidden;
+
+        &.liked .heart {
+            color: red;
+            position: absolute;
+            bottom: 0.2rem;
+            transform: translateX(-70%);
+            font-size: 1.5rem;
+        }
 
         img {
             height: 100%;

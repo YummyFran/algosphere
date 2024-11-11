@@ -46,6 +46,11 @@
 
             .view-activity {
                 color: #696969;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
             }
         }
 

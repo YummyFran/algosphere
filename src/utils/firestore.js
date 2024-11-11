@@ -291,6 +291,19 @@ export const isUserAlreadyLiked = async (postId, userId, parents) => {
     return likeDoc.exists()
 }
 
+export const getLikedUsers = async (postId) => {
+    const ref = collection(doc(db, "posts", postId), "likes")
+    const snapshot = await getDocs(query(ref, orderBy("likedAt")))
+
+    const likes = []
+
+    snapshot.forEach(doc => {
+        likes.push(doc.data().userId)
+    })
+
+    return likes
+}
+
 // Comments
 
 export const getComments = async (param = null, userId, postId, parents) => {
@@ -381,7 +394,6 @@ export const addComment = async (userId, postId, content, parents) => {
 
     await updateCommentCountRecursively(parents);
 }
-
 
 // Theme
 

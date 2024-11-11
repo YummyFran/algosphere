@@ -39,7 +39,7 @@ const Post = ({post, currentUser}) => {
         queryKey: ["likes", post.id, currentUser?.uid],
         queryFn: async () => await isUserAlreadyLiked(post.id, currentUser.uid),
         enabled: !!currentUser
-      })
+    })
 
     const { mutate: toggleLike, isPending } = useMutation({
         mutationFn: async () => {
@@ -233,7 +233,7 @@ const Post = ({post, currentUser}) => {
                             <div className="text" key={i}>{line} <br/></div>
                         ))}
                     </div>
-                    {post.attachments.length > 0 &&
+                    {post?.attachments?.length > 0 &&
                         <div className="medias">
                             {post.attachments.map((link, i) => {
 
