@@ -439,10 +439,33 @@ export const unFollowUser = async (currentUserId, userId) => {
     })
 }
 
-
 export const checkIfFollowing = async (currentUserId, followedUserId) => {
     const docRef = doc(doc(db, "users", currentUserId), "following", followedUserId)
     const docSnap = await getDoc(docRef)
   
     return docSnap.exists()
+}
+
+export const getFollowing = async (userId) => {
+    const snapshot = await getDocs(query(collection(doc(db, "users", userId), "following"), orderBy("followedAt", "desc")))
+
+    const following = []
+
+    snapshot.forEach(doc => {
+        following.push(doc.data().userId)
+    })
+
+    return following
+}
+
+export const getFollowers = async (userId) => {
+    const snapshot = await getDocs(query(collection(doc(db, "users", userId), "followers"), orderBy("followedAt", "desc")))
+
+    const followers = []
+
+    snapshot.forEach(doc => {
+        followers.push(doc.data().userId)
+    })
+
+    return followers
 }

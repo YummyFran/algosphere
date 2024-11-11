@@ -7,7 +7,7 @@ import "../styles/profile.css"
 import { useTheme } from '../provider/ThemeProvider'
 import { AiOutlineMore } from 'react-icons/ai'
 import { useUser } from '../provider/UserProvider'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 const Profile = () => {
     const { username } = useParams()
@@ -90,14 +90,14 @@ const Profile = () => {
                         <div className="count">10</div>
                         <div className="title">Reputation</div>
                     </div>
-                    <div className={`following ${theme}-hover`}>
+                    <Link to={'following'} className={`following ${theme}-hover`}>
                         <div className="count">{user?.followingCount ? user?.followingCount : 0}</div>
                         <div className="title">Following</div>
-                    </div>
-                    <div className={`followers ${theme}-hover`}>
+                    </Link>
+                    <Link to={'followers'} className={`followers ${theme}-hover`}>
                         <div className="count">{user?.followersCount ? user?.followersCount : 0}</div>
                         <div className="title">Followers</div>
-                    </div>
+                    </Link>
                 </div>
                 <div className="cta">
                 {user.uid === currentUser?.uid ? 

@@ -100,6 +100,7 @@
                     padding: 0.7rem;
                     cursor: pointer;
                     border-radius: 0.5rem;
+                    color: inherit;
 
                     .count {
                         font-size: 1.5rem;

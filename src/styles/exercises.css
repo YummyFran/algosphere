@@ -63,7 +63,7 @@
             }
 
             .pre-requisites {
-                display: flex;
+                display: flex !important;
                 align-items: center;
                 gap: 0.5rem;
                 font-size: 0.9rem;
@@ -78,7 +78,7 @@
         }
 
         .play {
-            display: flex;
+            display: flex !important;
             align-items: center;
             line-height: 1;
             padding: 1.5rem;

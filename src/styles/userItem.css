@@ -1,0 +1,55 @@
+.user-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    cursor: pointer;
+
+    .display-photo {
+        height: 3rem;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        overflow: hidden;
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .name {
+        flex: 1;
+        .display-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .username {
+            font-size: 0.9rem;
+            font-weight: 300;
+            filter: brightness(0.8);
+        }
+    }
+
+    button {
+        padding: 0.2rem 1rem;
+        background: none;
+        border: 1px solid var(--accent-color);
+        border-radius: 1rem;
+        cursor: pointer;
+    
+        &.following {
+            border: 1px solid;
+        }
+
+        &.follow {
+            background-color: var(--accent-color);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+    }
+}
