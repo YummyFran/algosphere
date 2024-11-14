@@ -8,17 +8,17 @@ import {
     IoBookOutline, 
     IoBook, 
     IoExtensionPuzzleOutline,
-     IoExtensionPuzzle, 
-     IoCodeOutline, 
-     IoCodeSharp, 
-     IoBookmarkOutline, 
-     IoBookmark, 
-     IoMenu
+    IoExtensionPuzzle, 
+    IoCodeOutline, 
+    IoCodeSharp,
+    IoMenu
 } from "react-icons/io5";
+import { useToast } from '../provider/ToastProvider'
 
 
 const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
     const [theme, setTheme] = useTheme()
+    const [addToast] = useToast()
     const {pathname} = useLocation()
     const nav = useNavigate()
 
@@ -26,6 +26,15 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
         e.stopPropagation()
         menuRef.current.classList.toggle("show")
         menuMobileRef.current.classList.toggle("show")
+    }
+
+    const handleThemeChange = () => {
+        setTheme()
+        if(theme === 'dark') {
+            addToast('Light Mode Enabled', 'Back to the classic, bright view.')
+        } else {
+            addToast('Dark Mode Enabled', 'Enjoy a darker, more comfortable viewing experience.')
+        }
     }
 
   return (
@@ -59,7 +68,7 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                             <div className={`username ${isLoading && 'loading'}`}>{user && `@${user.username}`}</div>
                         </div>
                     </div>
-                    <div className="theme" onClick={() => setTheme()}>{`Turn on ${theme === 'dark' ? 'light' : 'dark'} mode`}</div>
+                    <div className="theme" onClick={() => handleThemeChange()}>{`Turn on ${theme === 'dark' ? 'light' : 'dark'} mode`}</div>
                     <div className="item" onClick={() => logOut()}>Logout</div>
                 </div>
             </div>
@@ -101,7 +110,7 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                 <AiOutlineMore />
             </div>
             <div className={`menu primary-${theme}-bg ${theme}-shadow`} ref={menuRef} onClick={e => e.stopPropagation()}>
-                <div className="theme" onClick={() => setTheme()}>{`Turn on ${theme === 'dark' ? 'light' : 'dark'} mode`}</div>
+                <div className="theme" onClick={() => handleThemeChange()}>{`Turn on ${theme === 'dark' ? 'light' : 'dark'} mode`}</div>
                 <div className="item" onClick={() => logOut()}>Logout</div>
             </div>
         </div>

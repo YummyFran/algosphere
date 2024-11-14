@@ -8,11 +8,13 @@ import { useTheme } from '../provider/ThemeProvider'
 import { AiOutlineMore } from 'react-icons/ai'
 import { useUser } from '../provider/UserProvider'
 import { Link, NavLink } from 'react-router-dom'
+import { useToast } from '../provider/ToastProvider'
 
 const Profile = () => {
     const { username } = useParams()
     const [theme, setTheme] = useTheme()
     const [currentUser, loading] = useUser()
+    const [addToast] = useToast()
     const [isFollowPending, setIsFollowPending] = useState(false)
     const queryClient = useQueryClient()
     const nav = useNavigate()
@@ -36,6 +38,7 @@ const Profile = () => {
         onSuccess: () => {
             queryClient.invalidateQueries(["isFollowing", user?.uid])
             setIsFollowPending(false)
+            addToast("Followed", `You are now following ${user?.username}`, "success")
         },
         onError: () => {
             setIsFollowPending(false)
@@ -50,6 +53,7 @@ const Profile = () => {
         onSuccess: () => {
             queryClient.invalidateQueries(["isFollowing", user?.uid])
             setIsFollowPending(false)
+            addToast("Unfollowed", `You unfollowed ${user?.username}`, "info")
         },
         onError: () => {
             setIsFollowPending(false)

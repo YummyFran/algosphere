@@ -9,12 +9,14 @@ import CreatePost from '../components/CreatePost'
 import { useTheme } from '../provider/ThemeProvider'
 import { uploadPostMedias } from '../utils/bucket'
 import { arrayUnion } from 'firebase/firestore'
+import { useToast } from '../provider/ToastProvider'
 
 const Feed = () => {
     const [postContent, setPostContent] = useState({context: '', attachments: [], attachmentPreviews: []})
     const [progress, setProgress] = useState([])
-    const [user, loading] = useUser()
-    const [theme, setTheme] = useTheme()
+    const [user] = useUser()
+    const [theme] = useTheme()
+    const [addToast] = useToast()
     const textAreaRef = useRef()
     const queryClient = useQueryClient()
 
@@ -49,6 +51,7 @@ const Feed = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["posts"]})
             setPostContent(prev => ({...prev, context: "", attachments: [], attachmentPreviews: []}))
+            addToast("Posted", "Your post is now live", "success")
         }
     })
 
@@ -56,13 +59,17 @@ const Feed = () => {
         mutatePost()
     }
 
+    const handleExpand = e => {
+        e.style.height = 'auto'
+        e.style.height =  e.value ? `${e.scrollHeight}px` : '2rem'
+    }
+
+    useEffect(() => {
+        handleExpand(textAreaRef.current)
+    }, [postContent])
+
     useEffect(() => {
         if(!currentUser) return
-
-        const handleExpand = e => {
-            e.target.style.height = 'auto'
-            e.target.style.height = `${e.target.scrollHeight}px`
-        }
 
         const checkScroll = () => {
             if(window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100) {
@@ -72,16 +79,13 @@ const Feed = () => {
 
         checkScroll()
 
-        textAreaRef.current?.addEventListener('input', handleExpand)
 
         window.addEventListener('scroll', checkScroll)
 
         return () => {
-            textAreaRef.current?.removeEventListener('input', handleExpand)
             window.removeEventListener('scroll', checkScroll)
         }
-
-    }, [currentUser, postContent])
+    }, [currentUser])
 
     if(!user) return <Navigate to="/login"/>
   return (

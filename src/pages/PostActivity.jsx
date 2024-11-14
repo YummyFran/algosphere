@@ -20,7 +20,6 @@ const PostActivity = () => {
     })
 
     useEffect(() => {
-        console.log(typeof likedUserIds, likedUserIds)
         if (isLoading || !likedUserIds) return;
     
         const fetchUsers = async () => {

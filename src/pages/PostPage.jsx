@@ -10,12 +10,14 @@ import '../styles/postpage.css'
 import { useTheme } from '../provider/ThemeProvider'
 import { IoArrowBackOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
+import { useToast } from '../provider/ToastProvider'
 
 const PostPage = () => {
     const [commentContent, setCommentContent] = useState({context: '', attachments: []})
     const { username, postId } = useParams()
-    const [user, loading] = useUser()
-    const [theme, setTheme] = useTheme()
+    const [user] = useUser()
+    const [theme] = useTheme()
+    const [addToast] = useToast()
     const queryClient = useQueryClient()
     const nav = useNavigate()
 
@@ -52,6 +54,7 @@ const PostPage = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["comments"]})
             setCommentContent(prev => ({...prev, context: ""}))
+            addToast("Comment Added", "Your comment was posted successfully", "success")
         }
     })
 

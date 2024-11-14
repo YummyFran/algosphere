@@ -1,5 +1,6 @@
 import React from 'react'
 import { IoCloseOutline, IoImagesOutline } from "react-icons/io5";
+import { useToast } from '../provider/ToastProvider';
 
 const CreatePost = ({
     textAreaRef,
@@ -12,8 +13,8 @@ const CreatePost = ({
     theme,
     progress
 }) => {
+    const [addToast] = useToast()
     const handleFileChange = e => {
-        console.log('changed')
         const files = Array.from(e.target.files)
         
         const hasVids = files.filter(file => file.type === 'video/mp4').length > 0 ||
@@ -22,7 +23,7 @@ const CreatePost = ({
         console.log(hasVids, postContent.attachments.length > 0)
 
         if(hasVids && postContent.attachments.length > 0) {
-            alert("attachments can only contain one video or multiple images without video")
+            addToast("Warning", "attachments can only contain one video or multiple images without video", "warning")
             return
         }
             
@@ -34,7 +35,6 @@ const CreatePost = ({
     }
 
     const removeAttachment = i => {
-        console.log("click")
         setPostContent(prev => {
             const remainingFiles = [...prev.attachments]
             const remainingPrevs = [...prev.attachmentPreviews]
@@ -48,6 +48,7 @@ const CreatePost = ({
             }
         })
     }
+
   return (
     <div className={`create-post ${theme}-shadow ${isPending ? 'posting':''}`}>
         <div className="context">

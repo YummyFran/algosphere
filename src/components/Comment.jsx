@@ -8,6 +8,7 @@ import debounce from 'lodash.debounce';
 import { timeAgo, formatNumber } from '../utils/helper';
 import '../styles/post.css'
 import AddComment from './AddComment';
+import { useToast } from '../provider/ToastProvider';
 
 
 const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef, theme}) => {
@@ -16,6 +17,7 @@ const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef, them
     const [isMutating, setIsMutating] = useState(false)
     const [isCommenting, setIsCommenting] = useState(false)
     const [commentContent, setCommentContent] = useState({ context: '', attachments: []})
+    const [addToast] = useToast()
     const queryClient = useQueryClient()
     const replyRef = useRef()
     const commentRef = useRef()
@@ -92,6 +94,7 @@ const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef, them
             queryClient.invalidateQueries({ queryKey: ["replies", comment.id, currentUser.uid]})
             setCommentContent(prev => ({...prev, context: ""}))
             connectReplies()
+            addToast("Comment Added", "Your comment was posted successfully", "success")
         }
     })
 

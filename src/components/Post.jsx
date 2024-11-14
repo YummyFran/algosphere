@@ -14,6 +14,7 @@ import { timeAgo, formatNumber, getFileType } from '../utils/helper';
 import '../styles/post.css'
 import { useTheme } from '../provider/ThemeProvider';
 import { GoTrash } from 'react-icons/go';
+import { useToast } from '../provider/ToastProvider';
 
 
 const Post = ({post, currentUser}) => {
@@ -22,7 +23,8 @@ const Post = ({post, currentUser}) => {
     const [vidPaused, setVidPaused] = useState(false)
     const [localLikesCount, setLocalLikesCount] = useState(post.likesCount)
     const [isMutating, setIsMutating] = useState(false)
-    const [theme, setTheme] = useTheme()
+    const [theme] = useTheme()
+    const [addToast] = useToast()
     const queryClient = useQueryClient()
     const navigate = useNavigate()
     const vidRef = useRef()
@@ -75,6 +77,7 @@ const Post = ({post, currentUser}) => {
         mutationFn: async () => await deletePost(post.id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["posts"]})
+            addToast("Post Deleted", "Your post was successfully removed", "error")
         }
     })
 
@@ -128,6 +131,7 @@ const Post = ({post, currentUser}) => {
     
     const copyLink = () => {
         navigator.clipboard.writeText(`${window.location.origin}/${postOwner.username}/post/${post.id}`)
+        addToast("Success", "Linked Copied", "success")
     }
 
     useEffect(() => {
