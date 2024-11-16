@@ -44,73 +44,55 @@
             }
         }
 
-        &.toast-default {
-            --color: #4caf50;
-            background-color: color-mix(in srgb, var(--primary-dark), white 8%);
-            background-image: linear-gradient(to right, color-mix(in srgb, var(--primary-dark), white 13%) 100%, transparent);
-
-            .indicator {
-                background-color: var(--color);
-            }    
-
-            .message .title {
-                color: var(--color);
-            }
-        }
-
         &.toast-success {
-            --color: #4caf50;
             background-color: color-mix(in srgb, var(--primary-dark), white 8%);
             background-image: linear-gradient(to right, color-mix(in srgb, var(--primary-dark), white 13%) 100%, transparent);
 
             .indicator {
-                background-color: var(--color);
+                background-color: var(--success-color);
             }    
 
             .message .title {
-                color: var(--color);
+                color: var(--success-color);
             }
         }
     
         &.toast-error {
-            --color: #f44336;
             background-color: color-mix(in srgb, var(--primary-dark), white 8%);
             background-image: linear-gradient(to right, color-mix(in srgb, var(--primary-dark), white 13%) 100%, transparent);
             
             .indicator {
-                background-color: var(--color);
+                background-color: var(--error-color);
             }
 
             .message .title {
-                color: var(--color);
+                color: var(--error-color);
             }
         }
     
         &.toast-warning {
-            --color: #ff9800;
             background-color: color-mix(in srgb, var(--primary-dark), white 8%);
             background-image: linear-gradient(to right, color-mix(in srgb, var(--primary-dark), white 13%) 100%, transparent);
 
             .indicator {
-                background-color: var(--color);
+                background-color: var(--warning-color);
             }
 
             .message .title {
-                color: var(--color);
+                color: var(--warning-color);
             }
         }
     
         &.toast-info {
-            --color: #2196f3;
             background-color: color-mix(in srgb, var(--primary-dark), white 8%);
             background-image: linear-gradient(to right, color-mix(in srgb, var(--primary-dark), white 13%) 100%, transparent);
 
             .indicator {
-                background-color: var(--color);
+                background-color: var(--info-color);
             }
 
             .message .title {
-                color: var(--color);
+                color: var(--info-color);
             }
         }
 

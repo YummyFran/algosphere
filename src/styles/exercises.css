@@ -1,5 +1,5 @@
 .exercises {
-    padding: 1rem 10rem 1rem 2rem;
+    padding: 1rem 10rem 5rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -67,6 +67,7 @@
                 align-items: center;
                 gap: 0.5rem;
                 font-size: 0.9rem;
+                flex-wrap: wrap;
                 
                 .skill {
                     padding: 0.2rem 1rem;
@@ -88,5 +89,13 @@
                 color: var(--accent-color);
             }
         }
+    }
+}
+
+@media (max-width: 70em) {
+    .exercises {
+        overflow: hidden;
+        padding: 1rem;
+        padding-bottom: 5rem;
     }
 }

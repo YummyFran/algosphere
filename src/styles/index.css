@@ -15,6 +15,11 @@
     --midtone-light: #333333;
     
     --accent-color: #76ABAE;
+
+    --success-color: #5E9E7E;
+    --info-color: #5A9CA3;
+    --warning-color: #ff9800;
+    --error-color: #f44336;
 }
 
 *, *::before, *::after {
