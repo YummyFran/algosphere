@@ -2,72 +2,13 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { VscDebugRestart } from "react-icons/vsc";
 import { faker } from '@faker-js/faker';
 import { useTheme } from '../../provider/ThemeProvider'
-import Turtle from '../../assets/turtle.svg'
-import Walker from '../../assets/walker.svg'
-import Sprinter from '../../assets/sprinter.svg'
-import Master from '../../assets/master.svg'
 import '../../styles/typingchallenge.css'
+import { useNavigate } from 'react-router';
+import { generateResultData } from '../../utils/helper';
+import { formatSeconds } from '../../utils/helper';
 
 const NUMBER_OF_WORDS = 100
 const COUNTDOWN_TIME = 60
-
-const formatSeconds = seconds => {
-    const minutes = Math.floor(seconds / 60)
-    const sec = seconds % 60
-    
-    return `${minutes}:${sec.toString().padStart(2, '0')}`
-}
-
-const generateResultData = (wpm, accuracy, totalCharsTyped, correctCharsCount, mistypedCharsCount) => {
-    const format = {
-        slow: {
-            illustration: Turtle,
-            title: "You're a Turtle",
-            description: `Well... You type with the speed of ${wpm} WPM. Your accuracy was ${accuracy}%. It could be better! Practice regularly to pick up the pace and surprise yourself with progress.`,
-            wpm_range: [0, 20],
-            accuracy_range: [0, 100]
-        },
-        moderate: {
-            illustration: Walker,
-            title: "Casual Walker",
-            description: `You type at ${wpm} WPM, comfortably walking along. Your accuracy of ${accuracy}% shows potential! Just keep at it and you'll be sprinting in no time.`,
-            wpm_range: [21, 40],
-            accuracy_range: [90, 100]
-        },
-        fast: {
-            illustration: Sprinter,
-            title: "Sprinter",
-            description: `At ${wpm} WPM, you're sprinting ahead! With an accuracy of ${accuracy}%, you're nearly unstoppable. Push for the next milestone to reach elite speed!`,
-            wpm_range: [41, 60],
-            accuracy_range: [95, 100]
-        },
-        master: {
-            illustration: Master,
-            title: "Typing Master",
-            description: `Incredible! You type at a blazing ${wpm} WPM with ${accuracy}% accuracy. You're a keyboard ninja. Keep up the amazing work!`,
-            wpm_range: [61, 100],
-            accuracy_range: [98, 100]
-        }
-    }
-
-    for (let category in format) {
-        const { wpm_range, accuracy_range, title, description, illustration } = format[category]
-        if (wpm >= wpm_range[0] && wpm <= wpm_range[1] && accuracy >= accuracy_range[0] && accuracy <= accuracy_range[1]) {
-            return {title, description, totalCharsTyped, correctCharsCount, mistypedCharsCount, wpm, accuracy, illustration}
-        }
-    }
-
-    return {
-        title: "Keep Going!",
-        description: `Your speed was ${wpm} WPM with an accuracy of ${accuracy}%. You're on the right track! Keep practicing to improve further.`,
-        totalCharsTyped,
-        correctCharsCount,
-        mistypedCharsCount,
-        wpm,
-        accuracy
-    }
-}
-
 
 const TypingChallenge = () => {
     const [words, setWords] = useState('')
@@ -75,17 +16,17 @@ const TypingChallenge = () => {
     const [timeLeft, setTimeLeft] = useState(COUNTDOWN_TIME)
     const [results, setResults] = useState({})
     const [theme] = useTheme()
-
     const [caretPos, setCaretPos] = useState({ top: 0, left: 0 })
     const wordsRef = useRef(null)
     const intervalRef = useRef(null)
+    const inputRef = useRef(null)
     const secondLine = useRef(0)
+    const initialScroll = useRef(0)
+    const nav = useNavigate()
 
     const hasTimerEnded = timeLeft <= 0;
     const isRunning = intervalRef.current != null;
     const hasTyped = userTyped.length > 0
-
-    console.log(results)
 
     const generateWords = (size) => {
         const randomWords = faker.word.words(size)
@@ -121,7 +62,6 @@ const TypingChallenge = () => {
     }, [setUserTyped])
 
     const scrollWords = () => {
-        console.log("scroll");
         const lineHeight = 2 * parseFloat(getComputedStyle(document.documentElement).fontSize);
         wordsRef.current.scrollTop += lineHeight;
     };
@@ -172,6 +112,7 @@ const TypingChallenge = () => {
             intervalRef.current = null;
             calculateResults()
         }
+        resetScrollWords()
     }, [hasTimerEnded])
 
     useEffect(() => {
@@ -186,13 +127,17 @@ const TypingChallenge = () => {
         if (wordsRef.current) {
             const chars = wordsRef.current.querySelectorAll('.char');
             const totalTypedLength = userTyped.length
-    
+            
             if (totalTypedLength > 0) {
                 const targetChar = chars[totalTypedLength - 1]
                 const { offsetTop, offsetLeft, offsetWidth } = targetChar
-        
+                
+                if(!initialScroll.current) {
+                    initialScroll.current = offsetTop
+                }
+
                 setCaretPos(prev => {
-                    if(prev.top !== 0 && prev.top != offsetTop) {
+                    if(prev.top !== initialScroll.current && prev.top != offsetTop) {
                         if(!secondLine.current) {
                             secondLine.current = offsetTop
                         }
@@ -232,7 +177,7 @@ const TypingChallenge = () => {
   return (
     <div className={`typing-test primary-${theme}-bg midtone-${theme}`}>
         <div className="header">
-            <h4 className="sub">AlgoSphere's</h4>
+            <h4 className="sub" onClick={() => nav(-1)}>AlgoSphere's</h4>
             <h2 className="title">Typing Challenge</h2>
         </div>
         <div className="options">
@@ -242,15 +187,16 @@ const TypingChallenge = () => {
         </div>
         {!hasTimerEnded ? <div className={`typing-area mono-${theme}`} ref={wordsRef}>
             <div className="caret" style={{ top: `${caretPos.top}px`, left: `${caretPos.left}px` }}></div>
+            <input type="text" className='hidden' ref={inputRef} autoFocus />
             {words.split('').map((char, i) => {
                 let className = ''
-                let content = char
+                let notSpace = ''
                 if (i < userTyped.length) {
-                  className = userTyped[i] === char ? 'correct' : 'incorrect'
-                  content = char === ' ' && userTyped[i] !== char ? userTyped[i] : char
+                    notSpace = char === ' ' && userTyped[i] !== char ? 'not-space' : ''
+                    className = userTyped[i] === char ? 'correct' : 'incorrect'
                 }
 
-                return <span key={i} className={`char ${className}`}>{content}</span>
+                return <span key={i} className={`char ${className} ${notSpace}`}>{char}</span>
             })}
         </div> :
         <div className="results">
@@ -286,7 +232,7 @@ const TypingChallenge = () => {
         </div>
         }
         <div className="restart">
-            <VscDebugRestart onClick={restart}/>
+            <VscDebugRestart className={`${theme}-hover`} onClick={() => restart()}/>
         </div>
     </div>
   )

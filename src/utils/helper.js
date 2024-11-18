@@ -1,3 +1,9 @@
+import Turtle from '../assets/turtle.svg'
+import Walker from '../assets/walker.svg'
+import Sprinter from '../assets/sprinter.svg'
+import Master from '../assets/master.svg'
+import KeepGoing from '../assets/Keep Going.svg'
+
 export function timeAgo(postedTime) {
     if(!postedTime) return
 
@@ -121,4 +127,62 @@ export const validateUsername = username => {
   }
 
   return [true, ""];
+}
+
+export const generateResultData = (wpm, accuracy, totalCharsTyped, correctCharsCount, mistypedCharsCount) => {
+  const format = {
+      slow: {
+          illustration: Turtle,
+          title: "You're a Turtle",
+          description: `Well... You type with the speed of ${wpm} WPM. Your accuracy was ${accuracy}%. It could be better! Practice regularly to pick up the pace and surprise yourself with progress.`,
+          wpm_range: [0, 20],
+          accuracy_range: [0, 100]
+      },
+      moderate: {
+          illustration: Walker,
+          title: "Casual Walker",
+          description: `You type at ${wpm} WPM, comfortably walking along. Your accuracy of ${accuracy}% shows potential! Just keep at it and you'll be sprinting in no time.`,
+          wpm_range: [21, 40],
+          accuracy_range: [90, 100]
+      },
+      fast: {
+          illustration: Sprinter,
+          title: "Sprinter",
+          description: `At ${wpm} WPM, you're sprinting ahead! With an accuracy of ${accuracy}%, you're nearly unstoppable. Push for the next milestone to reach elite speed!`,
+          wpm_range: [41, 60],
+          accuracy_range: [95, 100]
+      },
+      master: {
+          illustration: Master,
+          title: "Typing Master",
+          description: `Incredible! You type at a blazing ${wpm} WPM with ${accuracy}% accuracy. You're a keyboard ninja. Keep up the amazing work!`,
+          wpm_range: [61, 100],
+          accuracy_range: [98, 100]
+      }
+  }
+
+  for (let category in format) {
+      const { wpm_range, accuracy_range, title, description, illustration } = format[category]
+      if (wpm >= wpm_range[0] && wpm <= wpm_range[1] && accuracy >= accuracy_range[0] && accuracy <= accuracy_range[1]) {
+          return {title, description, totalCharsTyped, correctCharsCount, mistypedCharsCount, wpm, accuracy, illustration}
+      }
+  }
+
+  return {
+      title: "Keep Going!",
+      description: `Your speed was ${wpm} WPM with an accuracy of ${accuracy}%. You're on the right track! Keep practicing to improve further.`,
+      totalCharsTyped,
+      correctCharsCount,
+      mistypedCharsCount,
+      wpm,
+      accuracy,
+      illustration: KeepGoing
+  }
+}
+
+export const formatSeconds = seconds => {
+  const minutes = Math.floor(seconds / 60)
+  const sec = seconds % 60
+  
+  return `${minutes}:${sec.toString().padStart(2, '0')}`
 }

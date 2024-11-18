@@ -5,6 +5,23 @@
     .header {
         .sub {
             color: var(--accent-color);
+            cursor: pointer;
+            position: relative;
+
+            &::before{
+                content: '←';
+                position: absolute;
+                right: calc(100% + 1rem);
+                top: -0.1rem;
+                width: 20px;
+                height: 20px;
+                transition: 0.3s;
+                opacity: 0;
+            }
+
+            &:hover::before {
+                opacity: 1;
+            }
         }
     }
 
@@ -25,6 +42,12 @@
         margin-bottom: 2rem;
         user-select: none;
         position: relative;
+
+        .hidden {
+            position: absolute;
+            z-index: -1000;
+            opacity: 0;
+        }
 
         .caret {
             display: inline-block;
@@ -48,6 +71,12 @@
 
             &.incorrect {
                 color: var(--error-color);
+            }
+
+            &.not-space {
+                background-color: var(--error-color);
+                border-radius: 0.2rem;
+                opacity: 0.4;
             }
         }
     }
@@ -112,15 +141,40 @@
 
     .restart {
         text-align: center;
-        font-size: 1.5rem;
+        font-size: 3.5rem;
         
-        svg {cursor: pointer;}
+        svg {
+            cursor: pointer;
+            padding: 1rem;
+            border-radius: 50%;
+        }
     }
 }
 
 @media (max-width: 50em) {
     .typing-test {
-        padding: 2rem 2.5vw;
+        padding: 2rem;
+        overflow: hidden;
+
+        .results {
+            .illustration {
+                flex: 0 0 50%;
+            }
+
+            .metrics {
+                flex: 0 0 100%;
+
+                .data {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    padding-bottom: 3rem;
+
+                    & > * {
+                        flex: 0 0 30%;
+                    }
+                }
+            }
+        }
     }
 }
 

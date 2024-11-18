@@ -6,7 +6,7 @@ import TypingSVG from '../assets/typing.svg'
 import { Link } from 'react-router-dom'
 
 const svgs = {
-    typing: TypingSVG
+    ["typing-challenge"]: TypingSVG
 }
 
 const Exercise = ({exercise}) => {
@@ -14,7 +14,7 @@ const Exercise = ({exercise}) => {
   return (
     <Link to={exercise.slug} className={`exercise midtone-${theme}`}>
         <div className="thumbnail" style={{backgroundImage: `linear-gradient(135deg, ${exercise.gradientColor[0]}, ${exercise.gradientColor[1]})`}}>
-            {/* <img src={svgs[exercise.thumbnail]} alt={exercise.thumbnail} />  */}
+            {svgs[exercise.slug] && <img src={svgs[exercise.slug]} alt={exercise.slug} />} 
         </div>
         <div className="details">
             <div className="title">
