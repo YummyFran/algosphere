@@ -6,6 +6,7 @@ import '../../styles/typingchallenge.css'
 import { useNavigate } from 'react-router';
 import { generateResultData } from '../../utils/helper';
 import { formatSeconds } from '../../utils/helper';
+import { FaMousePointer } from "react-icons/fa";
 
 const NUMBER_OF_WORDS = 100
 const COUNTDOWN_TIME = 60
@@ -17,6 +18,7 @@ const TypingChallenge = () => {
     const [results, setResults] = useState({})
     const [theme] = useTheme()
     const [caretPos, setCaretPos] = useState({ top: 0, left: 0 })
+    const [hasFocus, setHasFocus] = useState(false)
     const wordsRef = useRef(null)
     const intervalRef = useRef(null)
     const inputRef = useRef(null)
@@ -38,33 +40,29 @@ const TypingChallenge = () => {
     }
 
     const restart = () => {
+        if(inputRef.current) {
+            inputRef.current.focus()
+        }
+
         generateWords(NUMBER_OF_WORDS)
         clearUserTyped()
         resetCountdown()
         resetScrollWords()
     }
 
-    const handleKeyDown = useCallback(({key, code}) => {
-        if(!(code.startsWith("Key") ||
-            code.startsWith("Digit") ||
-            code.startsWith("Minus") ||
-            code === "Backspace" ||
-            code === "Space")) return
-
-        switch(key) {
-            case 'Backspace':
-                setUserTyped(prev => prev.slice(0, -1))
-                break
-            default:
-                setUserTyped((prev) => prev.concat(key))
-                break
+    const handleKeyDown = useCallback((e) => {
+        if(!hasFocus) {
+            e.preventDefault()
+            inputRef.current.focus()
+            return
         }
-    }, [setUserTyped])
+    }, [hasFocus])
 
-    const scrollWords = () => {
-        const lineHeight = 2 * parseFloat(getComputedStyle(document.documentElement).fontSize);
-        wordsRef.current.scrollTop += lineHeight;
-    };
+    const scrollWords = (direction = 1) => {
+        const lineHeight = 2 * parseFloat(getComputedStyle(document.documentElement).fontSize)
+        
+        wordsRef.current.scrollTop += (lineHeight * direction)
+    }   
 
     const resetScrollWords = () => {
         if(wordsRef.current) {
@@ -142,8 +140,12 @@ const TypingChallenge = () => {
                             secondLine.current = offsetTop
                         }
 
-                        if(offsetTop != secondLine.current) {
+                        if(offsetTop !== secondLine.current && offsetTop > prev.top) {
                             scrollWords()
+                        }
+
+                        if(offsetTop < prev.top) {
+                            scrollWords(-1)
                         }
                     }
                     return {
@@ -173,6 +175,22 @@ const TypingChallenge = () => {
         generateWords(NUMBER_OF_WORDS)
         clearUserTyped()
     }, [])
+
+    useEffect(() => {
+        const preventSelection = (e) => e.preventDefault()
+    
+        const inputElement = inputRef.current
+    
+        if (inputElement) {
+            inputElement.addEventListener('selectstart', preventSelection)
+        }
+    
+        return () => {
+            if (inputElement) {
+                inputElement.removeEventListener('selectstart', preventSelection)
+            }
+        }
+    }, [])
     
   return (
     <div className={`typing-test primary-${theme}-bg midtone-${theme}`}>
@@ -185,9 +203,23 @@ const TypingChallenge = () => {
                 {formatSeconds(timeLeft)}
             </div>
         </div>
-        {!hasTimerEnded ? <div className={`typing-area mono-${theme}`} ref={wordsRef}>
+        {!hasTimerEnded ? <div className={`typing-area mono-${theme}`} ref={wordsRef} onClick={() => inputRef.current.focus()}>
+            {!hasFocus && <div className={`blur midtone-${theme}`} >
+                <FaMousePointer />
+                Click here or press any key to focus
+            </div>}
             <div className="caret" style={{ top: `${caretPos.top}px`, left: `${caretPos.left}px` }}></div>
-            <input type="text" className='hidden' ref={inputRef} autoFocus />
+            <input 
+                type="text"
+                className='hidden' 
+                ref={inputRef} 
+                onFocus={() => setHasFocus(true)}
+                onBlur={() => setHasFocus(false)} 
+                autoFocus 
+                value={userTyped}
+                onChange={e => setUserTyped(e.target.value)}
+                onPaste={e => e.preventDefault()}
+            />
             {words.split('').map((char, i) => {
                 let className = ''
                 let notSpace = ''

@@ -44,9 +44,24 @@
         position: relative;
 
         .hidden {
-            position: absolute;
-            z-index: -1000;
+            position: fixed;
+            z-index: -10;
             opacity: 0;
+            user-select: none;
+        }
+
+        .blur {
+            position: absolute;
+            backdrop-filter: blur(8px);
+            z-index: 10;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-family: monospace;
         }
 
         .caret {
