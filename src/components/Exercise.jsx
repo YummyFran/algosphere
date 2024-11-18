@@ -3,6 +3,7 @@ import { IoMdPlay } from 'react-icons/io'
 import { useTheme } from '../provider/ThemeProvider'
 import { skillColor } from '../utils/helper'
 import TypingSVG from '../assets/typing.svg'
+import { Link } from 'react-router-dom'
 
 const svgs = {
     typing: TypingSVG
@@ -11,7 +12,7 @@ const svgs = {
 const Exercise = ({exercise}) => {
     const [theme] = useTheme()
   return (
-    <div className={`exercise`}>
+    <Link to={exercise.slug} className={`exercise midtone-${theme}`}>
         <div className="thumbnail" style={{backgroundImage: `linear-gradient(135deg, ${exercise.gradientColor[0]}, ${exercise.gradientColor[1]})`}}>
             {/* <img src={svgs[exercise.thumbnail]} alt={exercise.thumbnail} />  */}
         </div>
@@ -32,7 +33,7 @@ const Exercise = ({exercise}) => {
         <div className={`play ${theme}-hover`}>
             <IoMdPlay />
         </div>
-    </div>
+    </Link>
   )
 }
 

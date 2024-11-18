@@ -1,0 +1,131 @@
+.typing-test {
+    padding: 3rem 10rem;
+    min-height: 100vh;
+
+    .header {
+        .sub {
+            color: var(--accent-color);
+        }
+    }
+
+    .options {
+        .timer {
+            font-size: 2rem;
+            font-family: monospace;
+            margin-block: 3rem 0.5rem;
+        }
+    }
+
+    .typing-area {
+        font-family: monospace;
+        font-size: 2.5rem;
+        line-height: 1.5;
+        overflow: hidden;
+        max-height: calc(2.5rem * 1.5 * 3);
+        margin-bottom: 2rem;
+        user-select: none;
+        position: relative;
+
+        .caret {
+            display: inline-block;
+            width: 3px;
+            height: 2.7rem;
+            background-color: var(--accent-color);
+            position: absolute;
+            top: 0.5rem;
+            opacity: 1;
+            border-radius: 5px;
+            animation: blink 1s ease-in-out infinite;
+        }
+
+        .char {
+            font-family: inherit;
+            position: relative;
+
+            &.correct {
+                color: var(--accent-color);
+            }
+
+            &.incorrect {
+                color: var(--error-color);
+            }
+        }
+    }
+
+    .results {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        .illustration {
+            flex: 0 0 30%;
+            aspect-ratio: 1;
+            
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .metrics {
+            flex: 0 0 60%;
+
+            .title {
+                font-weight: 800;
+                font-size: 1.2rem;
+                color: var(--accent-color);
+                padding-bottom: 0.5rem;
+            }
+
+            .description {
+                font-weight: 400;
+                font-size: 1rem;
+            }
+
+            .data {
+                display: flex;
+                margin-top: 3rem;
+                gap: 0.2rem;
+
+                & > * {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
+
+                    .value {
+                        font-weight: 600;
+                        font-size: 2.5rem;
+                    }
+
+                    .label {
+                        font-weight: 300;
+                        font-size: 0.9rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .restart {
+        text-align: center;
+        font-size: 1.5rem;
+        
+        svg {cursor: pointer;}
+    }
+}
+
+@media (max-width: 50em) {
+    .typing-test {
+        padding: 2rem 2.5vw;
+    }
+}
+
+@keyframes blink {
+    50% {
+      background-color: transparent;
+    }
+  }

@@ -2,6 +2,7 @@
     {
       "id": 1,
       "name": "Typing Challenge",
+      "slug": "typing-challenge",
       "category": "Typing Test",
       "description": "Test your typing speed and accuracy under time pressure.",
       "requiredSkills": ["Typing"],
@@ -10,6 +11,7 @@
     {
       "id": 2,
       "name": "Code Breaker",
+      "slug": "code-breaker",
       "category": "Coding Challenge",
       "description": "Solve algorithmic problems inspired by competitive programming.",
       "requiredSkills": ["Algorithms", "Data Structures"],
@@ -18,6 +20,7 @@
     {
       "id": 3,
       "name": "CSS Duel",
+      "slug": "css-duel",
       "category": "CSS Battle",
       "description": "Match design targets using efficient and creative CSS.",
       "requiredSkills": ["CSS", "Design Principles"],
@@ -26,6 +29,7 @@
     {
       "id": 4,
       "name": "Quiz Whiz",
+      "slug": "quiz-whiz",
       "category": "Coding Quiz",
       "description": "Test your programming knowledge with engaging multiple-choice questions.",
       "requiredSkills": ["General Programming", "Problem Solving"],
@@ -34,6 +38,7 @@
     {
       "id": 5,
       "name": "SQL Sprint",
+      "slug": "sql-sprint",
       "category": "SQL Practice",
       "description": "Write SQL queries to solve database challenges quickly.",
       "requiredSkills": ["SQL", "Database Management"],
@@ -42,6 +47,7 @@
     {
       "id": 6,
       "name": "React Race",
+      "slug": "react-race",
       "category": "Web Development",
       "description": "Create interactive components using React in a timed challenge.",
       "requiredSkills": ["React", "JavaScript", "Frontend Development"],
@@ -50,6 +56,7 @@
     {
       "id": 7,
       "name": "Python Prowess",
+      "slug": "python-prowess",
       "category": "Coding Challenge",
       "description": "Complete a series of Python challenges to enhance your skills.",
       "requiredSkills": ["Python", "Algorithms", "Scripting"],
@@ -58,6 +65,7 @@
     {
       "id": 8,
       "name": "Debugging Dash",
+      "slug": "debugging-dash",
       "category": "SQL Practice",
       "description": "Identify and fix errors in provided SQL queries.",
       "requiredSkills": ["SQL", "Debugging", "Database Management"],
@@ -66,6 +74,7 @@
     {
       "id": 9,
       "name": "HTML Mastery",
+      "slug": "html-mastery",
       "category": "Web Development",
       "description": "Build semantic HTML structures for effective web layouts.",
       "requiredSkills": ["HTML", "Accessibility", "SEO"],
@@ -74,6 +83,7 @@
     {
       "id": 10,
       "name": "Creative CSS Clash",
+      "slug": "creative-css-clash",
       "category": "CSS Battle",
       "description": "Create visually stunning layouts using advanced CSS techniques.",
       "requiredSkills": ["Advanced CSS", "Animations", "Design Principles"],

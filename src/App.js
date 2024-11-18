@@ -18,6 +18,7 @@ import Metrics from "./Layouts/Metrics";
 import Following from "./components/Following";
 import Followers from "./components/Followers";
 import PostActivity from "./pages/PostActivity";
+import ExerciseRenderer from "./pages/ExerciseRenderer";
 
 function App() {
   return (
@@ -50,6 +51,8 @@ function App() {
         <Route path="/courses/:collectionSlug/:courseSlug" element={<Course />}>
           <Route path=":lessonSlug" element={<Lessons />}/>
         </Route>
+
+        <Route path="exercises/:exerciseSlug" element={<ExerciseRenderer />} />
         
         <Route path="*" element={'404 not found'} />
       </Routes>
