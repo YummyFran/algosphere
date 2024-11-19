@@ -51,7 +51,7 @@ const TypingChallenge = () => {
     }
 
     const handleKeyDown = useCallback((e) => {
-        if(!hasFocus) {
+        if(!hasFocus && inputRef.current) {
             e.preventDefault()
             inputRef.current.focus()
             return
@@ -59,10 +59,11 @@ const TypingChallenge = () => {
     }, [hasFocus])
 
     const scrollWords = (direction = 1) => {
-        const lineHeight = 2 * parseFloat(getComputedStyle(document.documentElement).fontSize)
-        
-        wordsRef.current.scrollTop += (lineHeight * direction)
-    }   
+        if (!wordsRef.current) return
+    
+        const lineHeight = parseFloat(getComputedStyle(wordsRef.current).lineHeight)
+        wordsRef.current.scrollTop += (lineHeight * direction * 0.5)
+    }
 
     const resetScrollWords = () => {
         if(wordsRef.current) {

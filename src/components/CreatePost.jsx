@@ -19,8 +19,6 @@ const CreatePost = ({
         
         const hasVids = files.filter(file => file.type === 'video/mp4').length > 0 ||
                         postContent.attachments.filter(file => file.type === 'video/mp4').length > 0
-        
-        console.log(hasVids, postContent.attachments.length > 0)
 
         if(hasVids && postContent.attachments.length > 0) {
             addToast("Warning", "attachments can only contain one video or multiple images without video", "warning")
