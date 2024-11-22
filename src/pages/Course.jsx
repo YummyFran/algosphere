@@ -39,7 +39,7 @@ const Course = () => {
         }
 
         importJSON()
-    }, [courseSlug])
+    }, [courseSlug, collectionSlug])
 
     if(loading && !courseData) return "Loading..."
     if(error) return error

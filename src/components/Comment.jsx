@@ -34,7 +34,7 @@ const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef, them
         enabled: !!currentUser
       })
 
-    const { mutate: toggleLike, isPending } = useMutation({
+    const { mutate: toggleLike } = useMutation({
         mutationFn: async () => {
             console.log(hasLiked)
           if (!hasLiked) {
@@ -66,11 +66,7 @@ const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef, them
     });
 
     const {
-        data: replies,
-        fetchNextPage, 
-        hasNextPage, 
-        isFetchingNextPage,
-        isLoading: isRepliesLoading
+        data: replies
     } = useInfiniteQuery({
         queryKey: ['replies', comment.id, currentUser?.uid],
         queryFn: async (param) => {
@@ -133,7 +129,7 @@ const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef, them
         <div className={`after mono-${theme}-bg`}></div>
         <div className="post-details">
             <div className={`display-picture mono-${theme}-bg`}>
-                {postOwner?.photoURL && <img src={postOwner.photoURL} />}
+                {postOwner?.photoURL && <img src={postOwner.photoURL} alt={postOwner?.username}/>}
             </div>
             <div className="content">
                 <div className="post-header">
@@ -188,7 +184,7 @@ const Comment = ({comment, currentUser, parentsId, parentReplyRef, lastRef, them
                         <div key={i} className={`comment`}>
                             {chunk.comments.map((com, i) => isCommenting && 
                                 <Comment 
-                                    lastRef={chunk.comments.length - 1 == i && lastReplyRef} 
+                                    lastRef={chunk.comments.length - 1 === i && lastReplyRef} 
                                     comment={com} key={com.id} 
                                     currentUser={currentUser} 
                                     parentsId={parentsId.length < 3 ? [...parentsId, comment.id] : [...parentsId]} 

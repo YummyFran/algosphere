@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useUser } from '../provider/UserProvider'
-import { Navigate, useNavigate, useParams } from 'react-router'
+import { Navigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import { signUp } from '../utils/authentication'
 import { updateProfile } from 'firebase/auth'

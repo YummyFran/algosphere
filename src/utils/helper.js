@@ -3,6 +3,7 @@ import Walker from '../assets/walker.svg'
 import Sprinter from '../assets/sprinter.svg'
 import Master from '../assets/master.svg'
 import KeepGoing from '../assets/Keep Going.svg'
+import React from 'react'
 
 export function timeAgo(postedTime) {
     if(!postedTime) return
@@ -185,4 +186,51 @@ export const formatSeconds = seconds => {
   const sec = seconds % 60
   
   return `${minutes}:${sec.toString().padStart(2, '0')}`
+}
+
+export const generateRandomNumber = (start, end) => {
+  return Math.floor(Math.random() * (end - start + 1)) + start
+}
+
+export const getRankDetails = (rank) => {
+  switch (rank) {
+    case 8:
+      return {name: "Initiate", color: "#8C9394"}
+    case 7:
+      return {name: "Apprentice", color: "#5E9EA8"}
+    case 6:
+      return {name: "Journeyman", color: "#4BA84B"}
+    case 5:
+      return {name: "Adept", color: "#B89A3F"}
+    case 4:
+      return {name: "Expert", color: "#E5763B"}
+    case 3:
+      return {name: "Master", color: "#7C417C"}
+    case 2:
+      return {name: "Grandmaster", color: "#493F91"}
+    case 1:
+      return {name: "Legend", color: "#A23030"}
+    default:
+      return {name: "Unknown", color: "#2c2c2c"}
+  }
+}
+
+
+export function formatCodeStringToJSX(input) {
+  if(!input) return
+
+  const parts = input.split(/(`[^`]+`)/g) // Split the string by backtick-wrapped content
+
+  return parts.map((part, index) => {
+    if (part.startsWith('`') && part.endsWith('`')) {
+      const content = part.slice(1, -1)
+      return (
+        <span className="code" key={index}>
+          {content}
+        </span>
+      )
+    }
+
+    return <React.Fragment key={index}>{part}</React.Fragment>
+  })
 }

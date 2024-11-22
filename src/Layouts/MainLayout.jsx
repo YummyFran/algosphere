@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getUser } from '../utils/firestore'
 
 const MainLayout = () => {
-    const [user, loading] = useUser()
+    const [user] = useUser()
     const menuRef = useRef()
     const menuMobileRef = useRef()
 

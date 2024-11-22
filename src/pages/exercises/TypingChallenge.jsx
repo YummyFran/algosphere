@@ -72,7 +72,7 @@ const TypingChallenge = () => {
         }
     }
 
-    const calculateResults = () => {
+    const calculateResults = useCallback(() => {
         const correctCharsCount = userTyped.split('').filter((char, i) => char === words[i]).length;
         const totalCharsTyped = userTyped.length;
         const correctWordsCount = userTyped.trim().split(' ').filter((word, i) => word === words.split(' ')[i]).length;
@@ -83,7 +83,7 @@ const TypingChallenge = () => {
         const res = generateResultData(wpm, accuracy, totalCharsTyped, correctCharsCount, mistypedCharsCount)
 
         setResults({...res})
-    }
+    }, [userTyped, words])
 
     const startCountdown = useCallback(() => {
         if (!hasTimerEnded && !isRunning) {
@@ -103,7 +103,7 @@ const TypingChallenge = () => {
         if (hasTyped && !isRunning) {
             startCountdown()
         }
-    }, [hasTyped])
+    }, [hasTyped, isRunning, startCountdown])
 
     useEffect(() => {
         if (hasTimerEnded) {
@@ -112,7 +112,7 @@ const TypingChallenge = () => {
             calculateResults()
         }
         resetScrollWords()
-    }, [hasTimerEnded])
+    }, [hasTimerEnded, calculateResults])
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown)
@@ -136,7 +136,7 @@ const TypingChallenge = () => {
                 }
 
                 setCaretPos(prev => {
-                    if(prev.top !== initialScroll.current && prev.top != offsetTop) {
+                    if(prev.top !== initialScroll.current && prev.top !== offsetTop) {
                         if(!secondLine.current) {
                             secondLine.current = offsetTop
                         }

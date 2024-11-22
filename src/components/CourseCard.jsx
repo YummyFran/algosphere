@@ -1,7 +1,6 @@
 import React from 'react'
 import { IoMdPlay } from 'react-icons/io'
 import { useTheme } from '../provider/ThemeProvider'
-import { getRandomGradientPair } from '../utils/helper'
 import { useNavigate } from 'react-router'
 
 const CourseCard = ({collection, course}) => {

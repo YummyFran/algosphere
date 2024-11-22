@@ -16,7 +16,7 @@ const Login = () => {
     const handleSubmit = async e => {
         e.preventDefault()
 
-        const [user, err] = await signIn(credentials.email, credentials.password)
+        const [, err] = await signIn(credentials.email, credentials.password)
 
         if(err) {
             setError(err.code)

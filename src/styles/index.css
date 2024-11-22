@@ -48,7 +48,7 @@ a {
 }
 
 .mono-light-border {
-    border-color: var(--mono-light);
+    border-color: var(--mono-light) !important;
 }
 
 .mono-dark-bg {
@@ -60,7 +60,7 @@ a {
 }
 
 .mono-dark-border {
-    border-color: var(--mono-dark);
+    border-color: var(--mono-dark) !important;
 }
 
 .dark-shadow {

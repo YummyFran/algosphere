@@ -28,8 +28,7 @@ const Feed = () => {
     const {
         data: posts,
         fetchNextPage, 
-        hasNextPage, 
-        isFetchingNextPage,
+        hasNextPage,
         isLoading: isPostLoading
     } = useInfiniteQuery({
         queryKey: ['posts'],
@@ -85,7 +84,7 @@ const Feed = () => {
         return () => {
             window.removeEventListener('scroll', checkScroll)
         }
-    }, [currentUser])
+    }, [currentUser, fetchNextPage])
 
     if(!user) return <Navigate to="/login"/>
   return (

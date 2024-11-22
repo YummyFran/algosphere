@@ -6,10 +6,10 @@ import { useUser } from '../provider/UserProvider'
 import { useOutletContext } from 'react-router'
 
 const Timeline = () => {
-  const [user, loading] = useUser()
-  const [timelineUser, username, isTimelineUserLoading] = useOutletContext()
+  const [user] = useUser()
+  const [timelineUser, isTimelineUserLoading] = useOutletContext()
 
-  const {data: currentUser, isLoading} = useQuery({
+  const {data: currentUser} = useQuery({
     queryKey: ['user'],
     queryFn: async () => await getUser(user.uid)
   })
@@ -46,9 +46,9 @@ const Timeline = () => {
         window.removeEventListener('scroll', checkScroll)
     }
 
-  }, [currentUser])
+  }, [currentUser, fetchNextPage])
 
-  if(isTimelineUserLoading || posts?.pages[0]?.posts[0]?.userId != timelineUser?.uid) return <div>Loading...</div>
+  if(isTimelineUserLoading || posts?.pages[0]?.posts[0]?.userId !== timelineUser?.uid) return <div>Loading...</div>
 
   return (
     <div className='timeline'>

@@ -43,7 +43,7 @@ const Post = ({post, currentUser}) => {
         enabled: !!currentUser
     })
 
-    const { mutate: toggleLike, isPending } = useMutation({
+    const { mutate: toggleLike } = useMutation({
         mutationFn: async () => {
           if (!hasLiked) {
             await incrementLikes(post.id, 'likesCount', currentUser.uid)
@@ -154,7 +154,7 @@ const Post = ({post, currentUser}) => {
     <div className={`post mono-${theme}-border`}>
         <div className="post-details">
             <div className={`display-picture mono-${theme}-bg`}>
-                {postOwner?.photoURL && <img src={postOwner.photoURL} />}
+                {postOwner?.photoURL && <img src={postOwner.photoURL} alt={postOwner?.displayName}/>}
             </div>
             <div className={`menu ${theme}-shadow primary-${theme}-bg`} ref={menuRef} onClick={e => e.stopPropagation()}>
             {

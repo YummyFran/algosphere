@@ -51,7 +51,7 @@ const CreatePost = ({
     <div className={`create-post ${theme}-shadow ${isPending ? 'posting':''}`}>
         <div className="context">
             <div className={`display-photo mono-${theme}-bg`}>
-                {currentUser?.photoURL && <img src={currentUser.photoURL} />}
+                {currentUser?.photoURL && <img src={currentUser.photoURL} alt={currentUser?.displayName}/>}
             </div>
             <div className={`datas mono-${theme}-border`}>
                 <textarea 
@@ -88,7 +88,7 @@ const CreatePost = ({
                 <IoImagesOutline />
             </label>
             <input type="file" name="" id='add-file' multiple onChange={handleFileChange} accept='image/*,video/*'/>
-            <button onClick={() => submitPost()} disabled={postContent.context.length == 0 || isPending}>{isPending ? 'Posting' : 'Post'} </button>
+            <button onClick={() => submitPost()} disabled={postContent.context.length === 0 || isPending}>{isPending ? 'Posting' : 'Post'} </button>
         </div>
     </div>
   )

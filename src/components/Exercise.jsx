@@ -6,7 +6,7 @@ import TypingSVG from '../assets/typing.svg'
 import { Link } from 'react-router-dom'
 
 const svgs = {
-    ["typing-challenge"]: TypingSVG
+    "typing-challenge": TypingSVG
 }
 
 const Exercise = ({exercise}) => {

@@ -1,0 +1,156 @@
+.code-breaker {
+    padding: 3rem 10rem;
+    min-height: 100vh;
+
+    .header {
+        .sub {
+            color: var(--accent-color);
+            cursor: pointer;
+            position: relative;
+
+            &::before{
+                content: '←';
+                position: absolute;
+                right: calc(100% + 1rem);
+                top: -0.1rem;
+                width: 20px;
+                height: 20px;
+                transition: 0.3s;
+                opacity: 0;
+            }
+
+            &:hover::before {
+                opacity: 1;
+            }
+        }
+    }
+
+    .suggested {
+
+        display: flex;
+        margin: 2rem 0;
+        border-radius: 1rem;
+
+        .options {
+            flex: 0 0 30%;
+            border-radius: 1rem;
+            padding: 1rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 2rem;
+
+            .title {
+                font-weight: 600;
+                font-size: 1rem;
+            }
+
+            .dropdowns {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                .language, .focus {
+                    background-color: rgb(44, 44, 44);
+                    border-radius: 0.5rem;
+                    
+                    select {
+                        border-radius: 0.5rem;
+                        padding: 0.5rem 1rem;
+                        appearance: none;
+                        width: 100%;
+                        height: 100%;
+                        background-color: inherit;
+                        color: inherit;
+
+                        option {
+                            /* display: none; */
+                            appearance: none;
+                        }
+                    }
+                }
+            }
+
+            .buttons {
+                display: flex;
+                justify-content: center;
+                gap: 0.5rem;
+
+                & > * {
+                    padding: 0.5rem 1rem;
+                    background: none;
+                    border-radius: 0.5rem;
+                    border: 1px solid white;
+                    color: white;
+                    cursor: pointer;
+                }
+                
+                .train {
+                    background-color: rgba(255, 255, 255, 0.2);
+                }
+
+                & > *:hover {
+                    background-color: rgb(44, 44, 44);
+                    border: 1px solid transparent;
+                }
+                
+            }
+        }
+
+        .problem {
+            padding: 1rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem   ;
+
+            .title {
+                flex: 0 0 1rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                .rank {
+                    font-size: 0.7rem;
+                    border: 2px solid;
+                    padding: 0.2rem 0.5rem;
+                    text-align: center;
+                    border-radius: 1rem;
+                    font-weight: 500;
+                }
+
+                .name {
+                    font-weight: 600;
+                    font-size: 1.3rem;
+                }
+            }
+
+            .statement {
+                flex: auto;
+                overflow: auto;
+                font-size: 0.9rem;
+                padding: 0.2rem 0;
+
+                .code {
+                    border: 1px solid #c0c0c09d;
+                    padding: 2px 4px;
+                    border-radius: 3px;
+                    font-family: monospace;
+                }
+            }
+
+            .tags {
+                flex: 1 1 0.5rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                .tag {
+                    text-transform: uppercase;
+                    font-size: 0.6rem;
+                    background-color: #c8c8c832;
+                    padding: 0.2rem 0.5rem;
+                }
+            }
+        }
+    }
+}

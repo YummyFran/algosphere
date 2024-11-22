@@ -1,14 +1,6 @@
-import { getDownloadURL, getMetadata, listAll, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage'
+import { getDownloadURL, getMetadata, listAll, ref, uploadBytesResumable } from 'firebase/storage'
 import { storage } from './firebase'
 import { v4 } from 'uuid'
-
-const uploadFile = async (file, path) => {
-    if(!file) return
-
-    const fileRef = ref(storage, path)
-
-    await uploadBytes(fileRef, file)
-}
 
 const uploadFiles = async (files, path, setProgress) => {
     if(files.length === 0) return

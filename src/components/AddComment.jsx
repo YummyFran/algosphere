@@ -11,7 +11,7 @@ const AddComment = ({
     isCommenting
 }) => {
     const textAreaRef = useRef()
-    const [theme, setTheme] = useTheme()
+    const [theme] = useTheme()
 
     const setTextareaRefs = (el) => {
         textAreaRef.current = el;
@@ -46,7 +46,7 @@ const AddComment = ({
             className={`mono-${theme}-bg midtone-${theme}`}
         ></textarea>
         <div className="attachments">
-            <button onClick={submitComment} disabled={commentContent.context.length == 0 || isCommenting}><LuSendHorizonal /></button>
+            <button onClick={submitComment} disabled={commentContent.context.length === 0 || isCommenting}><LuSendHorizonal /></button>
         </div>
     </div>
   )

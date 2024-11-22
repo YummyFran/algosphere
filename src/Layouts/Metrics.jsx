@@ -15,12 +15,12 @@ const Metrics = () => {
     const { username } = useParams();
     const nav = useNavigate();
 
-    const { data: user, isLoading, refetch } = useQuery({
+    const { data: user, isLoading } = useQuery({
         queryKey: ["userdata"],
         queryFn: async () => await getUserByUsername(username)
     })
 
-    if (isLoading || username != user?.username) return <div>Loading...</div>
+    if (isLoading || username !== user?.username) return <div>Loading...</div>
   return (
     <div className={`metrics-page primary-${theme}-bg midtone-${theme}`}>
         <div className="metrics">
@@ -28,7 +28,7 @@ const Metrics = () => {
                 <div className={`back ${theme}-hover`} onClick={() => nav(-1)}>
                     <IoArrowBackOutline />
                 </div>
-                <p>{user?.uid == currentUser?.uid ? "Profile" : user?.username}</p>
+                <p>{user?.uid === currentUser?.uid ? "Profile" : user?.username}</p>
                 <div className={`meatball ${theme}-hover`}>
                     <AiOutlineMore />
                 </div>

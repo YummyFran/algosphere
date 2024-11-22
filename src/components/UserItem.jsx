@@ -58,7 +58,7 @@ const UserItem = ({userData, className}) => {
         {userData.uid !== currentUser.uid &&
             <button 
                 className={`${isFollowing ? 'following' : 'follow'} midtone-${theme}`} 
-                onClick={e => (e.stopPropagation(), isFollowing ? mutateUnFollow() : mutateFollow())} 
+                onClick={e => {e.stopPropagation(); isFollowing ? mutateUnFollow() : mutateFollow()}} 
                 disabled={isFollowPending}
             >
                 {isFollowing ? "Following" : "Follow"}

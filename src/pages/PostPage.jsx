@@ -14,7 +14,7 @@ import { useToast } from '../provider/ToastProvider'
 
 const PostPage = () => {
     const [commentContent, setCommentContent] = useState({context: '', attachments: []})
-    const { username, postId } = useParams()
+    const { postId } = useParams()
     const [user] = useUser()
     const [theme] = useTheme()
     const [addToast] = useToast()
@@ -33,9 +33,7 @@ const PostPage = () => {
 
     const {
         data: comments,
-        fetchNextPage, 
-        hasNextPage, 
-        isFetchingNextPage,
+        fetchNextPage,
         isLoading: isCommentsLoading
     } = useInfiniteQuery({
         queryKey: ['comments', postId, user?.uid],
@@ -78,7 +76,7 @@ const PostPage = () => {
         return () => {
             window.removeEventListener('scroll', checkScroll)
         }
-    }, [])
+    }, [fetchNextPage])
 
     if(isLoading || loadingUser) return "Loading..."
   return (

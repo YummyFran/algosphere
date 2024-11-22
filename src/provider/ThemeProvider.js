@@ -11,12 +11,10 @@ export const useTheme = () => {
 
 const ThemeProvider = ({children}) => {
     const [UItheme, setUITheme] = React.useState('light')
-    const [user, loading] = useUser()
+    const [user] = useUser()
 
     const { 
-        data: themeData, 
-        isLoading: isLoadingTheme,
-         error: themeError 
+        data: themeData
     } = useQuery({
         queryKey: ['theme', user?.uid],
         queryFn: async () => await getTheme(user),

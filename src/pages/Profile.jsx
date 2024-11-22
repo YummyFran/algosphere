@@ -12,8 +12,8 @@ import { useToast } from '../provider/ToastProvider'
 
 const Profile = () => {
     const { username } = useParams()
-    const [theme, setTheme] = useTheme()
-    const [currentUser, loading] = useUser()
+    const [theme] = useTheme()
+    const [currentUser] = useUser()
     const [addToast] = useToast()
     const [isFollowPending, setIsFollowPending] = useState(false)
     const queryClient = useQueryClient()
@@ -65,7 +65,7 @@ const Profile = () => {
         refetch()
     }, [username, refetch])
 
-    if (isLoading || username != user?.username) return <div>Loading...</div>
+    if (isLoading || username !== user?.username) return <div>Loading...</div>
   return (
     <div className={`profile-page primary-${theme}-bg midtone-${theme}`}>
         <div className="profile">
@@ -73,7 +73,7 @@ const Profile = () => {
                 <div className={`back ${theme}-hover`} onClick={() => nav(-1)}>
                     <IoArrowBackOutline />
                 </div>
-                <p>{user.uid == currentUser?.uid ? "Profile" : user.username}</p>
+                <p>{user.uid === currentUser?.uid ? "Profile" : user.username}</p>
                 <div className={`meatball ${theme}-hover`}>
                     <AiOutlineMore />
                 </div>
@@ -85,7 +85,7 @@ const Profile = () => {
                         <div className="username">@{user.username}</div>
                     </div>
                     <div className={`profile-picture secondary-${theme}-bg`}>
-                        {user?.photoURL && <img src={user.photoURL} />}
+                        {user?.photoURL && <img src={user.photoURL} alt={user.displayName}/>}
                     </div>
                 </div>
                 <div className="bio">{user.bio}</div>
