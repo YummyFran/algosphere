@@ -4,6 +4,7 @@ import Sprinter from '../assets/sprinter.svg'
 import Master from '../assets/master.svg'
 import KeepGoing from '../assets/Keep Going.svg'
 import React from 'react'
+import { useTheme } from '../provider/ThemeProvider'
 
 export function timeAgo(postedTime) {
     if(!postedTime) return
@@ -216,12 +217,22 @@ export const getRankDetails = (rank) => {
 }
 
 
-export function formatCodeStringToJSX(input) {
+export function formatCodeStringToJSX(input, theme = 'light') {
   if(!input) return
 
-  const parts = input.split(/(`[^`]+`)/g) // Split the string by backtick-wrapped content
+  const parts = input.split(/(```[\s\S]+?```|`[^`]+`)/g)
 
   return parts.map((part, index) => {
+    if(part.startsWith('```') && part.endsWith('`')) {
+      const content = part.slice(3, -3).trim()
+
+      return (
+        <pre key={index} className={`multi-code primary-${theme}-bg`}>
+          {content}
+        </pre>
+      )
+    }
+
     if (part.startsWith('`') && part.endsWith('`')) {
       const content = part.slice(1, -1)
       return (

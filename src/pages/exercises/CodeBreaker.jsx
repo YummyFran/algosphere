@@ -8,6 +8,7 @@ import '../../styles/codebreaker.css'
 
 
 const CodeBreaker = () => {
+  const [prevChallenge, setPrevChallenge] = useState({})
   const [suggestedChallenge, setSuggestedChallenge] = useState({})
   const [languageValue, setLanguageValue] = useState("JavaScript")
   const [tagValue, setTagValue] = useState("Random")
@@ -18,10 +19,16 @@ const CodeBreaker = () => {
     const problems = Object.values(problemMapper).filter(({tags}) => tagValue === "Random" ? true : tags.includes(tagValue))
     const randomIndex = generateRandomNumber(0, problems.length - 1)
     setSuggestedChallenge(problems[randomIndex])
+    return problems[randomIndex]
   }, [tagValue])
 
   useEffect(() => {
-    generateRandomProblem()
+    let rand;
+    do {
+      rand = generateRandomProblem()
+    } while(rand === prevChallenge)
+
+    setPrevChallenge(rand)
   }, [tagValue, generateRandomProblem])
 
   return (
@@ -58,7 +65,7 @@ const CodeBreaker = () => {
             <div className="rank" style={{color: `${suggestedChallenge?.rank?.color}`}}>{suggestedChallenge?.rank?.name}</div>
             <div className="name">{suggestedChallenge?.name}</div>
           </div>
-          <div className="statement">{formatCodeStringToJSX(suggestedChallenge?.problemStatement)}</div>
+          <div className="statement">{formatCodeStringToJSX(suggestedChallenge?.problemStatement, theme)}</div>
           <div className="tags">{suggestedChallenge?.tags?.map((tag, i) => <span className='tag' key={i}>{tag}</span>)}</div>
         </div>
       </div>

@@ -7,11 +7,12 @@ const starterCode = `function evenOrOdd(number) {
 
 const handler = (evenOrOdd) => {
     try {
+        console.log(evenOrOdd(2))
         assert.strictEqual(evenOrOdd(2), "Even")
-        assert.strictEqual(evenOrOdd(7), "Odd");
-        assert.strictEqual(evenOrOdd(-42), "Even");
-        assert.strictEqual(evenOrOdd(-7), "Odd");
-        assert.strictEqual(evenOrOdd(0), "Even");
+        assert.strictEqual(evenOrOdd(7), "Odd")
+        assert.strictEqual(evenOrOdd(-42), "Even")
+        assert.strictEqual(evenOrOdd(-7), "Odd")
+        assert.strictEqual(evenOrOdd(0), "Even")
         return true
     } catch (error) {
         console.log(error)
