@@ -26,7 +26,6 @@
     }
 
     .suggested {
-
         display: flex;
         margin: 2rem 0;
         border-radius: 1rem;
@@ -39,6 +38,7 @@
             flex-direction: column;
             justify-content: space-between;
             gap: 2rem;
+            height: min-content;
 
             .title {
                 font-weight: 600;
@@ -102,7 +102,7 @@
             padding: 1rem 1.5rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem   ;
+            gap: 1rem;
 
             .title {
                 flex: 0 0 1rem;
@@ -126,10 +126,23 @@
             }
 
             .statement {
-                flex: auto;
+                flex: 1;
                 overflow: auto;
                 font-size: 0.9rem;
                 padding: 0.2rem 0;
+
+                &::-webkit-scrollbar {
+                    width: 0.5rem;
+                }
+                
+                &::-webkit-scrollbar-thumb {
+                    background: #888;
+                    border-radius: 5px;
+                }
+                
+                &::-webkit-scrollbar-thumb:hover {
+                    background: #555; 
+                }
 
                 .code {
                     border: 1px solid #c0c0c09d;
@@ -144,10 +157,14 @@
                     border-radius: 0.5rem;
                     margin-top: 0.5rem;
                 }
+
+                .title {
+                    margin-top: 1rem;
+                }
             }
 
             .tags {
-                flex: 1 1 0.5rem;
+                flex: 0 1 0.5rem;   
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;

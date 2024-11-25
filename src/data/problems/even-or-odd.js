@@ -1,24 +1,28 @@
-import assert from "assert"
-import { getRankDetails } from "../../utils/helper";
+import { getRankDetails, assert } from "../../utils/helper";
 
 const starterCode = `function evenOrOdd(number) {
   // Write your code here
 }`
 
-const handler = (evenOrOdd) => {
+const handler = `
+${assert}
+
+self.onmessage = function(e) {
     try {
-        console.log(evenOrOdd(2))
-        assert.strictEqual(evenOrOdd(2), "Even")
-        assert.strictEqual(evenOrOdd(7), "Odd")
-        assert.strictEqual(evenOrOdd(-42), "Even")
-        assert.strictEqual(evenOrOdd(-7), "Odd")
-        assert.strictEqual(evenOrOdd(0), "Even")
-        return true
+        const evenOrOdd = new Function(\`return \${e.data}\`)()
+
+        assert.strictEqual(evenOrOdd(2), "Even", "2 is even")
+        assert.strictEqual(evenOrOdd(7), "Odd", "7 is odd") 
+        assert.strictEqual(evenOrOdd(-42), "Even", "-42 is even")
+        assert.strictEqual(evenOrOdd(-7), "Odd", "-7 is odd")
+        assert.strictEqual(evenOrOdd(0), "Even", "0 is even")
+        
+        self.postMessage(assert.results)
     } catch (error) {
-        console.log(error)
-        return false
-    }
+        self.postMessage(error)
+    }   
 }
+`
 
 export const evenOrOdd = {
     name: 'Even or Odd',

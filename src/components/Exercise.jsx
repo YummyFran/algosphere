@@ -3,10 +3,12 @@ import { IoMdPlay } from 'react-icons/io'
 import { useTheme } from '../provider/ThemeProvider'
 import { skillColor } from '../utils/helper'
 import TypingSVG from '../assets/typing.svg'
+import CodeBreakerPNG from '../assets/codebreaker.png'
 import { Link } from 'react-router-dom'
 
 const svgs = {
-    "typing-challenge": TypingSVG
+    "typing-challenge": TypingSVG,
+    "code-breaker": CodeBreakerPNG
 }
 
 const Exercise = ({exercise}) => {

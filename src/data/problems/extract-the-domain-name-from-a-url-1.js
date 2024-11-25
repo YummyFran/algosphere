@@ -1,21 +1,27 @@
-import assert from "assert"
-import { getRankDetails } from "../../utils/helper";
+import { getRankDetails, assert } from "../../utils/helper";
 
 const starterCode = `function domainName(url){
   //your code here
 }`
-const handler = (domainName) => {
+
+const handler = `
+${assert}
+
+self.onmessage = function(e) {
     try {
-        assert.equal(domainName("http://google.com"), "google")
-        assert.equal(domainName("http://google.co.jp"), "google")
-        assert.equal(domainName("www.xakep.ru"), "xakep")
-        assert.equal(domainName("https://youtube.com"), "youtube")
-        return true
+        const domainName = new Function(\`return \${e.data}\`)()
+
+        assert.strictEqual(domainName("http://google.com"), "google")
+        assert.strictEqual(domainName("http://google.co.jp"), "google")
+        assert.strictEqual(domainName("www.xakep.ru"), "xakep")
+        assert.strictEqual(domainName("https://youtube.com"), "youtube")
+        
+        self.postMessage(assert.results)
     } catch (error) {
-        console.log(error)
-        return false
-    }
+        self.postMessage(error)
+    }   
 }
+`
 
 export const extractTheDomainNameFromAUrl1 = {
     name: 'Extract the domain name from a URL',

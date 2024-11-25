@@ -88,6 +88,8 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            height: 100%;
+            max-height: calc(100vh - 4rem);
     
             .title, .tabs, .back {
                 flex-grow: 0;
@@ -187,6 +189,10 @@
                                 background: #555; 
                             }
                         }
+
+                        .title {
+                            margin-top: 1rem;
+                        }
                     }
     
                     .tags {
@@ -208,6 +214,116 @@
                 .output {
                     padding: 1rem;
                     font-size: 0.9rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.1em;
+
+                    .metrics {
+                        display: flex;
+                        gap: 0.5rem;
+                        padding-bottom: 1rem;
+
+                        span {
+                            font-size: 0.8rem;
+                        }
+
+                        .passed {
+                            color: var(--success-color);
+                        }
+
+                        .failed {
+                            color: var(--error-color);
+                        }
+                    }
+
+                    .title {
+                        border-left: 4px solid;
+                        padding: 0 0.5rem;
+                        font-size: 0.9rem;
+
+                        &.passed {
+                            border-color: var(--success-color);
+                        }
+
+                        &.failed {
+                            border-color: var(--error-color);
+                        }
+                    }
+
+                    .result {
+                        font-size: 0.8rem;
+                        display: flex;
+                        flex-direction: column;
+                        padding: 0 1rem;
+                        cursor: pointer;
+
+                        &.close {
+
+                            &.failed .message {
+                                color: var(--error-color);
+                            }
+
+                            .message::before {
+                                content: '›';
+                                display: block;
+                                font-size: 1.5rem;
+                                position: relative;
+                                top: -0.1rem;
+                            }
+
+                            .response {
+                                display: none;
+                            }
+                        }
+
+                        &.open {
+
+                            .message::before {
+                                content: '›';
+                                display: block;
+                                font-size: 1.5rem;
+                                position: relative;
+                                top: -0.1rem;
+                                rotate: 90deg;
+                            }
+                        }
+
+                        &.passed {
+                            .message::before {
+                                color: var(--success-color);
+                            }
+
+                            .response {
+                                color: var(--success-color);
+                            }
+                        }
+
+                        &.failed {
+                            
+                            .message::before {
+                                color: var(--error-color);
+                            }
+
+                            .response {
+                                color: var(--error-color);
+                            }
+                        }
+
+                        .message {
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                        }
+
+                        .response {
+                            padding-left: 1rem;
+                            font-family: monospace;
+                            font-size: 0.9rem;
+                            display: flex;
+                            gap: 0.5rem;
+                            align-items: center;
+                        }
+                    }
                 }
             }
     
@@ -247,7 +363,7 @@
         .code-section {
             .split-v {
                 height: 100%;
-                max-height: 100vh;
+                max-height: calc(100vh - 4rem);
     
                 .gutter {
                     background-color: #eee;

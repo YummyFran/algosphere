@@ -218,30 +218,61 @@ export const getRankDetails = (rank) => {
 
 
 export function formatCodeStringToJSX(input, theme = 'light') {
-  if(!input) return
+  if (!input) return;
 
-  const parts = input.split(/(```[\s\S]+?```|`[^`]+`)/g)
+  const parts = input.split(/(```[\s\S]+?```|`[^`]+`|\n?### [^\n]+(\n|$))/g).filter(Boolean)
 
   return parts.map((part, index) => {
-    if(part.startsWith('```') && part.endsWith('`')) {
-      const content = part.slice(3, -3).trim()
+    if(typeof part !== 'string') return null;
 
+    if (part.startsWith('```') && part.endsWith('```')) {
+      const content = part.slice(3, -3).trim();
       return (
         <pre key={index} className={`multi-code primary-${theme}-bg`}>
           {content}
         </pre>
-      )
+      );
     }
 
     if (part.startsWith('`') && part.endsWith('`')) {
-      const content = part.slice(1, -1)
+      const content = part.slice(1, -1);
       return (
         <span className="code" key={index}>
           {content}
         </span>
-      )
+      );
     }
 
-    return <React.Fragment key={index}>{part}</React.Fragment>
-  })
+    if (part.trim().startsWith('### ')) {
+      const content = part.trim().replace(/^### /, '');
+      return (
+        <h3 key={index} className={`title primary-${theme}-color`}>
+          {content}
+        </h3>
+      );
+    }
+
+    return <React.Fragment key={index}>{part}</React.Fragment>;
+  });
 }
+
+export const assert = `const assert = {
+  results: [],
+  strictEqual: (actual, expected, message = "") => {
+      if (actual !== expected) {
+        assert.results.push({
+          message,
+          status: "failed",
+          response: "Expected " + actual + " to equal " + expected
+        })
+
+        return
+      }
+
+      assert.results.push({
+        message,
+        status: "passed",
+        response: "Test Passed"
+      })
+  }
+}`

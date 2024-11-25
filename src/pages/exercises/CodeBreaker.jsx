@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { problemMapper, allTags } from '../../data/problems/problemMapper'
 import { useTheme } from '../../provider/ThemeProvider'
 import { useNavigate } from 'react-router'
@@ -14,6 +14,8 @@ const CodeBreaker = () => {
   const [tagValue, setTagValue] = useState("Random")
   const [theme] = useTheme()
   const nav = useNavigate()
+  const optionsRef = useRef(null)
+  const suggestedRef = useRef(null)
 
   const generateRandomProblem = useCallback(() => {
     const problems = Object.values(problemMapper).filter(({tags}) => tagValue === "Random" ? true : tags.includes(tagValue))
@@ -22,23 +24,32 @@ const CodeBreaker = () => {
     return problems[randomIndex]
   }, [tagValue])
 
-  useEffect(() => {
+  const handleSkip = () => {
     let rand;
     do {
       rand = generateRandomProblem()
-    } while(rand === prevChallenge)
+    } while(JSON.stringify(rand) === JSON.stringify(prevChallenge))
 
     setPrevChallenge(rand)
+  }
+
+  useEffect(() => {
+    generateRandomProblem()
   }, [tagValue, generateRandomProblem])
+
+  useEffect(() => {
+    const ht = optionsRef.current.offsetHeight
+    suggestedRef.current.style.height = `${ht}px`
+  }, [suggestedChallenge])
 
   return (
     <div className={`code-breaker primary-${theme}-bg midtone-${theme}`}>
       <div className="header">
-        <h4 className="sub" onClick={() => nav(-1)}>AlgoSphere's</h4>
+        <h4 className="sub" onClick={() => nav('/exercises')}>AlgoSphere's</h4>
         <h2 className="title">Code Breaker</h2>
       </div>
-      <div className="suggested" style={{background: `${suggestedChallenge?.rank?.color}5f`}}>
-        <div className={`options`} style={{background: `${suggestedChallenge?.rank?.color}`}}>
+      <div className="suggested" style={{background: `${suggestedChallenge?.rank?.color}5f`}} ref={suggestedRef}>
+        <div className={`options`} style={{background: `${suggestedChallenge?.rank?.color}`}} ref={optionsRef}>
           <p className="title">Suggested Challenge</p>
           <div className="dropdowns">
             <div className="language">
@@ -57,7 +68,7 @@ const CodeBreaker = () => {
           </div>
           <div className="buttons">
             <button className="train" onClick={() => nav(suggestedChallenge?.slug)}>Train</button>
-            <button className="skip" onClick={generateRandomProblem}>Skip</button>
+            <button className="skip" onClick={handleSkip}>Skip</button>
           </div>
         </div>
         <div className="problem">
