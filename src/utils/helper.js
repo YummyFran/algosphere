@@ -276,3 +276,102 @@ export const assert = `const assert = {
       })
   }
 }`
+
+export const generateIframeCode = (userCode) => {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    html, body {
+      overflow: hidden;
+      height: 100%;
+    }
+    body {
+      width: 400px;
+      height: 300px;
+      transform-origin: top left;
+    }
+  </style>
+</head>
+<body>
+    ${userCode}
+  <script>
+    function resize() {
+      const iframeWidth = window.innerWidth;
+      const iframeHeight = window.innerHeight;
+
+      const scaleX = iframeWidth / 400;
+      const scaleY = iframeHeight / 300;
+
+      document.body.style.transform = \`scale(\${scaleX}, \${scaleY})\`;
+    }
+    window.addEventListener('resize', resize);
+    resize(); // Initial call
+  </script>
+</body>
+</html>
+`
+}
+
+export function compareImages(img1, img2) {
+  return new Promise((resolve, reject) => {
+    // Create two images
+    const image1 = new Image();
+    const image2 = new Image();
+
+    image1.src = img1;
+    image2.src = img2;
+
+    let imagesLoaded = 0;
+    
+    // Wait for both images to load
+    const onLoad = () => {
+      imagesLoaded++;
+      if (imagesLoaded < 2) return;
+
+      // Create two canvases
+      const canvas1 = document.createElement('canvas');
+      const canvas2 = document.createElement('canvas');
+      const ctx1 = canvas1.getContext('2d');
+      const ctx2 = canvas2.getContext('2d');
+
+      // Set canvas dimensions
+      canvas1.width = 400;
+      canvas1.height = 300;
+      canvas2.width = 400;
+      canvas2.height = 300;
+
+      // Draw the images onto canvases
+      ctx1.drawImage(image1, 0, 0, 400, 300);
+      ctx2.drawImage(image2, 0, 0, 400, 300);
+
+      // Get pixel data
+      const data1 = ctx1.getImageData(0, 0, 400, 300).data;
+      const data2 = ctx2.getImageData(0, 0, 400, 300).data;
+
+      let diffPixels = 0;
+
+      // Compare each pixel
+      for (let i = 0; i < data1.length; i += 4) {
+        const rDiff = Math.abs(data1[i] - data2[i]);
+        const gDiff = Math.abs(data1[i + 1] - data2[i + 1]);
+        const bDiff = Math.abs(data1[i + 2] - data2[i + 2]);
+        
+        if (rDiff > 10 || gDiff > 10 || bDiff > 10) {
+          diffPixels++;
+        }
+      }
+
+      const totalPixels = data1.length / 4;
+      const accuracy = ((totalPixels - diffPixels) / totalPixels);
+
+      resolve(accuracy); 
+    };
+
+    // Handle errors
+    image1.onerror = image2.onerror = () => reject('Error loading images.');
+
+    image1.onload = onLoad;
+    image2.onload = onLoad;
+  });
+}

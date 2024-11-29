@@ -178,4 +178,49 @@
             }
         }
     }
+
+    .problems {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .title {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        table {
+            width: 100%;
+            display: grid;
+
+            thead {
+                border-bottom: 1px solid;
+                margin-bottom: 0.5rem;
+            }
+
+            tr {
+                display: grid;
+                grid-template-columns: 1fr 9fr 2fr;
+                border-radius: 0.5rem;
+
+                &:nth-child(odd) {
+                    background-color: transparent;
+                }
+
+                th {
+                    cursor: pointer;
+                }
+    
+                td, th {
+                    padding: 0.5rem 1rem;
+                    text-align: left;
+                }
+
+                .problem:hover {
+                    color: var(--accent-color);
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
 }

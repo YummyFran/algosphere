@@ -1,4 +1,4 @@
-import { getRankDetails, assert } from "../../utils/helper";
+import { getRankDetails, assert } from "../../../utils/helper";
 
 const starterCode = `function evenOrOdd(number) {
   // Write your code here

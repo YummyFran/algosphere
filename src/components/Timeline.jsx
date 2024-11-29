@@ -7,7 +7,7 @@ import { useOutletContext } from 'react-router'
 
 const Timeline = () => {
   const [user] = useUser()
-  const [timelineUser, isTimelineUserLoading] = useOutletContext()
+  const [timelineUser, username, isTimelineUserLoading] = useOutletContext()
 
   const {data: currentUser} = useQuery({
     queryKey: ['user'],
@@ -47,6 +47,8 @@ const Timeline = () => {
     }
 
   }, [currentUser, fetchNextPage])
+
+  console.log(posts, isTimelineUserLoading)
 
   if(isTimelineUserLoading || posts?.pages[0]?.posts[0]?.userId !== timelineUser?.uid) return <div>Loading...</div>
 

@@ -112,7 +112,7 @@ const TypingChallenge = () => {
             calculateResults()
         }
         resetScrollWords()
-    }, [hasTimerEnded, calculateResults])
+    }, [hasTimerEnded])
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown)
@@ -123,49 +123,54 @@ const TypingChallenge = () => {
     }, [handleKeyDown])
 
     useEffect(() => {
-        if (wordsRef.current) {
-            const chars = wordsRef.current.querySelectorAll('.char');
-            const totalTypedLength = userTyped.length
+        if(!wordsRef.current) return
+
+        const chars = wordsRef.current.querySelectorAll('.char');
+        const totalTypedLength = userTyped.length
+
+        if(totalTypedLength <= 0) {
+            const firstChar = chars[0]
+            if (firstChar) {
+                const { offsetTop, offsetLeft } = firstChar
             
-            if (totalTypedLength > 0) {
-                const targetChar = chars[totalTypedLength - 1]
-                const { offsetTop, offsetLeft, offsetWidth } = targetChar
-                
-                if(!initialScroll.current) {
-                    initialScroll.current = offsetTop
+                setCaretPos({
+                    top: offsetTop,
+                    left: offsetLeft,
+                })
+            }
+
+            return
+        }
+        
+        const targetChar = chars[totalTypedLength - 1]
+        const { offsetTop, offsetLeft, offsetWidth } = targetChar
+        
+        if(!initialScroll.current) {
+            initialScroll.current = offsetTop
+        }
+
+        setCaretPos(prev => {
+            const lineChange = prev.top !== initialScroll.current && prev.top !== offsetTop
+            if(lineChange) {
+                if(!secondLine.current) {
+                    secondLine.current = offsetTop
                 }
 
-                setCaretPos(prev => {
-                    if(prev.top !== initialScroll.current && prev.top !== offsetTop) {
-                        if(!secondLine.current) {
-                            secondLine.current = offsetTop
-                        }
+                if(offsetTop !== secondLine.current && offsetTop > prev.top) {
+                    scrollWords()
+                }
 
-                        if(offsetTop !== secondLine.current && offsetTop > prev.top) {
-                            scrollWords()
-                        }
-
-                        if(offsetTop < prev.top) {
-                            scrollWords(-1)
-                        }
-                    }
-                    return {
-                        top: offsetTop,
-                        left: offsetLeft + offsetWidth,
-                    }
-                });
-            } else {
-                const firstChar = chars[0]
-                if (firstChar) {
-                    const { offsetTop, offsetLeft } = firstChar
-                
-                    setCaretPos({
-                        top: offsetTop,
-                        left: offsetLeft,
-                    });
+                if(offsetTop < prev.top) {
+                    scrollWords(-1)
                 }
             }
-        }
+
+            return {
+                top: offsetTop,
+                left: offsetLeft + offsetWidth,
+            }
+        })
+        
     }, [userTyped])
     
     useEffect(() => {

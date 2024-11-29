@@ -5,11 +5,14 @@ import { useNavigate } from 'react-router'
 import { generateRandomNumber } from '../../utils/helper'
 import { formatCodeStringToJSX } from '../../utils/helper'
 import '../../styles/codebreaker.css'
+import Problem from '../../components/Problem'
 
 
 const CodeBreaker = () => {
   const [prevChallenge, setPrevChallenge] = useState({})
   const [suggestedChallenge, setSuggestedChallenge] = useState({})
+  const [allProblems, setAllProblems] = useState([])
+  const [problemOrders, setProblemOrders] = useState({status: 'normal', title: 'normal', rank: 'normal'})
   const [languageValue, setLanguageValue] = useState("JavaScript")
   const [tagValue, setTagValue] = useState("Random")
   const [theme] = useTheme()
@@ -33,9 +36,38 @@ const CodeBreaker = () => {
     setPrevChallenge(rand)
   }
 
+  const orderProblems = (orderBy, key) => {
+    let sortedProblems
+
+    setAllProblems(() => {
+      switch(problemOrders[orderBy]) {
+        case 'normal':
+          sortedProblems = [...allProblems].sort((a,b) => key ? b[key].slug.localeCompare(a[key].slug) : a.name.localeCompare(b.name))
+          setProblemOrders(prev => ({...prev, [orderBy]: 'ascending'}))
+          break
+
+        case 'ascending':
+          sortedProblems = [...allProblems].sort((a,b) => key ? a[key].slug.localeCompare(b[key].slug) : b.name.localeCompare(a.name))
+          setProblemOrders(prev => ({...prev, [orderBy]: 'descending'}))
+          break
+
+        default:
+          sortedProblems = Object.values(problemMapper)
+          setProblemOrders(prev => ({...prev, [orderBy]: 'normal'}))
+          break;
+      }
+
+      return sortedProblems
+    })
+  }
+
   useEffect(() => {
     generateRandomProblem()
   }, [tagValue, generateRandomProblem])
+  
+  useEffect(() => {
+    setAllProblems(Object.values(problemMapper))
+  }, [problemMapper])
 
   useEffect(() => {
     const ht = optionsRef.current.offsetHeight
@@ -79,6 +111,23 @@ const CodeBreaker = () => {
           <div className="statement">{formatCodeStringToJSX(suggestedChallenge?.problemStatement, theme)}</div>
           <div className="tags">{suggestedChallenge?.tags?.map((tag, i) => <span className='tag' key={i}>{tag}</span>)}</div>
         </div>
+      </div>
+      <div className="problems">
+        <div className="title">Problems</div>
+        <table>
+          <thead className={`mono-${theme}-border`}>
+            <tr>
+              <th>Status</th>
+              <th onClick={() => orderProblems("title")}>Title</th>
+              <th className='rank' onClick={() => orderProblems("rank", "rank")}>Rank</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allProblems.map((problem, i) => {
+              return <Problem problem={problem} key={i}/>
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   )

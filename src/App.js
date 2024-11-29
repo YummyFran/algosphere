@@ -20,6 +20,7 @@ import Followers from "./components/Followers";
 import PostActivity from "./pages/PostActivity";
 import ExerciseRenderer from "./pages/ExerciseRenderer";
 import Problem from "./pages/Problem";
+import Duel from "./components/Duel";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
 
         <Route path="exercises/:exerciseSlug" element={<ExerciseRenderer />} />
         <Route path="exercises/code-breaker/:problemSlug" element={<Problem />} />
+        <Route path="exercises/css-duel/:duelSlug" element={<Duel />}/>
         
         <Route path="*" element={'404 not found'} />
       </Routes>

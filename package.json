@@ -4,6 +4,7 @@
   "homepage": "https://algosphere.tech/",
   "private": true,
   "dependencies": {
+    "@codemirror/lang-html": "^6.4.9",
     "@codemirror/lang-javascript": "^6.2.2",
     "@reduxjs/toolkit": "^2.2.7",
     "@tanstack/react-query": "^5.56.2",
@@ -17,6 +18,7 @@
     "dotenv": "^16.4.5",
     "firebase": "^10.13.1",
     "git-filter-repo": "^0.0.30",
+    "html2canvas": "^1.4.1",
     "lodash.debounce": "^4.0.8",
     "process": "^0.11.10",
     "react": "^18.3.1",
