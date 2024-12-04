@@ -70,8 +70,25 @@ const CodeBreaker = () => {
   }, [problemMapper])
 
   useEffect(() => {
-    const ht = optionsRef.current.offsetHeight
-    suggestedRef.current.style.height = `${ht}px`
+    const origHeight = getComputedStyle(suggestedRef.current).height
+    const resize = () => {
+      const media = window.matchMedia('(max-width: 35em)')
+
+      if(media.matches) {
+        return
+      } 
+
+      const ht = optionsRef.current.offsetHeight
+      suggestedRef.current.style.height = `${ht}px`
+    }
+    
+    resize()
+
+    window.addEventListener('resize', resize)
+
+    return () => {
+      window.removeEventListener('resize', resize)
+    }
   }, [suggestedChallenge])
 
   return (

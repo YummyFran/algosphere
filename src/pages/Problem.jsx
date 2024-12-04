@@ -20,6 +20,7 @@ const Problem = () => {
     const [solution, setSolution] = useState(problem?.starterCode)
     const [testCode, setTestCode] = useState(problem?.handlerFunction?.toString().replaceAll("__WEBPACK_IMPORTED_MODULE_0___default()", ""))
     const [results, setResults] = useState()
+    const [onMobile, setOnMobile] = useState(false)
     const { problemSlug } = useParams()
     const [theme] = useTheme()
     const nav = useNavigate()
@@ -94,6 +95,22 @@ const Problem = () => {
       setProblem(prev => ({ ...prev, handlerFunction: test.slice(0, end) + testCode }))
     }, [testCode])
 
+    useEffect(() => {
+      const resize = () => {
+        const media = window.matchMedia('(max-width: 35em)')
+
+        setOnMobile(media.matches)
+      }
+
+      resize()
+
+      window.addEventListener('resize', resize)
+
+      return () => {
+        window.removeEventListener('resize', resize)
+      }
+    }, [])
+
   return (
     <div className={`problem-page primary-${theme}-bg midtone-${theme}`}>
       <nav>
@@ -109,7 +126,7 @@ const Problem = () => {
           </button>
         </div>
       </nav>
-      <Split className={`split primary-${theme}-bg midtone-${theme}`} minSize={0} gutterSize={15}>
+      {!onMobile && <Split className={`split primary-${theme}-bg midtone-${theme}`} minSize={0} gutterSize={15}>
           <div className="problem-section">
             <div className="title">
               <div className="rank" style={{color: problem?.rank?.color}}>{problem?.rank?.name}</div>
@@ -183,7 +200,82 @@ const Problem = () => {
               </div>
             </Split>
           </div>
-      </Split>
+      </Split>}
+      {onMobile && <>
+        <div className="problem-section">
+            <div className="title">
+              <div className="rank" style={{color: problem?.rank?.color}}>{problem?.rank?.name}</div>
+              <div className="name">{problem?.name}</div>
+            </div>
+            <div className="tabs">
+              <div className={`tab secondary-${theme}-bg ${activeTab === "problem" ? "active" : ""}`} onClick={() => setActiveTab("problem")}>Problem</div>
+              <div className={`tab secondary-${theme}-bg ${activeTab === "output" ? "active" : ""}`} onClick={() => setActiveTab("output")}>Output</div>
+            </div>
+            <div className={`renderer secondary-${theme}-bg`}>
+              {activeTab === "problem" &&
+                <div className={`problem`}>
+                  <div className={`statement mono-${theme}-border`}>
+                    {formatCodeStringToJSX(problem?.problemStatement, theme)}
+                  </div> 
+                  <div className="tags">
+                    {problem?.tags?.map((tag, i) => <span className='tag' key={i}>{tag}</span>)}
+                  </div>
+                </div>
+              }
+              {activeTab === "output" && (
+                <div className="output">
+                  {results ? (
+                    Array.isArray(results) ? (
+                      <>
+                        <div className="metrics">
+                          <span className={`${results.filter(val => val.status === "passed").length > 0 ? 'passed' : ''}`}>Passed: {results.filter(val => val.status === "passed").length}</span>
+                          <span className={`${results.filter(val => val.status === "failed").length > 0 ? 'failed' : ''}`}>Failed: {results.filter(val => val.status === "failed").length}</span>
+                        </div>
+                        <div className={`title ${results.filter(val => val.status === "failed").length > 0 ? "failed" : "passed"}`}>Test Results</div>
+                        {results.map((result, i) => {
+                          return <Result key={i} result={result} index={i}/>
+                        })}
+                      </>
+                    ) : (
+                      <div className="error">
+                        {results.stack.startsWith("TypeError") ? "You must return something" : results.message  }
+                      </div>
+                    )
+                  ) : (
+                    <div className="empty">Your results will be shown here</div>
+                  )}
+                </div>
+              )}
+            </div>
+        </div>
+        <div className="code-section">
+          <Split className={`split-v primary-${theme}-bg midtone-${theme}`} direction='vertical' sizes={[70,30]} gutterSize={15} minSize={100}>
+            <div className="solution">
+              <div className="options">
+                <div className={`language secondary-${theme}-bg`}>JavaScript</div>
+              </div>
+              <div className={`tab secondary-${theme}-bg`}>Solution</div>
+              <CodeMirror 
+                className={`code-area primary-${theme}-bg`}
+                value={problem?.starterCode}
+                extensions={[javascript({jsx: true})]} 
+                theme={theme === "dark" ? tokyoNightStorm : tokyoNightDay}
+                onChange={handleSolutionChange}
+              />
+            </div>
+            <div className="test-cases">
+              <div className={`tab secondary-${theme}-bg`}>Test Cases</div>
+              <CodeMirror 
+                className={`code-area primary-${theme}-bg`}
+                value={testCode}
+                extensions={[javascript({jsx: true})]} 
+                theme={theme === "dark" ? tokyoNightStorm : tokyoNightDay}
+                onChange={handleTestCaseChange}
+              />
+            </div>
+          </Split>
+        </div>
+      </>}
     </div>
   )
 }

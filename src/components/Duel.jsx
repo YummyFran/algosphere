@@ -18,6 +18,7 @@ const Duel = () => {
   const [duel, setDuel] = useState()
   const [userOutputImg, setUserOutputImg] = useState()
   const [stats, setStats] = useState({ score: 0, accuracy: 0})
+  const [onMobile, setOnMobile] = useState()
   const [theme] = useTheme()
   const [addToast] = useToast()
   const [isShiftPressed, setIsShiftPressed] = useState(false); 
@@ -155,6 +156,22 @@ const Duel = () => {
     setStats({ score: 0, accuracy: 0})
   }, [duelSlug])
 
+  useEffect(() => {
+    const resize = () => {
+      const media = window.matchMedia('(max-width: 35em)')
+
+      setOnMobile(media.matches)
+    }
+
+    resize()
+
+    window.addEventListener('resize', resize)
+
+    return () => {
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
   if(isNaN(duelSlug) || duelSlug <= 0 || duelSlug > duels.flat().length) return "Invalid duel"
   if(!duel) return "Loading..."
 
@@ -180,7 +197,7 @@ const Duel = () => {
           </button>
         </div>
       </nav>
-      <Split className={`split primary-${theme}-bg`} gutterSize={15}>
+      <Split className={`split primary-${theme}-bg`} direction={onMobile ? 'vertical' : 'horizontal'} gutterSize={15}>
         <div className="code-area">
           <CodeMirror 
             className={`code primary-${theme}-bg`}

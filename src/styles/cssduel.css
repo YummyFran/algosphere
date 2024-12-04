@@ -86,3 +86,9 @@
         }
     }
 }
+
+@media (max-width: 35em) {
+    .css-duel {
+        padding: 3rem 2rem;
+    }
+}

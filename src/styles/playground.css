@@ -191,3 +191,21 @@
         }
     }
 }
+
+@media (max-width: 35em) {
+    .playground {
+        .content {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 3rem;
+
+            .code-bits {
+                min-height: calc(100vh - 2.5rem);
+
+                .tabs a {
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+}

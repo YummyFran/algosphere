@@ -1,5 +1,6 @@
 .duel {
     height: 100vh;
+    overflow: hidden;
 
     nav {
         display: flex;
@@ -262,6 +263,41 @@
                             scale: 1.05;
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 35em) {
+    .duel {
+        .split {
+            height: 100%;
+            display: block;
+            max-height: calc(100vh - 4rem);
+        
+            .gutter {
+                background-color: inherit;
+                background-repeat: no-repeat;
+                background-position: 50%;
+        
+                &.gutter-vertical {
+                    background-color: inherit;
+                    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+                    cursor: row-resize;
+        
+                    &:hover {
+                        filter: brightness(0.9);
+                    }
+                }
+            }
+
+            .output-area {
+                padding-top: 1rem;
+
+                .data .submit {
+                    background-color: var(--accent-color);
+                    color: var(--midtone-dark);
                 }
             }
         }

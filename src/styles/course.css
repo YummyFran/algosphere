@@ -10,6 +10,8 @@
         position: relative;
         background-color: aliceblue;
         color: var(--midtone-dark);
+        text-align: center;
+        padding: 0 1rem;
         
         .header {
             position: absolute;
