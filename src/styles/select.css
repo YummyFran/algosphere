@@ -1,0 +1,105 @@
+.select {
+    border: 1px solid gray;
+    border-radius: 2px;
+    color: inherit;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+
+    .name {
+        margin-right: auto;
+    }
+
+    .options {
+        position: absolute;
+        top: calc(100% + 0.2rem);
+        background-color: inherit;
+        left: 0;
+        width: 100%;
+        min-width: fit-content;
+        display: none;
+        border-radius: 0.5rem;
+        filter: brightness(0.9);
+        overflow: hidden;
+        z-index: 10;
+        max-height: 250px;
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            height: 0.5rem;
+            width: 0.5rem;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+        
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+
+        &.open {
+            display: block;
+        }
+
+        .option {
+            padding: 1rem;
+            display: flex;
+            background-color: inherit;
+            gap: 1rem;
+            align-items: center;
+
+            .icon {
+                width: 2rem;
+                aspect-ratio: 1;
+                display: flex;
+                align-items: center;
+
+                img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: contain;
+                }
+            }
+
+            .detail {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 0.2rem;
+
+                .name {
+                    font-weight: 600;
+                }
+
+                .tech {
+                    font-size: 0.9rem;
+                    filter: brightness(0.9);
+                }
+            }
+
+            &:hover {
+                filter: brightness(1.1);
+            }
+        }
+    }
+
+    &::after {
+        content: '';
+        height: 0.4rem;
+        aspect-ratio: 1;
+        rotate: 45deg;
+        display: block;
+        margin: 0.2rem;
+        border-right: 2px solid;
+        border-bottom: 2px solid;
+    }
+
+    &:has(.options.open)::after {
+        rotate: -135deg;
+    }
+}

@@ -93,7 +93,7 @@ const Duel = () => {
   useEffect(() => {
     if(!duelSlug) return
     
-    setDuel(duels[duelSlug - 1])
+    setDuel(duels.flat()[duelSlug - 1])
   }, [duelSlug, duels])
 
   useEffect(() => {
@@ -153,9 +153,9 @@ const Duel = () => {
   useEffect(() => {
     setCssCode(starter)
     setStats({ score: 0, accuracy: 0})
-  }, duelSlug)
+  }, [duelSlug])
 
-  if(isNaN(duelSlug) || duelSlug <= 0 || duelSlug > duels?.length) return "Invalid duel"
+  if(isNaN(duelSlug) || duelSlug <= 0 || duelSlug > duels.flat().length) return "Invalid duel"
   if(!duel) return "Loading..."
 
   return (
@@ -173,7 +173,7 @@ const Duel = () => {
           {duel.title}
           <button 
             className={`prev btn secondary-${theme}-bg midtone-${theme}`} 
-            disabled={duel.id >= duels.length}
+            disabled={duel.id >= duels.flat().length}
             onClick={() => nav(`/exercises/css-duel/${duel.id + 1}`)}
           >
             <GrNext />

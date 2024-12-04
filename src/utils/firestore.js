@@ -17,6 +17,7 @@ import {
     increment 
 } from 'firebase/firestore'
 import { db } from './firebase';
+import { html } from '@codemirror/lang-html';
 
 export const addDocument = async (collectionName, docId, data) => {
     try {
@@ -480,4 +481,117 @@ export const getFollowers = async (userId) => {
     })
 
     return followers
+}
+
+// Code Bits
+
+export const createCodeBit = async (name, language, user) => {
+    let codeObj = {}
+
+    switch(language) {
+        case "Web":
+            codeObj = {
+                html: '<h1>Hello World</h1>',
+                css: '',
+                js: ''
+            }
+            break;
+        case "JavaScript":
+            codeObj = {
+                js: ''
+            }
+            break;
+    }
+
+    const docRef = await addDoc(collection(db, "codebits"), {
+        title: name,
+        language: language,
+        author: user.uid,
+        code: codeObj,
+        createdAt: serverTimestamp(),
+        public: false,
+        likes: 0
+    })
+
+    return docRef.id
+}
+
+export const getCodeBit = async (codebitId) => {
+    const codebitData = await getDocument("codebits", codebitId)
+    const userData = await getUser(codebitData.author)
+
+    return {...codebitData, author: {...userData}}
+}
+
+export const getCodeBits = async (filterBy, userId) => {
+    let q
+
+    switch(filterBy) {
+        case 'mycodebits':
+            q = query(collection(db, "codebits"), where('author', '==', userId), orderBy("createdAt", "desc"))
+            break;
+        case 'popular':
+            q = query(collection(db, "codebits"), where('public', '==', true), orderBy("likes", "desc"))
+            break;
+        default:
+            q = query(collection(db, "codebits"), where('public', '==', true), orderBy("createdAt", "desc"))
+            break;
+    }
+
+    try {
+        const snapshot = await getDocs(q)
+    
+        const docsPromises = snapshot.docs.map(async (doc) => {
+            const data = doc.data()
+            const author = await getUser(data.author)
+            return { ...data, author: { ...author }, id: doc.id } 
+        })
+    
+        const docs = await Promise.all(docsPromises);
+        return docs; 
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const updateCodeBit = async (codebitId, updates) => {
+    try {
+        await updateDocument("codebits", codebitId, updates)
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+export const likeCodeBit = async(codebitId, userId) => {
+    try {
+        const codeBitRef = doc(db, "codebits", codebitId)
+        const likesDocRef = doc(codeBitRef, "likes", userId)
+
+        const likeDoc = await getDoc(likesDocRef)
+
+        if(likeDoc.exists()) {
+            return true
+        }
+
+        await updateDoc(codeBitRef, { likes: increment(1) })
+        await setDoc(likesDocRef, {
+            userId: userId,
+            likedAt: serverTimestamp()
+        })
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+export const hasLikedCodeBit = async (codebitId, userId) => {
+    try {
+        const codeBitRef = doc(db, "codebits", codebitId)
+        const likesDocRef = doc(codeBitRef, "likes", userId)
+
+        const likeDoc = await getDoc(likesDocRef)
+
+        return likeDoc.exists()
+    } catch(err) {
+        console.log(err)
+    }
 }

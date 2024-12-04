@@ -1,0 +1,192 @@
+.code-bit-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        display: flex;
+        padding: 1rem;
+        align-items: center;
+        gap: 1rem;
+        position: relative;
+
+        .logo {
+            display: flex;
+            cursor: pointer;
+
+            img {
+                height: 2.5rem;
+            }
+        }
+
+        .details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-right: auto;
+
+            .title {
+                font-weight: 600;
+                font-size: 1rem;
+                line-height: 1;
+            }
+
+            .author {
+                font-size: 0.8rem;
+                line-height: 1;
+            }
+        }
+
+        .switch {
+            padding: 0 1rem;
+            font-size: 0.9rem;
+        }
+
+        .buttons {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+
+            button {
+                padding: 0.5rem 1rem;
+                border-radius: 0.5rem;
+                cursor: pointer;
+                border: none;
+                font-size: 0.9rem;
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+
+                &:hover {
+                    filter: brightness(1.1);
+                }
+
+                &.run svg {
+                    font-size: 0.8rem;
+                }
+
+                &.save {
+                    svg {
+                        font-size: 1.3rem;
+                    }
+
+                    &:hover {
+                        background-color: var(--accent-color);
+                        color: var(--midtone-dark);
+                    }
+                }
+            }
+        }
+    }
+
+    .split {
+        display: flex;
+        flex-direction: row;
+        flex: auto;
+        height: calc(100vh - 4.5rem);
+        overflow: hidden;
+    
+        .gutter {
+            background-color: #eee;
+            background-repeat: no-repeat;
+            background-position: 50%;
+    
+            &.gutter-horizontal {
+                background-color: inherit;
+                background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+                cursor: col-resize;
+    
+                &:hover {
+                    filter: brightness(0.9);
+                }
+            }
+        }
+
+        .code-area {
+            padding: 0 0.5rem 0.5rem;
+            height: calc(100% - 2rem);
+
+            .web {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+
+                .tabs {
+                    display: flex;
+                    gap: 0.1rem;
+                    
+                    .tab {
+                        font-family: monospace;
+                        padding: 0.5rem 1rem;
+                        border-radius: 0.5rem 0.5rem 0 0;
+                        cursor: pointer;
+
+                        &.active {
+                            background-color: #0d0d0d;
+                        }
+                    }
+                }
+
+                .code-renderer {
+                    height: 100%;
+
+                    .code {
+                        height: 100%;
+                        border-radius: 0 0 0.5rem 0.5rem;
+                        overflow: auto;
+                        outline: none !important;
+                        background-color: #0d0d0d;
+        
+                        & > * {
+                            height: 100%;
+                        }
+                        
+                        * {
+                            font-family: monospace;
+                            font-size: 1rem;
+                            text-wrap: wrap ;
+                            overflow: visible;
+                        }
+        
+                        &::-webkit-scrollbar {
+                            height: 0.5rem;
+                            width: 0.5rem;
+                        }
+                        
+                        &::-webkit-scrollbar-thumb {
+                            background: #888;
+                            border-radius: 5px;
+                        }
+                        
+                        &::-webkit-scrollbar-thumb:hover {
+                            background: #555; 
+                        }
+        
+                        .cm-editor, .cm-gutters {
+                            background-color: inherit;
+                        }
+        
+                        .cm-foldGutter [title="Fold line"] {
+                            position: relative;
+                            top: -0.3rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        .output {
+            padding: 0 0.5rem 0.5rem;
+
+            .output-frame {
+                height: 100%;
+                width: 100%;
+                border: none;
+                background-color: white;
+            }
+        }
+    }
+}

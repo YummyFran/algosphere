@@ -2,9 +2,11 @@ import Turtle from '../assets/turtle.svg'
 import Walker from '../assets/walker.svg'
 import Sprinter from '../assets/sprinter.svg'
 import Master from '../assets/master.svg'
-import KeepGoing from '../assets/Keep Going.svg'
+import KeepGoing from '../assets/Keep Going.jpg'
 import React from 'react'
-import { useTheme } from '../provider/ThemeProvider'
+import axios from 'axios'
+import html5 from '../assets/html5.svg'
+import nodejs from '../assets/nodejs.svg'
 
 export function timeAgo(postedTime) {
     if(!postedTime) return
@@ -313,6 +315,35 @@ export const generateIframeCode = (userCode) => {
 `
 }
 
+export const generateWebIframCode = (code) => {
+  return `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <style>
+      ${code.css || ''}
+    </style>
+  </head>
+  <body>
+      ${code.html || ''}
+    <script>
+      try {
+        ${code.js || ''}
+      } catch (error) {
+        parent.postMessage({
+          type: 'iframe-error',
+          message: error.message,
+          source: 'User JavaScript',
+          lineno: error.lineNumber || null,
+          colno: error.columnNumber || null,
+          err: error
+        }, '*');
+      }
+    </script>
+  </body>
+  </html>
+  `
+}
+
 export function compareImages(img1, img2) {
   return new Promise((resolve, reject) => {
     // Create two images
@@ -374,4 +405,40 @@ export function compareImages(img1, img2) {
     image1.onload = onLoad;
     image2.onload = onLoad;
   });
+}
+
+const API = axios.create({
+  baseURL: "https://emkc.org/api/v2/piston"
+})
+
+export const executeCode = async (language, code) => {
+  const response = await API.post("/execute", {
+    "language": language,
+    "version": '18.15.0',
+    "files": [
+      {
+        "content": code
+      }
+    ]
+  })
+
+  return response.data
+}
+
+export const languagesOptions = [
+  {
+    name: "Web",
+    tech: "HTML/CSS/JS",
+    icon: html5
+  },
+  // {
+  //   name: "JavaScript",
+  //   tech: "Node.js",
+  //   icon: nodejs
+  // },
+]
+
+export const iconMap = {
+  "Web": html5,
+  "JavaScript": nodejs
 }

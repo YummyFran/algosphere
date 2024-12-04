@@ -4,11 +4,13 @@ import { useTheme } from '../provider/ThemeProvider'
 import { skillColor } from '../utils/helper'
 import TypingSVG from '../assets/typing.svg'
 import CodeBreakerPNG from '../assets/codebreaker.png'
+import CSSDuelJPG from '../assets/cssduel.jpg'
 import { Link } from 'react-router-dom'
 
 const svgs = {
     "typing-challenge": TypingSVG,
-    "code-breaker": CodeBreakerPNG
+    "code-breaker": CodeBreakerPNG,
+    "css-duel": CSSDuelJPG
 }
 
 const Exercise = ({exercise}) => {

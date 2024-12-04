@@ -21,6 +21,8 @@ import PostActivity from "./pages/PostActivity";
 import ExerciseRenderer from "./pages/ExerciseRenderer";
 import Problem from "./pages/Problem";
 import Duel from "./components/Duel";
+import CodeBits from "./components/CodeBits";
+import CodeBit from "./pages/CodeBit";
 
 function App() {
   return (
@@ -34,7 +36,10 @@ function App() {
           <Route index element={<Feed />} />
           <Route path="courses" element={<Courses />} />
           <Route path="exercises" element={<Excercises />} />
-          <Route path="playground" element={<PlayGround />} />
+          <Route path="playground" element={<PlayGround />} >
+            <Route index element={<CodeBits />}/>
+            <Route path=":filterBy" element={<CodeBits />}/>
+          </Route>
         </Route>
 
         <Route path=":username/post/:postId" element={<PostPage />} />
@@ -57,6 +62,8 @@ function App() {
         <Route path="exercises/:exerciseSlug" element={<ExerciseRenderer />} />
         <Route path="exercises/code-breaker/:problemSlug" element={<Problem />} />
         <Route path="exercises/css-duel/:duelSlug" element={<Duel />}/>
+
+        <Route path="codebit/:codebitId" element={<CodeBit />}/>
         
         <Route path="*" element={'404 not found'} />
       </Routes>
