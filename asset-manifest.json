@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.0cb7f96b.css",
-    "main.js": "/static/js/main.7c5e1d36.js",
+    "main.css": "/static/css/main.9c1888d4.css",
+    "main.js": "/static/js/main.89d21475.js",
     "static/js/654.bf2ccf42.chunk.js": "/static/js/654.bf2ccf42.chunk.js",
     "static/js/738.02752232.chunk.js": "/static/js/738.02752232.chunk.js",
     "static/js/233.d65a620b.chunk.js": "/static/js/233.d65a620b.chunk.js",
@@ -19,7 +19,7 @@
     "static/js/775.d45b4abe.chunk.js": "/static/js/775.d45b4abe.chunk.js",
     "static/js/870.50567b7d.chunk.js": "/static/js/870.50567b7d.chunk.js",
     "static/media/Keep Going.jpg": "/static/media/Keep Going.7148d79566b770a64352.jpg",
-    "static/media/cssduel.jpg": "/static/media/cssduel.c07708d027766f50b592.jpg",
+    "static/media/cssduel.jpg": "/static/media/cssduel.7a5c599a81653f762cfd.jpg",
     "static/media/codebreaker.png": "/static/media/codebreaker.f171348ac5ca8ecfca9b.png",
     "static/media/sprinter.svg": "/static/media/sprinter.dd9d5f3dbbaace4cb1eb9c5facca2d9c.svg",
     "static/media/master.svg": "/static/media/master.0bc67612e4dda4dd20fb985afd11dc26.svg",
@@ -27,12 +27,14 @@
     "static/media/walker.svg": "/static/media/walker.c0994f481703406907bcf37ddf7ba9a4.svg",
     "static/media/turtle.svg": "/static/media/turtle.6160f918547c5ee4ea0ac0aa5eb098c7.svg",
     "static/media/11.png": "/static/media/11.b4cfc07933a81287d1d9.png",
+    "static/media/nodejs.svg": "/static/media/nodejs.51fb0cf6ccda653f867a587bb90cc9c6.svg",
+    "static/media/html5.svg": "/static/media/html5.91afbd10a92d040f2824deee88e93b2f.svg",
     "index.html": "/index.html",
-    "main.0cb7f96b.css.map": "/static/css/main.0cb7f96b.css.map",
-    "main.7c5e1d36.js.map": "/static/js/main.7c5e1d36.js.map"
+    "main.9c1888d4.css.map": "/static/css/main.9c1888d4.css.map",
+    "main.89d21475.js.map": "/static/js/main.89d21475.js.map"
   },
   "entrypoints": [
-    "static/css/main.0cb7f96b.css",
-    "static/js/main.7c5e1d36.js"
+    "static/css/main.9c1888d4.css",
+    "static/js/main.89d21475.js"
   ]
 }
