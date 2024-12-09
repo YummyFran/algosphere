@@ -5,6 +5,7 @@ import { useUser } from '../provider/UserProvider'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { checkIfFollowing, followUser, unFollowUser } from '../utils/firestore'
 import { IoMdHeart } from 'react-icons/io'
+import dp from '../assets/defaultDP.jpg'
 
 const UserItem = ({userData, className}) => {
     const [theme] = useTheme()
@@ -48,7 +49,7 @@ const UserItem = ({userData, className}) => {
   return (
     <div className='user-item'>
         <div className={`display-photo mono-${theme}-bg ${className}`}>
-            {userData.photoURL && <img src={userData.photoURL} alt="dp"/>}
+            <img src={userData?.photoURL ? userData.photoURL : dp} alt={userData?.displayName}/>
             {className === "liked" && <IoMdHeart className='heart'/>}
         </div>
         <div className="name">

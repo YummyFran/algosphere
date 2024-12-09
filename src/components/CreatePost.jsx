@@ -1,6 +1,7 @@
 import React from 'react'
 import { IoCloseOutline, IoImagesOutline } from "react-icons/io5";
 import { useToast } from '../provider/ToastProvider';
+import dp from '../assets/defaultDP.jpg'
 
 const CreatePost = ({
     textAreaRef,
@@ -51,7 +52,7 @@ const CreatePost = ({
     <div className={`create-post ${theme}-shadow ${isPending ? 'posting':''}`}>
         <div className="context">
             <div className={`display-photo mono-${theme}-bg`}>
-                {currentUser?.photoURL && <img src={currentUser.photoURL} alt={currentUser?.displayName}/>}
+                <img src={currentUser?.photoURL ? currentUser.photoURL : dp} alt={currentUser?.displayName}/>
             </div>
             <div className={`datas mono-${theme}-border`}>
                 <textarea 

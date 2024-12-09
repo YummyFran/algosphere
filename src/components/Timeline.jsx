@@ -48,8 +48,6 @@ const Timeline = () => {
 
   }, [currentUser, fetchNextPage])
 
-  console.log(posts, isTimelineUserLoading)
-
   if(isTimelineUserLoading || posts?.pages[0]?.posts[0]?.userId !== timelineUser?.uid) return <div>Loading...</div>
 
   return (

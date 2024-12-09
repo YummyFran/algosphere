@@ -23,6 +23,7 @@ import Problem from "./pages/Problem";
 import Duel from "./components/Duel";
 import CodeBits from "./components/CodeBits";
 import CodeBit from "./pages/CodeBit";
+import { updateAllPost } from "./utils/firestore";
 
 function App() {
   return (
@@ -48,7 +49,6 @@ function App() {
           <Route index element={<Timeline />} />
           <Route path="wall" element={<Wall />} />
           <Route path="reposts" element={<Reposts />} />
-
         </Route>
         <Route path=":username" element={<Metrics />}>
           <Route path="following" element={<Following />} />

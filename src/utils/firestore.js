@@ -17,7 +17,6 @@ import {
     increment 
 } from 'firebase/firestore'
 import { db } from './firebase';
-import { html } from '@codemirror/lang-html';
 
 export const addDocument = async (collectionName, docId, data) => {
     try {
@@ -147,24 +146,53 @@ export const getPosts = async (param, lastVisible = null) => {
 }
 
 export const getUserPosts = async (param, userId) => {
-    let q;
+    try {
+        let q;
 
-    if(param?.pageParam) {
-        q = query(collection(db, "posts"), where("userId", "==", userId), orderBy('createdAt', 'desc'), startAfter(param.pageParam), limit(10))
-    } else {
-        q = query(collection(db, "posts"), where("userId", "==", userId), orderBy('createdAt', 'desc'), limit(10))
+        if(param?.pageParam) {
+            q = query(collection(db, "posts"), where("userId", "==", userId), where("isRepost", "==", false), orderBy('createdAt', 'desc'), startAfter(param.pageParam), limit(10))
+        } else {
+            q = query(collection(db, "posts"), where("userId", "==", userId), where("isRepost", "==", false), orderBy('createdAt', 'desc'), limit(10))
+        }
+
+        const snapshot = await getDocs(q)
+        const posts = [];
+        let lastDoc = null;
+
+        snapshot.forEach((doc) => {
+            posts.push({ id: doc.id, ...doc.data() });
+            lastDoc = doc;
+        });
+
+        return { posts, lastDoc }
+    } catch(err) {
+        console.log(err)
     }
+}
 
-    const snapshot = await getDocs(q)
-    const posts = [];
-    let lastDoc = null;
+export const getUserReposts = async (param, userId) => {
+    try {
+        let q;
 
-    snapshot.forEach((doc) => {
-        posts.push({ id: doc.id, ...doc.data() });
-        lastDoc = doc;
-    });
+        if(param?.pageParam) {
+            q = query(collection(db, "posts"), where("userId", "==", userId), where("isRepost", "==", true), orderBy('createdAt', 'desc'), startAfter(param.pageParam), limit(10))
+        } else {
+            q = query(collection(db, "posts"), where("userId", "==", userId), where("isRepost", "==", true), orderBy('createdAt', 'desc'), limit(10))
+        }
 
-    return { posts, lastDoc }
+        const snapshot = await getDocs(q)
+        const posts = [];
+        let lastDoc = null;
+
+        snapshot.forEach((doc) => {
+            posts.push({ id: doc.id, ...doc.data() });
+            lastDoc = doc;
+        });
+
+        return { posts, lastDoc }
+    } catch(err) {
+        console.log(err)
+    }
 }
 
 export const getPost = async (postId) => {
@@ -180,7 +208,41 @@ export const addPost = async (user, content) => {
         attachments: [],
         createdAt: serverTimestamp(), 
         likesCount: 0,  
-        commentsCount: 0
+        commentsCount: 0,
+        repostCount: 0,
+        isRepost: false
+    })
+
+    return docRef.id
+}
+
+export const addRepost = async (user, originalPostId) => {
+    const docRef = await addDoc(collection(db, "posts"), {
+        userId: user.uid,
+        createdAt: serverTimestamp(),
+        likesCount: 0,
+        commentsCount: 0,
+        repostCount: 0,
+        isRepost: true,
+        repostOf: originalPostId,
+        quoted: false
+    })
+
+    return docRef.id
+}
+
+export const addQuotedRepost = async (user, originalPostId, content) => {
+    console.log(content)
+    const docRef = await addDoc(collection(db, "posts"), {
+        userId: user.uid,
+        createdAt: serverTimestamp(),
+        likesCount: 0,
+        commentsCount: 0,
+        repostCount: 0,
+        isRepost: true,
+        repostOf: originalPostId,
+        quoted: true,
+        content: content
     })
 
     return docRef.id
@@ -570,6 +632,8 @@ export const likeCodeBit = async(codebitId, userId) => {
         const likeDoc = await getDoc(likesDocRef)
 
         if(likeDoc.exists()) {
+            await updateDoc(codeBitRef, { likes: increment(-1) })
+            await deleteDoc(likesDocRef)
             return true
         }
 

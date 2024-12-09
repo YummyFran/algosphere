@@ -9,6 +9,7 @@ import { AiOutlineMore } from 'react-icons/ai'
 import { useUser } from '../provider/UserProvider'
 import { Link, NavLink } from 'react-router-dom'
 import { useToast } from '../provider/ToastProvider'
+import dp from '../assets/defaultDP.jpg'
 
 const Profile = () => {
     const { username } = useParams()
@@ -85,7 +86,7 @@ const Profile = () => {
                         <div className="username">@{user.username}</div>
                     </div>
                     <div className={`profile-picture secondary-${theme}-bg`}>
-                        {user?.photoURL && <img src={user.photoURL} alt={user.displayName}/>}
+                        <img src={user?.photoURL ? user.photoURL : dp} alt={user?.displayName}/>
                     </div>
                 </div>
                 <div className="bio">{user.bio}</div>

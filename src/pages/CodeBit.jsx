@@ -101,9 +101,8 @@ const CodeBit = () => {
         }
     })
 
-    if(!codebitData?.public && codebitData?.author.uid !== user?.uid) return "403 Forbidden"
-
     if(isLoading) return "Loading..."
+    if(!codebitData?.public && codebitData?.author.uid !== user?.uid) return "403 Forbidden"
 
   return (
     <div className={`code-bit-page primary-${theme}-bg midtone-${theme}`}>

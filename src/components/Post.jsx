@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {  decrementLikes, deletePost, getUser, incrementLikes, isUserAlreadyLiked } from '../utils/firestore'
+import {  addQuotedRepost, addRepost, decrementLikes, deletePost, getUser, incrementLikes, isUserAlreadyLiked } from '../utils/firestore'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { IoIosLink, IoMdHeart, IoMdHeartEmpty, IoMdRepeat } from "react-icons/io";
 import { IoBookmarkOutline, IoChatbubbleOutline, IoEyeOffOutline, IoHeartDislikeOutline, IoPause, IoPlay, IoVolumeHigh, IoVolumeMute } from "react-icons/io5";
@@ -8,13 +8,19 @@ import { LiaUserClockSolid, LiaUserMinusSolid } from "react-icons/lia";
 import { TbMessageReport } from "react-icons/tb";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { BsSend } from "react-icons/bs";
+import { LuQuote } from "react-icons/lu";
 import debounce from 'lodash.debounce';
 import { useNavigate } from 'react-router';
-import { timeAgo, formatNumber, getFileType } from '../utils/helper';
+import { timeAgo, formatNumber } from '../utils/helper';
 import '../styles/post.css'
 import { useTheme } from '../provider/ThemeProvider';
 import { GoTrash } from 'react-icons/go';
 import { useToast } from '../provider/ToastProvider';
+import dp from '../assets/defaultDP.jpg'
+import { useUser } from '../provider/UserProvider';
+import PostAttachments from './PostAttachments';
+import Repost from './Repost';
+import RepostModal from './RepostModal';
 
 
 const Post = ({post, currentUser}) => {
@@ -23,14 +29,18 @@ const Post = ({post, currentUser}) => {
     const [vidPaused, setVidPaused] = useState(false)
     const [localLikesCount, setLocalLikesCount] = useState(post.likesCount)
     const [isMutating, setIsMutating] = useState(false)
+    const [repostContext, setRepostContext] = useState("")
+    const [isRepostModalOpen, setIsRepostModalOpen] = useState(false)
     const [theme] = useTheme()
     const [addToast] = useToast()
+    const [user] = useUser()
     const queryClient = useQueryClient()
     const navigate = useNavigate()
     const vidRef = useRef()
     const playIconRef = useRef()
     const menuRef = useRef()
     const meatballRef = useRef()
+    const repostOptionsRef = useRef()
 
     const {data: postOwner, isLoading: isUserLoading} = useQuery({
         queryKey: ['user', post.userId],
@@ -81,11 +91,46 @@ const Post = ({post, currentUser}) => {
         }
     })
 
+    const { mutate: mutateRepost} = useMutation({
+        mutationFn: async (id) => await addRepost(user, id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["posts"]})
+            addToast("Reposted", `You reposted ${postOwner.username}'s post`, "success")
+        }
+    })
+
+    const { mutate: mutateQuotedRepost} = useMutation({
+        mutationFn: async ([id, content]) => await addQuotedRepost(user, id, content),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["posts"]})
+            closeModal()
+            addToast("Reposted", `You reposted ${postOwner.username}'s post`, "success")
+        }
+    })
+
     const handleLike = debounce(() => {
         if (!isUserLoading && currentUser) {
             toggleLike();
         }
     }, 500)
+
+    const handleRepost = (context) => {
+        const id = post.isRepost ? post.repostOf : post.id
+        closeMenu()
+
+        console.log("reposting", context)
+        if(context) {
+            console.log("with context")
+            mutateQuotedRepost([id, context])
+        } else {
+            console.log("no context")
+            mutateRepost(id)
+        }
+    }
+
+    const handleQuotedRepost = () => {
+        setIsRepostModalOpen(true)
+    }
 
     const handlePostClicked = e => {
         navigate(`/${postOwner.username}/post/${post.id}`)
@@ -125,8 +170,18 @@ const Post = ({post, currentUser}) => {
         menuRef.current.classList.toggle("show")
     }
 
-    const closeMenu = e => {
+    const closeMenu = () => {
         menuRef.current.classList.remove('show')
+        repostOptionsRef.current.classList.remove("show")
+    }
+
+    const closeModal = () => {
+        setIsRepostModalOpen(false)
+    }
+
+    const showRepostOptions = e => {
+        e.stopPropagation()
+        repostOptionsRef.current.classList.toggle("show")
     }
     
     const copyLink = () => {
@@ -152,9 +207,29 @@ const Post = ({post, currentUser}) => {
     
   return (
     <div className={`post mono-${theme}-border`}>
+        <RepostModal 
+            isOpen={isRepostModalOpen} 
+            close={closeModal}
+            handleRepost={handleRepost}
+            currentUser={currentUser} 
+            post={post} repostContext={repostContext} 
+            setRepostContext={setRepostContext}
+            vidmMuted={vidmMuted} 
+            vidRef={vidRef} 
+            toggleMute={toggleMute} 
+            togglePaused={togglePaused} 
+            playIconRef={playIconRef} 
+            vidPaused={vidPaused}
+        />
+        {post.isRepost && <div className={`repost-indicator mono-${theme}`}>
+            <IoMdRepeat />
+            <span>
+                {`${postOwner?.username === currentUser?.username ? 'You' : '@' + postOwner?.username} reposted`}
+            </span>
+        </div>}
         <div className="post-details">
-            <div className={`display-picture mono-${theme}-bg`}>
-                {postOwner?.photoURL && <img src={postOwner.photoURL} alt={postOwner?.displayName}/>}
+            <div className={`display-picture mono-${theme}-bg`} onClick={handleProfileClicked}>
+                <img src={postOwner?.photoURL ? postOwner.photoURL : dp} alt={postOwner?.displayName}/>
             </div>
             <div className={`menu ${theme}-shadow primary-${theme}-bg`} ref={menuRef} onClick={e => e.stopPropagation()}>
             {
@@ -222,6 +297,16 @@ const Post = ({post, currentUser}) => {
                     </div>
                 </div>
             </div>
+            <div className={`repost-options ${theme}-shadow primary-${theme}-bg`} ref={repostOptionsRef} onClick={e => e.stopPropagation()}>
+                <div className="option" onClick={() => handleRepost()}>
+                    <div className="text">Repost</div>
+                    <IoMdRepeat />
+                </div>
+                <div className="option" onClick={handleQuotedRepost}>
+                    <div className="text">Quote</div>
+                    <LuQuote />
+                </div>
+            </div>
             <div className="content">
                 <div className="post-header">
                     <div className="name" onClick={handleProfileClicked}>{postOwner?.displayName}</div>
@@ -237,28 +322,19 @@ const Post = ({post, currentUser}) => {
                             <div className="text" key={i}>{line} <br/></div>
                         ))}
                     </div>
-                    {post?.attachments?.length > 0 &&
-                        <div className="medias">
-                            {post.attachments.map((link, i) => {
-
-                                const fileType = getFileType(link)
-                                
-                                return (
-                                    <div className="media" key={i}>
-                                        {fileType === "Image" ?
-                                            <img src={link} alt="Attachment Preview" className="attachment-preview" /> :
-                                            <div className="video" onClick={() => togglePaused()}>
-                                                <video muted={vidmMuted} loop autoPlay ref={vidRef}>
-                                                    <source src={link} type="video/mp4" />
-                                                </video>
-                                                <div className={`toggle-mute`} onClick={toggleMute}>{vidmMuted ? <IoVolumeMute /> : <IoVolumeHigh />}</div>
-                                                <div className={`toggle-pause`} ref={playIconRef}>{!vidPaused ? <IoPlay /> : <IoPause />}</div>
-                                            </div>
-                                        }
-                                    </div>
-                                )
-                            })}
-                        </div>
+                    {post.isRepost ? 
+                        <Repost 
+                            postReference={post.repostOf} 
+                            vidmMuted={vidmMuted} 
+                            vidRef={vidRef} 
+                            toggleMute={toggleMute} 
+                            togglePaused={togglePaused} 
+                            playIconRef={playIconRef} 
+                            vidPaused={vidPaused}
+                        /> :
+                        
+                        post?.attachments?.length > 0 &&
+                        <PostAttachments post={post}  vidmMuted={vidmMuted} vidRef={vidRef} toggleMute={toggleMute} togglePaused={togglePaused} playIconRef={playIconRef} vidPaused={vidPaused}/>
                     }
                 </div>
                 <div className="post-datas">
@@ -274,7 +350,7 @@ const Post = ({post, currentUser}) => {
                             {!!post.commentsCount && post.commentsCount}
                         </div>
                     </div>
-                    <div className={`data repost ${theme}-hover`}>
+                    <div className={`data repost ${theme}-hover`} onClick={showRepostOptions}>
                         <IoMdRepeat />
                         <div className="count">
                         </div>

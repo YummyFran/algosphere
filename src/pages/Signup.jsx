@@ -9,8 +9,9 @@ import '../styles/login.css'
 import { validateUsername } from '../utils/helper'
 
 const Signup = () => {
-    const [user, loading] = useUser()
+    const [user, userLoading] = useUser()
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const [credentials, setCredentials] = useState({username: '', email: '', password: '', displayName: ''})
     const [disabled, setDisabled] = useState(true)
@@ -18,13 +19,17 @@ const Signup = () => {
     const handleSubmit = async e => {
         e.preventDefault()
 
+        setLoading(true)
+
         if(await usernameExisted(credentials.username)) {
             setError(`${credentials.username} already exist`)
+            setLoading(false)
             return
         }
 
         if(!validateUsername(credentials.username)[0]) {
             setError(validateUsername(credentials.username)[1])
+            setLoading(false)
             return
         }
 
@@ -32,6 +37,7 @@ const Signup = () => {
 
         if(err) {
             setError(err.code)
+            setLoading(false)
             return
         }
 
@@ -40,6 +46,7 @@ const Signup = () => {
         })
 
         await addUser(user, credentials.username)
+        setLoading(false)
     }
 
     const handleChange = e => {
@@ -57,8 +64,8 @@ const Signup = () => {
         }
     }, [credentials])
 
-    if (!loading && user) return <Navigate to='/'/>
-    if (loading) return "loading..."
+    if (!userLoading && user) return <Navigate to='/'/>
+    if (userLoading) return "loading..."
 
   return (
     <div className='login'>
@@ -71,7 +78,7 @@ const Signup = () => {
             <input type="text" placeholder='Username' name='username' autoComplete='on' required onChange={handleChange} value={credentials.username}/>
             <input type="text" placeholder='Email' name='email' autoComplete='on' required onChange={handleChange} value={credentials.email}/>
             <input type="password" placeholder='Password' name='password' autoComplete='on'required onChange={handleChange} value={credentials.password}/>
-            <button disabled={disabled}>Sign up</button>
+            <button disabled={disabled || loading}>{loading ? 'Signing up' : 'Sign up'}</button>
             {error && <div className='error-message'>{error}</div>}
             <p>Already have an account? <Link to="/login" className='sign'>Sign in</Link></p>
         </form>

@@ -14,6 +14,7 @@ import {
     IoMenu
 } from "react-icons/io5";
 import { useToast } from '../provider/ToastProvider'
+import dp from '../assets/defaultDP.jpg'
 
 
 const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
@@ -62,7 +63,9 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                 </div>
                 <div className={`menu primary-${theme}-bg ${theme}-shadow`} ref={menuMobileRef} onClick={e => e.stopPropagation()}>
                     <div className="user" onClick={() => nav(`/${user?.username}`)}>
-                        <div className="display-picture"></div>
+                        <div className="display-picture">
+                            <img src={user?.photoURL ? user.photoURL : dp} alt={user?.displayName}/>
+                        </div>
                         <div className="name">
                             <div className={`display-name ${isLoading && 'loading'}`}>{user?.displayName.split(" ")[0]}</div>
                             <div className={`username ${isLoading && 'loading'}`}>{user && `@${user.username}`}</div>
@@ -100,7 +103,7 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
         <div className="shortcuts"></div>
         <div className={`profile ${theme}-hover`} onClick={() => nav(`/${user?.username}`)}>
             <div className="display-picture">
-                {user?.photoURL && <img src={user.photoURL} alt={user?.displayName}/>}
+                <img src={user?.photoURL ? user.photoURL : dp} alt={user?.displayName}/>
             </div>
             <div className="name">
                 <div className={`display-name ${isLoading && 'loading'}`}>{user?.displayName.split(" ")[0]}</div>
