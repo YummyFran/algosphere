@@ -4,6 +4,67 @@
     min-height: 100vh;
     padding-bottom: 4rem;
 
+    .edit-profile-modal .body {
+        display: flex;
+        gap: 1rem;
+
+        .details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1;
+
+            & > div {
+                border: 1px solid;
+                border-radius: 0.5rem;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+
+                label {
+                    padding: 0.5rem 0.5rem 0;
+                    font-size: 0.8rem;
+
+                    &:has(~input:focus) {
+                        color: var(--accent-color);
+                    }
+                }
+
+                input {
+                    padding: 0.5rem;
+                    background: inherit;
+                    border: none;
+                    outline: none;
+                    color: inherit;
+                    font-size: 1rem;
+                }
+            }
+        }
+
+        .photo {
+            align-self: flex-start;
+            width: 7rem;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+
+            &:hover {
+
+            }
+        }
+
+        .change-dp {
+            display: none;
+        }
+    }
+
     .profile {
         display: flex;
         flex-direction: column;

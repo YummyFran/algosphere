@@ -17,6 +17,7 @@ import {
     increment 
 } from 'firebase/firestore'
 import { db } from './firebase';
+import { uploadProfilePicture } from './bucket';
 
 export const addDocument = async (collectionName, docId, data) => {
     try {
@@ -119,6 +120,18 @@ export const hasPhotoUrl = async (uid) => {
 export const updatePhotoUrl = async (uid, url) => {
     await updateDocument('users', uid, {
         photoURL: url
+    })
+}
+
+export const updateUserDetails = async (user, details) => {
+    const photo = details.file
+
+    const url = await uploadProfilePicture(photo, user)
+
+    await updateDocument('users', user.uid, {
+        displayName: details.name,
+        photoURL: url,
+        bio: details.bio
     })
 }
 

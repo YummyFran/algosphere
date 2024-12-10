@@ -60,3 +60,37 @@ export const uploadPostMedias = async (files, user, postId, setProgress) => {
 
     return urls
 }
+
+export const uploadProfilePicture = async (file, user, setProgress) => {
+    try {
+        if (!file || !user) {
+            throw new Error("File and user are required for uploading.");
+        }
+
+        const path = `users/${user.uid}/profile-picture/${file.name}`;
+
+        const storageRef = ref(storage, path);
+
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                if (setProgress) {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    // setProgress(Math.round(progress));
+                    console.log("updating profile picture:", `${progress}%`)
+                }
+            }
+        );
+
+        await uploadTask;
+
+        const downloadURL = await getDownloadURL(storageRef);
+
+        return downloadURL;
+    } catch (error) {
+        console.error("Error uploading profile picture:", error.message);
+        throw error;
+    }
+};

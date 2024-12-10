@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import { checkIfFollowing, followUser, getUserByUsername, unFollowUser } from '../utils/firestore'
+import { checkIfFollowing, followUser, getUserByUsername, unFollowUser, updateUserDetails } from '../utils/firestore'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { IoArrowBackOutline } from 'react-icons/io5'
 import "../styles/profile.css"
@@ -10,6 +10,7 @@ import { useUser } from '../provider/UserProvider'
 import { Link, NavLink } from 'react-router-dom'
 import { useToast } from '../provider/ToastProvider'
 import dp from '../assets/defaultDP.jpg'
+import Modal from '../components/Modal'
 
 const Profile = () => {
     const { username } = useParams()
@@ -17,6 +18,9 @@ const Profile = () => {
     const [currentUser] = useUser()
     const [addToast] = useToast()
     const [isFollowPending, setIsFollowPending] = useState(false)
+    const [isSavingPending, setIsSavingPending] = useState(false)
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [userDetails, setUserDetails] = useState({photoURL: '', name: '', bio: '', file: null})
     const queryClient = useQueryClient()
     const nav = useNavigate()
 
@@ -61,14 +65,78 @@ const Profile = () => {
         }
     })
 
+    const { mutate: mutateUser } = useMutation({
+        mutationFn: async () => await updateUserDetails(currentUser, {
+            name: userDetails.name,
+            file: userDetails.file,
+            bio: userDetails.bio
+        }),
+        onMutate: () => {
+            setIsSavingPending(true)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(['userdata'])
+            setIsSavingPending(false)
+            addToast("Saved!", "Your profile is successfully updated")
+            closeEditModal()
+        }
+    })
+
+    const handleSave = () => {
+        mutateUser()
+    }
+
+    const handlePhotoChange = (e) => {
+        const image = URL.createObjectURL(e.target.files[0])
+
+        setUserDetails(prev => ({...prev, photoURL: image, file: e.target.files[0]}))
+    }
+
+    const closeEditModal = () => {
+        setIsEditModalOpen(false)
+    }
 
     useEffect(() => {
         refetch()
     }, [username, refetch])
 
+    useEffect(() => {
+        if (user && !userDetails.photoURL && !userDetails.name && !userDetails.bio) {
+            setUserDetails({
+                photoURL: user.photoURL,
+                name: user.displayName,
+                bio: user.bio,
+            });
+        }
+    }, [user])
+
     if (isLoading || username !== user?.username) return <div>Loading...</div>
   return (
     <div className={`profile-page primary-${theme}-bg midtone-${theme}`}>
+        <Modal 
+            isOpen={isEditModalOpen} 
+            onClose={closeEditModal} 
+            className={`edit-profile-modal primary-${theme}-bg`} 
+            title={'Edit Profile'} 
+            submitValue={isSavingPending ? 'Saving' : 'Save'} 
+            handleSubmit={handleSave} 
+            submitDisabled={isSavingPending || (user.displayName === userDetails.name && user.photoURL === userDetails.photoURL && user.bio === userDetails.bio)}
+        >
+            <div className="details">
+                <div className={`name mono-${theme}-border`}>
+                    <label htmlFor="name" className={`mono-${theme}`}>Name</label>
+                    <input id='name' type="text" value={userDetails.name} onChange={(e) => setUserDetails(prev => ({...prev, name: e.target.value}))} autoComplete="off"/>
+                </div>
+                <div className={`bio mono-${theme}-border`}>
+                    <label htmlFor="bio" className={`mono-${theme}`}>Bio</label>
+                    <input id='bio' type="text" value={userDetails.bio} onChange={(e) => setUserDetails(prev => ({...prev, bio: e.target.value}))} />
+                </div>
+            </div>
+            <label htmlFor='dp-input' className="photo">
+                <img src={userDetails?.photoURL ? userDetails.photoURL : dp} alt={user?.displayName}/>
+            </label>
+            <input type="file" id="dp-input" className='change-dp' onChange={handlePhotoChange} accept='image/*'/>
+        </Modal>
         <div className="profile">
             <div className="header">
                 <div className={`back ${theme}-hover`} onClick={() => nav(-1)}>
@@ -106,7 +174,7 @@ const Profile = () => {
                 </div>
                 <div className="cta">
                 {user.uid === currentUser?.uid ? 
-                    <button className='edit'>Edit Profile</button> :
+                    <button className='edit' onClick={() => setIsEditModalOpen(true)}>Edit Profile</button> :
                     <>
                         <button className={`follow-btn ${isFollowing ? "following" : "follow"}`} onClick={() => isFollowing ? mutateUnFollow() : mutateFollow()} disabled={isFollowPending}>{isFollowing ? "Following" : "Follow"}</button>
                         <button className='message'>Message</button>
