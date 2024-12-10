@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { iconMap, timeAgo } from '../utils/helper'
 import { IoMdHeart, IoMdHeartEmpty } from 'react-icons/io'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { hasLikedCodeBit, likeCodeBit } from '../utils/firestore'
+import { deleteCodeBit, hasLikedCodeBit, likeCodeBit } from '../utils/firestore'
 import { useToast } from '../provider/ToastProvider'
 import { useUser } from '../provider/UserProvider'
 import { useNavigate } from 'react-router'
 import { useTheme } from '../provider/ThemeProvider'
+import { GoTrash } from 'react-icons/go'
 
 const CodeBitItem = ({codebit, filterBy}) => {
     const [hasLiked, setHasLiked] = useState(false)
@@ -15,7 +16,6 @@ const CodeBitItem = ({codebit, filterBy}) => {
     const [user] = useUser()
     const [theme] = useTheme()
     const nav = useNavigate()
-
 
     const {mutate: mutateLike} = useMutation({
         mutationFn: async (codebitId) => await likeCodeBit(codebitId, user.uid),
@@ -32,9 +32,22 @@ const CodeBitItem = ({codebit, filterBy}) => {
         }
     })
 
+    const {mutate: mutateDelete} = useMutation({
+        mutationFn: async (codebitId) => await deleteCodeBit(codebitId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['codebits', filterBy] })
+            addToast("Codebit deleted!", "This codebit has been deleted", "error")
+        }
+    })
+
     const handleLike = (id, e) => {
         e.stopPropagation()
         mutateLike(id)
+    }
+
+    const handleDelete = (id, e) => {
+        e.stopPropagation()
+        mutateDelete(id)   
     }
 
     useEffect(() => {
@@ -67,6 +80,21 @@ const CodeBitItem = ({codebit, filterBy}) => {
             </div>
         : 
             <div className={`private secondary-${theme}-bg`}>Private</div>
+        }
+        {filterBy === 'mycodebits' &&
+            <div 
+                className={`delete ${theme}-hover`} 
+                style={{
+                    color: 'var(--error-color)', 
+                    padding: '0.5rem', 
+                    borderRadius: '1rem', 
+                    display: 'flex', 
+                    alignItems: 'center'
+                }}
+                onClick={e => handleDelete(codebit.id, e)}
+            >
+                <GoTrash />
+            </div>
         }
     </div>
   )

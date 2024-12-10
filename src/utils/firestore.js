@@ -659,3 +659,7 @@ export const hasLikedCodeBit = async (codebitId, userId) => {
         console.log(err)
     }
 }
+
+export const deleteCodeBit = async (codebitId) => {
+    await deleteDocument("codebits", codebitId)
+}
