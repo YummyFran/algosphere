@@ -190,3 +190,57 @@
         }
     }
 }
+
+@media (max-width: 35em) {
+    .code-bit-page {
+        height: 100vh;
+
+        .header {
+            flex-wrap: wrap;
+            position: sticky;
+            z-index: 10;
+            background-color: inherit;
+            top: 0;
+            
+            .buttons {
+                position: static;
+                transform: translateX(0);
+                left: 0;
+
+                button {
+                    justify-content: center;
+                }
+            }
+        }
+
+        .content {
+            height: 100%;
+
+            .split {
+                display: block;
+                max-height: calc(100vh - 8rem);
+            
+                .gutter {
+                    background-color: inherit;
+                    background-repeat: no-repeat;
+                    background-position: 50%;
+            
+                    &.gutter-vertical {
+                        background-color: inherit;
+                        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+                        cursor: row-resize;
+            
+                        &:hover {
+                            filter: brightness(0.9);
+                        }
+                    }
+                } 
+                
+                .code-area, .output-area {
+                    height: auto;
+                    overflow: hidden;
+                }
+            }
+        }
+    }
+}

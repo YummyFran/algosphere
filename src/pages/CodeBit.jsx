@@ -19,6 +19,7 @@ import { useUser } from '../provider/UserProvider'
 
 const CodeBit = () => {
     const [webCode, setWebCode] = useState({html: '', css: '', js: ''})
+    const [onMobile, setOnMobile] = useState()
     const [theme] = useTheme()
     const [addToast] = useToast()
     const [user] = useUser()
@@ -101,6 +102,22 @@ const CodeBit = () => {
         }
     })
 
+    useEffect(() => {
+        const resize = () => {
+          const media = window.matchMedia('(max-width: 35em)')
+    
+          setOnMobile(media.matches)
+        }
+    
+        resize()
+    
+        window.addEventListener('resize', resize)
+    
+        return () => {
+          window.removeEventListener('resize', resize)
+        }
+      }, [])
+
     if(isLoading) return "Loading..."
     if(!codebitData?.public && codebitData?.author.uid !== user?.uid) return "403 Forbidden"
 
@@ -131,7 +148,7 @@ const CodeBit = () => {
             </div>
         </div>
         <div className="content">
-            <Split className='split' gutterSize={15}>
+            <Split className='split' gutterSize={15} direction={onMobile ? 'vertical' : 'horizontal'}>
                 <div className="code-area">
                     {codebitData.language === "Web" ? 
                         <Web codebit={codebitData} code={webCode} setCode={setWebCode}/> :

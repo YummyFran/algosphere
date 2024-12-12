@@ -740,6 +740,8 @@ export const submitProblem = async (slug, userId, data) => {
         const problemRef = doc(db, "codeproblems", slug)
         const userDocRef = doc(problemRef, "users", userId)
 
+        await setDoc(userDocRef, { submissions: [] }, { merge: true })
+        
         if(data.status === "accepted") {
             await updateDoc(problemRef, { successSubmissions: increment(1) })
             await updateDoc(userDocRef, { status: "accepted" })

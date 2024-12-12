@@ -299,12 +299,21 @@ const Problem = () => {
             <div className="title">
               <div className="rank" style={{color: problem?.rank?.color}}>{problem?.rank?.name}</div>
               <div className="name">{problem?.name}</div>
+              <div className="submissions">
+                <PiSpeedometer />
+                {isProblemDataLoading ? "..." : `${((problemData.successSubmissions * 100 / problemData.submissions) || 0).toFixed()}% of ${problemData.submissions}`}
+              </div>
+              <div className={`likes ${theme}-hover`} style={{color: problemuserData?.liked && `var(--error-color)`}} onClick={handleLike}>
+                {problemuserData?.liked ? <IoMdHeart /> :<IoMdHeartEmpty />}
+                {isProblemDataLoading ? "..." : `${problemData.likes > 0 ? problemData.likes : 'Like'}`}
+              </div>
             </div>
             <div className="tabs">
               <div className={`tab secondary-${theme}-bg ${activeTab === "problem" ? "active" : ""}`} onClick={() => setActiveTab("problem")}>Problem</div>
               <div className={`tab secondary-${theme}-bg ${activeTab === "output" ? "active" : ""}`} onClick={() => setActiveTab("output")}>Output</div>
+              <div className={`tab secondary-${theme}-bg ${activeTab === "submissions" ? "active" : ""}`} onClick={() => setActiveTab("submissions")}>Submissions</div>
             </div>
-            <div className={`renderer secondary-${theme}-bg`}>
+            <div className={`renderer ${activeTab !== "submissions" && "secondary-" + theme + "-bg"}`}>
               {activeTab === "problem" &&
                 <div className={`problem`}>
                   <div className={`statement mono-${theme}-border`}>
@@ -337,6 +346,22 @@ const Problem = () => {
                   ) : (
                     <div className="empty">Your results will be shown here</div>
                   )}
+                </div>
+              )}
+              {activeTab === "submissions" && (
+                <div className="submissions">
+                  {problemuserData?.submissions?.length > 0 ? 
+                    (problemuserData?.submissions?.slice().reverse().map((val, i) => {
+                      return <div className={`sub`} key={i}>
+                        <div className={`status ${val.status}`}>{val.status === "accepted" ? "Accepted" : "Wrong Answer"}</div>
+                        <div className="timestamp">{timeAgo(val.timestamp)}</div>
+                        <button className={`view-code secondary-${theme}-bg midtone-${theme}`} onClick={() => setSolution(val.code)}>View Code</button>
+                      </div>
+                    })) :
+                    (
+                      <div className="empty">No submissions yet</div>
+                    )
+                  }
                 </div>
               )}
             </div>
