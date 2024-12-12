@@ -115,6 +115,24 @@
                 .name {
                     font-weight: 600;
                     font-size: 1.3rem;
+                    margin-right: auto;
+                }
+
+                .submissions, .likes {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-size: 1rem;
+
+                    svg {
+                        font-size: 1.5rem;
+                    }
+                }
+
+                .likes {
+                    cursor: pointer;
+                    padding: 0.5rem 0.5rem;
+                    border-radius: 2rem;
                 }
             }
     
@@ -322,6 +340,56 @@
                             display: flex;
                             gap: 0.5rem;
                             align-items: center;
+                        }
+                    }
+                }
+
+                .submissions {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.2rem;
+                    background-color: transparent;
+                    
+                    .sub {
+                        padding: 1.5rem 1rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        background-color: inherit;
+                        border-radius: 0.5rem;
+
+                        &:nth-child(even) {
+                            backdrop-filter: brightness(1.2);
+                        }
+
+                        .status {
+                            font-size: 1.1rem;
+                            font-weight: 600;
+
+                            &.accepted {
+                                color: var(--accent-color);
+                            }
+
+                            &.wrong-answer {
+                                color: var(--error-color);
+                            }
+                        }
+
+                        .timestamp {
+                            margin-right: auto;
+                            font-size: 0.8rem;
+                        }
+
+                        .view-code {
+                            border: none;
+                            padding: 0.5rem 1rem;
+                            border-radius: 0.5rem;
+                            cursor: pointer;
+
+                            &:hover {
+                                background-color: var(--accent-color);
+                                color: var(--midtone-dark);
+                            }
                         }
                     }
                 }

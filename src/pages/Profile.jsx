@@ -3,6 +3,7 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 import { checkIfFollowing, followUser, getUserByUsername, unFollowUser, updateUserDetails } from '../utils/firestore'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { IoArrowBackOutline } from 'react-icons/io5'
+import { MdModeEdit } from "react-icons/md";
 import "../styles/profile.css"
 import { useTheme } from '../provider/ThemeProvider'
 import { AiOutlineMore } from 'react-icons/ai'
@@ -69,7 +70,8 @@ const Profile = () => {
         mutationFn: async () => await updateUserDetails(currentUser, {
             name: userDetails.name,
             file: userDetails.file,
-            bio: userDetails.bio
+            bio: userDetails.bio,
+            photoURL: userDetails.photoURL
         }),
         onMutate: () => {
             setIsSavingPending(true)
@@ -106,7 +108,7 @@ const Profile = () => {
                 photoURL: user.photoURL,
                 name: user.displayName,
                 bio: user.bio,
-            });
+            })
         }
     }, [user])
 
@@ -134,6 +136,9 @@ const Profile = () => {
             </div>
             <label htmlFor='dp-input' className="photo">
                 <img src={userDetails?.photoURL ? userDetails.photoURL : dp} alt={user?.displayName}/>
+                <div className="hover-overlay">
+                    <MdModeEdit />
+                </div>
             </label>
             <input type="file" id="dp-input" className='change-dp' onChange={handlePhotoChange} accept='image/*'/>
         </Modal>

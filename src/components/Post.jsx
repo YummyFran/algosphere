@@ -27,7 +27,7 @@ const Post = ({post, currentUser}) => {
     const [liked, setLiked] = useState(false)
     const [vidmMuted, setVidMuted] = useState(true)
     const [vidPaused, setVidPaused] = useState(false)
-    const [localLikesCount, setLocalLikesCount] = useState(post.likesCount)
+    const [localLikesCount, setLocalLikesCount] = useState(0)
     const [isMutating, setIsMutating] = useState(false)
     const [repostContext, setRepostContext] = useState("")
     const [isRepostModalOpen, setIsRepostModalOpen] = useState(false)
@@ -196,6 +196,11 @@ const Post = ({post, currentUser}) => {
             window.removeEventListener('click', closeMenu)
         }
     }, [])
+
+    useEffect(() => {
+        if(!post) return
+        setLocalLikesCount(post.likesCount)
+    }, [post])
 
     useEffect(() => {
         if(hasLiked) {

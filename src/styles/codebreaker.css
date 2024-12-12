@@ -246,6 +246,10 @@
                     color: var(--accent-color);
                     text-decoration: underline;
                 }
+
+                .status {
+                    color: var(--accent-color);
+                }
             }
         }
     }

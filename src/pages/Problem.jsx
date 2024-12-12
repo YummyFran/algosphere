@@ -5,13 +5,19 @@ import Split from 'react-split'
 import CodeMirror from '@uiw/react-codemirror'
 import '../styles/problem.css'
 import { useTheme } from '../provider/ThemeProvider'
-import { formatCodeStringToJSX } from '../utils/helper'
+import { formatCodeStringToJSX, timeAgo } from '../utils/helper'
 import { javascript } from '@codemirror/lang-javascript'
 import { tokyoNightStorm } from '@uiw/codemirror-theme-tokyo-night-storm'
 import { tokyoNightDay } from '@uiw/codemirror-theme-tokyo-night-day'
 import { FaPlay } from "react-icons/fa"
 import { AiOutlineCloudUpload } from "react-icons/ai"
 import Result from '../components/Result'
+import { IoMdHeart, IoMdHeartEmpty } from 'react-icons/io'
+import { PiSpeedometer } from "react-icons/pi";
+import { getProblemData, getProblemUserData, likeProblem, submitProblem } from '../utils/firestore'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useUser } from '../provider/UserProvider'
+import { useToast } from '../provider/ToastProvider'
 
 const Problem = () => {
     const [originalProblem, setOriginalProblem] = useState()
@@ -23,7 +29,44 @@ const Problem = () => {
     const [onMobile, setOnMobile] = useState(false)
     const { problemSlug } = useParams()
     const [theme] = useTheme()
+    const [user] = useUser()
+    const [addToast] = useToast()
     const nav = useNavigate()
+    const queryClient = useQueryClient()
+
+    const {data: problemData, isLoading: isProblemDataLoading} = useQuery({
+      queryKey: ['problem', problemSlug],
+      queryFn: async () => await getProblemData(problemSlug)
+    })
+
+    const {data: problemuserData} = useQuery({
+      queryKey: ['problemUser', problemSlug, user?.uid],
+      queryFn: async () => await getProblemUserData(problemSlug, user.uid)
+    })
+
+    const {mutate: mutateLikeProblem} = useMutation({
+      mutationFn: async () => await likeProblem(problemSlug, user.uid),
+      onSuccess: () => {
+        queryClient.invalidateQueries(['problem', problemSlug])
+      },
+      onError: (err) => {
+        console.log(err)
+      }
+    })
+
+    const {mutate: mutateSubmitProblem} = useMutation({
+      mutationFn: async (status) => await submitProblem(problemSlug, user.uid, {
+        code: solution,
+        status: status
+      }),
+      onSuccess: () => {
+        queryClient.invalidateQueries(['problemUser', problemSlug, user?.uid])
+      }
+    })
+
+    const handleLike = () => {
+      mutateLikeProblem()
+    }
 
     const handleSolutionChange = (code) => {
       setSolution(code)
@@ -58,10 +101,34 @@ const Problem = () => {
         worker.onmessage = e => {
           const res = e.data
           
-          setResults(res)
-        }
+          if(!Array.isArray(res)) {
+            setResults(res)
+            setActiveTab("output")
+            return
+          }
 
-        setActiveTab("output")
+          let passed;
+
+          for(let i = 0; i < res.length; i++) {
+            if(res[i].status === "failed") {
+              passed = false
+              break
+            }
+
+            passed = true
+          }
+
+          if(passed) {
+            setActiveTab("submissions")
+            mutateSubmitProblem("accepted")
+            addToast("Code Accepted!", "Congratulations for passing all the test cases")
+          } else {
+            setResults(res)
+            setActiveTab("output")
+            mutateSubmitProblem("wrong-answer")
+            addToast("Code rejected", "You have to pass all test cases", "error")
+          }
+        }
       } catch (err) {
         console.error(err)
       }
@@ -84,6 +151,7 @@ const Problem = () => {
 
     useEffect(() => {
       handleTestCaseChange()
+      setSolution(problem?.starterCode)
     }, [problem])
 
     useEffect(() => {
@@ -131,12 +199,21 @@ const Problem = () => {
             <div className="title">
               <div className="rank" style={{color: problem?.rank?.color}}>{problem?.rank?.name}</div>
               <div className="name">{problem?.name}</div>
+              <div className="submissions">
+                <PiSpeedometer />
+                {isProblemDataLoading ? "..." : `${((problemData.successSubmissions * 100 / problemData.submissions) || 0).toFixed()}% of ${problemData.submissions}`}
+              </div>
+              <div className={`likes ${theme}-hover`} style={{color: problemuserData?.liked && `var(--error-color)`}} onClick={handleLike}>
+                {problemuserData?.liked ? <IoMdHeart /> :<IoMdHeartEmpty />}
+                {isProblemDataLoading ? "..." : `${problemData.likes > 0 ? problemData.likes : 'Like'}`}
+              </div>
             </div>
             <div className="tabs">
               <div className={`tab secondary-${theme}-bg ${activeTab === "problem" ? "active" : ""}`} onClick={() => setActiveTab("problem")}>Problem</div>
               <div className={`tab secondary-${theme}-bg ${activeTab === "output" ? "active" : ""}`} onClick={() => setActiveTab("output")}>Output</div>
+              <div className={`tab secondary-${theme}-bg ${activeTab === "submissions" ? "active" : ""}`} onClick={() => setActiveTab("submissions")}>Submissions</div>
             </div>
-            <div className={`renderer secondary-${theme}-bg`}>
+            <div className={`renderer ${activeTab !== "submissions" && "secondary-" + theme + "-bg"}`}>
               {activeTab === "problem" &&
                 <div className={`problem`}>
                   <div className={`statement mono-${theme}-border`}>
@@ -171,6 +248,22 @@ const Problem = () => {
                   )}
                 </div>
               )}
+              {activeTab === "submissions" && (
+                <div className="submissions">
+                  {problemuserData?.submissions?.length > 0 ? 
+                    (problemuserData?.submissions?.slice().reverse().map((val, i) => {
+                      return <div className={`sub`} key={i}>
+                        <div className={`status ${val.status}`}>{val.status === "accepted" ? "Accepted" : "Wrong Answer"}</div>
+                        <div className="timestamp">{timeAgo(val.timestamp)}</div>
+                        <button className={`view-code secondary-${theme}-bg midtone-${theme}`} onClick={() => setSolution(val.code)}>View Code</button>
+                      </div>
+                    })) :
+                    (
+                      <div className="empty">No submissions yet</div>
+                    )
+                  }
+                </div>
+              )}
             </div>
           </div>
           <div className="code-section">
@@ -182,7 +275,7 @@ const Problem = () => {
                 <div className={`tab secondary-${theme}-bg`}>Solution</div>
                 <CodeMirror 
                   className={`code-area primary-${theme}-bg`}
-                  value={problem?.starterCode}
+                  value={solution}
                   extensions={[javascript({jsx: true})]} 
                   theme={theme === "dark" ? tokyoNightStorm : tokyoNightDay}
                   onChange={handleSolutionChange}

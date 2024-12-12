@@ -78,7 +78,7 @@ const PostPage = () => {
         }
     }, [fetchNextPage])
 
-    if(isLoading || loadingUser) return "Loading..."
+    if(isLoading || loadingUser || !post) return "Loading..."
   return (
     <div className={`post-page primary-${theme}-bg midtone-${theme}`}>
         <div className="post-container">

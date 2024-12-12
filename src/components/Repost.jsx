@@ -22,7 +22,7 @@ const Repost = ({postReference, vidmMuted, vidRef, toggleMute, togglePaused, pla
     })
 
     const handlePostClicked = e => {
-        navigate(`/${postOwner?.username}/post/${originalPost?.userId}`)
+        navigate(`/${postOwner?.username}/post/${postReference}`)
     }
 
     const handleProfileClicked = () => {

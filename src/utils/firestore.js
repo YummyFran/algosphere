@@ -14,7 +14,9 @@ import {
     startAfter,
     addDoc,
     onSnapshot,
-    increment 
+    increment, 
+    arrayUnion,
+    Timestamp
 } from 'firebase/firestore'
 import { db } from './firebase';
 import { uploadProfilePicture } from './bucket';
@@ -125,8 +127,11 @@ export const updatePhotoUrl = async (uid, url) => {
 
 export const updateUserDetails = async (user, details) => {
     const photo = details.file
+    let url = details.photoURL
 
-    const url = await uploadProfilePicture(photo, user)
+    if(photo) {
+        url = await uploadProfilePicture(photo, user)
+    }
 
     await updateDocument('users', user.uid, {
         displayName: details.name,
@@ -675,4 +680,79 @@ export const hasLikedCodeBit = async (codebitId, userId) => {
 
 export const deleteCodeBit = async (codebitId) => {
     await deleteDocument("codebits", codebitId)
+}
+
+// Code Breaker
+
+export const addProblem = async (slug) => {
+    await setDoc(doc(db, "codeproblems", slug), {
+        slug: slug,
+        likes: 0,
+        submissions: 0,
+        successSubmissions: 0
+    })
+}
+
+export const getProblemData = async (slug) => {
+    const problemData = await getDocument("codeproblems", slug)
+
+    return problemData
+}
+
+export const getProblemUserData = async (slug, userId) => {
+    try {
+        const problemRef = doc(db, "codeproblems", slug)
+        const userDocRef = doc(problemRef, "users", userId)
+
+        const userDoc = await getDoc(userDocRef)
+
+        return userDoc.exists() && userDoc.data()
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+export const likeProblem = async (slug, userId) => {
+    try {
+        const problemRef = doc(db, "codeproblems", slug)
+        const userDocRef = doc(problemRef, "users", userId)
+
+        const userDoc = await getDoc(userDocRef)
+        const data = userDoc.exists() ? userDoc.data() : { liked: false }
+
+        if(data.liked) {
+            await updateDoc(problemRef, { likes: increment(-1) })
+            await updateDoc(userDocRef, { liked: false })
+            return true
+        }
+
+        await updateDoc(problemRef, { likes: increment(1) })
+        await setDoc(userDocRef, {
+            liked: true
+        }, { merge: true })
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+export const submitProblem = async (slug, userId, data) => {
+    try {
+        const problemRef = doc(db, "codeproblems", slug)
+        const userDocRef = doc(problemRef, "users", userId)
+
+        if(data.status === "accepted") {
+            await updateDoc(problemRef, { successSubmissions: increment(1) })
+            await updateDoc(userDocRef, { status: "accepted" })
+        }
+
+        await updateDoc(problemRef, { submissions: increment(1) })
+        await updateDoc(userDocRef, {
+            submissions: arrayUnion({
+                ...data,
+                timestamp: Timestamp.now()
+            })
+        })
+    } catch(err) {
+        console.log(err)
+    }
 }
