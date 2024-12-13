@@ -6,12 +6,15 @@ import { tokyoNightStorm } from '@uiw/codemirror-theme-tokyo-night-storm'
 import { tokyoNightDay } from '@uiw/codemirror-theme-tokyo-night-day'
 import { html } from '@codemirror/lang-html'
 import '../styles/duel.css'
-import { redirect, useNavigate, useParams } from 'react-router'
+import { redirect, useLocation, useNavigate, useParams } from 'react-router'
 import { compareImages, generateIframeCode } from '../utils/helper'
 import { duels, starter } from '../data/duels/duelMapper'
 import { GrNext, GrPrevious } from "react-icons/gr";
 import html2canvas from 'html2canvas'
 import { useToast } from '../provider/ToastProvider'
+import { getUserDuelData, submitDuel } from '../utils/firestore'
+import { useUser } from '../provider/UserProvider'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 const Duel = () => {
   const [cssCode, setCssCode] = useState()
@@ -21,14 +24,34 @@ const Duel = () => {
   const [onMobile, setOnMobile] = useState()
   const [theme] = useTheme()
   const [addToast] = useToast()
+  const [user] = useUser()
   const [isShiftPressed, setIsShiftPressed] = useState(false); 
   const { duelSlug } = useParams()
+  const location = useLocation()
   const nav = useNavigate()
   const outputRef = useRef()
   const areaRef = useRef()
   const overlayRef = useRef()
   const outputContainerRef = useRef()
   const sliderRef = useRef()
+  const queryClient = useQueryClient()
+
+  const {data: userDuelData, isLoading: isUserDuelDataLoading} = useQuery({
+    queryKey: ['user-duel-data', duelSlug],
+    queryFn: async () => await getUserDuelData(`duel-${duelSlug}`, user.uid)
+  }) 
+
+  const {mutate: mutateDuel} = useMutation({
+    mutationFn: async ([accuracy, score]) => await submitDuel(`duel-${duelSlug}`, user.uid, {
+      code: cssCode,
+      accuracy: accuracy,
+      score: score
+    }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['user-duel-data', duelSlug])
+      addToast("Code Evaluated", "Stats are recorded to our database")
+    }
+  })
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text)
@@ -40,8 +63,7 @@ const Duel = () => {
      
     if(!outputDoc) return
 
-    try {
-      console.log(outputDoc.defaultView.innerWidth)
+    try {   
 
       const originalStyle = outputDoc.body.getAttribute('style');
       outputDoc.body.style.cssText = 'width: 400px; height: 300px; margin: 0; overflow: hidden; transform: scale(1);';
@@ -73,7 +95,12 @@ const Duel = () => {
     const accuracy = await compareImages(imageData, duel.img)
     const score =  Math.pow(accuracy, 5) * (5000 / cssCode.length);
 
-    setStats(prev => ({...prev, accuracy: (accuracy * 100).toFixed(2), score: (score * 10).toFixed(2)}))
+    const fixAccuracy = (accuracy * 100).toFixed(2)
+    const fixScore = (score * 10).toFixed(2)
+
+    mutateDuel([fixAccuracy, fixScore])
+
+    setStats(prev => ({...prev, accuracy: fixAccuracy, score: fixScore}))
   }
 
   useEffect(() => {
@@ -109,7 +136,6 @@ const Duel = () => {
     };
 
     const handleCompare = (e) => {
-      console.log("hello")
       overlayRef.current.style.display = "block";
       sliderRef.current.style.display = "block";
 
@@ -154,7 +180,7 @@ const Duel = () => {
   useEffect(() => {
     setCssCode(starter)
     setStats({ score: 0, accuracy: 0})
-  }, [duelSlug])
+  }, [location.pathname])
 
   useEffect(() => {
     const resize = () => {
@@ -171,6 +197,14 @@ const Duel = () => {
       window.removeEventListener('resize', resize)
     }
   }, [])
+
+  useEffect(() => {
+    if(!userDuelData) return
+    console.log('fetching', duelSlug, userDuelData)
+
+    setCssCode(userDuelData?.code)
+    setStats({ score: userDuelData.score, accuracy: userDuelData.accuracy})
+  }, [userDuelData])
 
   if(isNaN(duelSlug) || duelSlug <= 0 || duelSlug > duels.flat().length) return "Invalid duel"
   if(!duel) return "Loading..."
@@ -200,7 +234,7 @@ const Duel = () => {
       <Split className={`split primary-${theme}-bg`} direction={onMobile ? 'vertical' : 'horizontal'} gutterSize={15}>
         <div className="code-area">
           <CodeMirror 
-            className={`code primary-${theme}-bg`}
+            className={`code primary-${theme}-bg ${theme}`}
             value={cssCode}
             extensions={[html({selfClosingTags: true}), EditorView.lineWrapping]}
             theme={theme === "dark" ? tokyoNightStorm : tokyoNightDay}

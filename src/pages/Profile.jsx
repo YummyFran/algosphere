@@ -179,7 +179,7 @@ const Profile = () => {
                 </div>
                 <div className="cta">
                 {user.uid === currentUser?.uid ? 
-                    <button className='edit' onClick={() => setIsEditModalOpen(true)}>Edit Profile</button> :
+                    <button className={`edit midtone-${theme}`} onClick={() => setIsEditModalOpen(true)}>Edit Profile</button> :
                     <>
                         <button className={`follow-btn ${isFollowing ? "following" : "follow"}`} onClick={() => isFollowing ? mutateUnFollow() : mutateFollow()} disabled={isFollowPending}>{isFollowing ? "Following" : "Follow"}</button>
                         <button className='message'>Message</button>
@@ -187,7 +187,7 @@ const Profile = () => {
                 }
                 </div>
             </div>
-            <div className="profile-nav">
+            <div className={`profile-nav midton-${theme}-bg`}>
                 <NavLink to={`/${user.username}`} className={({ isActive }) => `${isActive ? 'active-link' : ''}`} end replace>Posts</NavLink>
                 <NavLink to={`wall`} className={({ isActive }) => `${isActive ? 'active-link' : ''}`} replace>Wall</NavLink>
                 <NavLink to={`reposts`} className={({ isActive }) => `${isActive ? 'active-link' : ''}`} replace>Reposts</NavLink>

@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { duels } from '../../data/duels/duelMapper'
 import { useNavigate } from 'react-router'
 import '../../styles/cssduel.css'
 import { useTheme } from '../../provider/ThemeProvider'
 import { Link } from 'react-router-dom'
+import { addDuel } from '../../utils/firestore'
 
 const CssDuel = () => {
   const [theme] = useTheme()
   const nav = useNavigate()
+
   return (
     <div className={`css-duel primary-${theme}-bg midtone-${theme}`}>
       <div className="header">

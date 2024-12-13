@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {  addQuotedRepost, addRepost, decrementLikes, deletePost, getUser, incrementLikes, isUserAlreadyLiked } from '../utils/firestore'
+import {  addQuotedRepost, addRepost, checkIfFollowing, decrementLikes, deletePost, followUser, getUser, incrementLikes, isPostMetricsHidden, isPostPinned, isPostSaved, isUserAlreadyLiked, pinPost, savePost, toggleMetrics, unFollowUser, updatePost } from '../utils/firestore'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { IoIosLink, IoMdHeart, IoMdHeartEmpty, IoMdRepeat } from "react-icons/io";
-import { IoBookmarkOutline, IoChatbubbleOutline, IoEyeOffOutline, IoHeartDislikeOutline, IoPause, IoPlay, IoVolumeHigh, IoVolumeMute } from "react-icons/io5";
-import { TiPinOutline } from "react-icons/ti";
-import { LiaUserClockSolid, LiaUserMinusSolid } from "react-icons/lia";
+import { IoBookmark, IoBookmarkOutline, IoChatbubbleOutline, IoEyeOffOutline, IoHeartDislike, IoHeartDislikeOutline, IoPause, IoPlay, IoVolumeHigh, IoVolumeMute } from "react-icons/io5";
+import { TiPin, TiPinOutline } from "react-icons/ti";
+import { LiaUserClockSolid, LiaUserMinusSolid, LiaUserPlusSolid } from "react-icons/lia";
 import { TbMessageReport } from "react-icons/tb";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { BsSend } from "react-icons/bs";
@@ -21,9 +21,10 @@ import { useUser } from '../provider/UserProvider';
 import PostAttachments from './PostAttachments';
 import Repost from './Repost';
 import RepostModal from './RepostModal';
+import Modal from './Modal';
 
 
-const Post = ({post, currentUser}) => {
+const Post = ({post, currentUser, isPinned}) => {
     const [liked, setLiked] = useState(false)
     const [vidmMuted, setVidMuted] = useState(true)
     const [vidPaused, setVidPaused] = useState(false)
@@ -31,6 +32,8 @@ const Post = ({post, currentUser}) => {
     const [isMutating, setIsMutating] = useState(false)
     const [repostContext, setRepostContext] = useState("")
     const [isRepostModalOpen, setIsRepostModalOpen] = useState(false)
+    const [iseEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [postContext, setPostContext] = useState('')
     const [theme] = useTheme()
     const [addToast] = useToast()
     const [user] = useUser()
@@ -41,6 +44,7 @@ const Post = ({post, currentUser}) => {
     const menuRef = useRef()
     const meatballRef = useRef()
     const repostOptionsRef = useRef()
+    const textAreaRef = useRef()
 
     const {data: postOwner, isLoading: isUserLoading} = useQuery({
         queryKey: ['user', post.userId],
@@ -51,6 +55,26 @@ const Post = ({post, currentUser}) => {
         queryKey: ["likes", post.id, currentUser?.uid],
         queryFn: async () => await isUserAlreadyLiked(post.id, currentUser.uid),
         enabled: !!currentUser
+    })
+
+    const { data: isThisPostSaved } = useQuery({
+        queryKey: ["isPostSaved", post.id, user.uid],
+        queryFn: async () => await isPostSaved(post.id, user.uid)
+    })
+
+    const { data: isThisPostPinned } = useQuery({
+        queryKey: ["isPostPinned", post.id, user.uid],
+        queryFn: async () => await isPostPinned(post.id, user.uid)
+    })
+
+    const { data: isThisPostMetricsHidden } = useQuery({
+        queryKey: ["isPostMetricsHidden", post.id],
+        queryFn: async () => await isPostMetricsHidden(post.id)
+    })
+
+    const { data: isFollowing } = useQuery({
+        queryKey: ["isFollowing", currentUser.uid, post.userId],
+        queryFn: async () => await checkIfFollowing(currentUser.uid, post.userId)
     })
 
     const { mutate: toggleLike } = useMutation({
@@ -105,6 +129,66 @@ const Post = ({post, currentUser}) => {
             queryClient.invalidateQueries({ queryKey: ["posts"]})
             closeModal()
             addToast("Reposted", `You reposted ${postOwner.username}'s post`, "success")
+        }
+    })
+
+    const { mutate: mutatePost} = useMutation({
+        mutationFn: async (content) => await updatePost(post.id, {
+            content: postContext
+        }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["posts"]})
+            closeEditModal()
+            closeMenu()
+            addToast("Post Updated", "Your post was successfully updated", "success")
+        }
+    })
+
+    const { mutate: mutateSavePost} = useMutation({
+        mutationFn: async () => await savePost(post.id, user.uid),
+        onSuccess: (postUnsaved) => {
+            queryClient.invalidateQueries({ queryKey: ["isPostSaved", post.id, user.uid]})
+            closeMenu()
+            addToast(`Post ${postUnsaved ? 'Unsaved' : 'Saved'}`, `You ${postUnsaved ? 'unsaved' : 'saved'} this post`, `${postUnsaved ? 'error' : 'success'}`)
+        }
+    })
+
+    const { mutate: mutatePinPost} = useMutation({
+        mutationFn: async () => await pinPost(post.id, user.uid),
+        onSuccess: (postUnpinned) => {
+            queryClient.invalidateQueries({ queryKey: ["isPostPinned", post.id, user.uid]})
+            queryClient.invalidateQueries({ queryKey: ['userposts', user?.uid]})
+            closeMenu()
+            addToast(`Post ${postUnpinned ? 'Unpinned' : 'Pinned'}`, `You ${postUnpinned ? 'unpinned' : 'pinned'} this post`, `${postUnpinned ? 'error' : 'success'}`)
+        }
+    })
+
+    const { mutate: mutataToggleMetrics} = useMutation({
+        mutationFn: async () => await toggleMetrics(post.id),
+        onSuccess: (metricsHidden) => {
+            queryClient.invalidateQueries({ queryKey: ["isPostMetricsHidden", post.id]})
+            queryClient.invalidateQueries({ queryKey: ["userposts", user.uid]})
+            queryClient.invalidateQueries({ queryKey: ["posts"]})
+            closeMenu()
+            addToast(`Post Metrics ${metricsHidden ? 'Visible' : 'Hidden'}`, `You ${metricsHidden ? 'unhide' : 'hid'} this post's metrics`)
+        }
+    })
+
+    const { mutate: mutateFollow } = useMutation({
+        mutationFn: async () => await followUser(currentUser?.uid, post.userId),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["isFollowing", currentUser.uid, post.userId])
+            closeMenu()
+            addToast("Followed", `You are now following ${postOwner?.username}`, "success")
+        }
+    })
+
+    const { mutate: mutateUnFollow } = useMutation({
+        mutationFn: async () => await unFollowUser(currentUser?.uid, post.userId),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["isFollowing", currentUser.uid, post.userId])
+            closeMenu()
+            addToast("Unfollowed", `You unfollowed ${postOwner?.username}`, "info")
         }
     })
 
@@ -165,6 +249,34 @@ const Post = ({post, currentUser}) => {
         }, 600)
     }
 
+    const handleEditChange = e => {
+        setPostContext(e.target.value)
+    }
+
+    const handleEdit = () => {
+        setIsEditModalOpen(true)
+    }
+
+    const closeEditModal = () => {
+        setIsEditModalOpen(false)
+    }
+
+    const handleSave = () => {
+        mutatePost()
+    }
+
+    const handleSavePost = () => {
+        mutateSavePost()
+    }
+
+    const handlePinPost = () => {
+        mutatePinPost()
+    }
+
+    const handleToggleMetrics = () => {
+        mutataToggleMetrics()
+    }
+
     const showMenu = e => {
         e.stopPropagation()
         menuRef.current.classList.toggle("show")
@@ -189,6 +301,26 @@ const Post = ({post, currentUser}) => {
         addToast("Success", "Linked Copied", "success")
     }
 
+    const setTextAreaRef = (node) => {
+        if (node) {
+            textAreaRef.current = node;
+            handleExpand(node);
+        }
+    }
+
+    const handleExpand = e => {
+        e.style.height = 'auto'
+        e.style.height =  e.value ? `${e.scrollHeight}px` : '2rem'
+    }
+
+    useEffect(() => {
+        if(!textAreaRef.current) return
+
+        requestAnimationFrame(() => {
+            handleExpand(textAreaRef.current);
+        })
+    }, [postContext, textAreaRef.current])
+
     useEffect(() => {
         window.addEventListener('click', closeMenu)
   
@@ -196,6 +328,19 @@ const Post = ({post, currentUser}) => {
             window.removeEventListener('click', closeMenu)
         }
     }, [])
+
+    useEffect(() => {
+        setPostContext(post.content)
+
+        if(!textAreaRef.current) return
+
+        textAreaRef.current?.focus()
+
+        const length = textAreaRef.current?.value.length;
+
+        textAreaRef.current.selectionStart = length;
+        textAreaRef.current.selectionEnd = length;
+    }, [iseEditModalOpen, textAreaRef.current])
 
     useEffect(() => {
         if(!post) return
@@ -226,10 +371,36 @@ const Post = ({post, currentUser}) => {
             playIconRef={playIconRef} 
             vidPaused={vidPaused}
         />
+        <Modal
+            isOpen={iseEditModalOpen}
+            onClose={closeEditModal}
+            className={`edit-post-modal primary-${theme}-bg`}
+            title={`Edit Post`}
+            submitValue={'Edit'}
+            handleSubmit={handleSave}
+            submitDisabled={postContext === post.content || postContext.trim() === ""}
+        >
+            <div className="display-picture">
+                <img src={postOwner?.photoURL ? postOwner.photoURL : dp} alt={postOwner?.displayName}/>
+            </div>
+            <div className="details">
+                <div className="post-header">
+                    <div className="name">{postOwner?.displayName}</div>
+                    <div className="username">@{postOwner?.username}</div>
+                </div>
+                <textarea name="context" className="context" ref={setTextAreaRef} value={postContext} onChange={handleEditChange}></textarea>
+            </div>
+        </Modal>
         {post.isRepost && <div className={`repost-indicator mono-${theme}`}>
             <IoMdRepeat />
             <span>
                 {`${postOwner?.username === currentUser?.username ? 'You' : '@' + postOwner?.username} reposted`}
+            </span>
+        </div>}
+        {isPinned && <div className={`repost-indicator mono-${theme}`}>
+            <TiPin />
+            <span>
+                {`${postOwner?.username === currentUser?.username ? 'Your' : '@' + postOwner?.username + "'s"} pinned post`}
             </span>
         </div>}
         <div className="post-details">
@@ -241,23 +412,23 @@ const Post = ({post, currentUser}) => {
                 postOwner?.uid === currentUser?.uid ?
                 <>
                     <div className="temporary">
-                        <div className="edit">
+                        <div className="edit" onClick={() => handleEdit()}>
                             <span>Edit</span>
                             <div className="timer"></div>
                         </div>
                     </div>
                     <div className="accessibility">
-                        <div className="save">
-                            <span>Save</span>
-                            <IoBookmarkOutline />
+                        <div className="save" onClick={() => handleSavePost()}>
+                            <span>{isThisPostSaved ? 'Unsave' : 'Save'}</span>
+                            {isThisPostSaved ? <IoBookmark /> : <IoBookmarkOutline />}
                         </div>
-                        <div className="pin-to-profile">
-                            <span>Pin to profile</span>
-                            <TiPinOutline />
+                        <div className="pin-to-profile" onClick={() => handlePinPost()}>
+                            <span>{isThisPostPinned ? 'Unpin' : 'Pin to profile'}</span>
+                            {isThisPostPinned ? <TiPin /> : <TiPinOutline />}
                         </div>
-                        <div className="hide-metrics">
-                            <span>Hide like and share counts</span>
-                            <IoHeartDislikeOutline />
+                        <div className="hide-metrics" onClick={() => handleToggleMetrics()}>
+                            <span>{isThisPostMetricsHidden ? 'Show like and share counts' : 'Hide like and share counts'}</span>
+                            {isThisPostMetricsHidden ? <IoHeartDislike /> : <IoHeartDislikeOutline />}
                         </div>
                     </div>
                     <div className="danger">
@@ -269,23 +440,23 @@ const Post = ({post, currentUser}) => {
                 </>:
                 <>
                     <div className="necessity">
-                        <div className="save">
-                            <span>Save</span>
-                            <IoBookmarkOutline />
+                        <div className="save" onClick={() => handleSavePost()}>
+                            <span>{isThisPostSaved ? 'Unsave' : 'Save'}</span>
+                            {isThisPostSaved ? <IoBookmark /> : <IoBookmarkOutline />}
                         </div>
-                        <div className="not-interested">
+                        {/* <div className="not-interested">
                             <span>Not interested</span>
                             <IoEyeOffOutline />
-                        </div>
+                        </div> */}
                     </div>
                     <div className="accesibility">
-                        <div className="mute">
+                        {/* <div className="mute">
                             <span>Mute</span>
                             <LiaUserClockSolid />
-                        </div>
-                        <div className="unfollow">
-                            <span>Unfollow</span>
-                            <LiaUserMinusSolid />
+                        </div> */}
+                        <div className="unfollow" onClick={() => isFollowing ? mutateUnFollow() : mutateFollow()}>
+                            <span>{isFollowing ? "Unfollow" : "Follow"}</span>
+                            {isFollowing ? <LiaUserMinusSolid /> : <LiaUserPlusSolid /> }
                         </div>
                         <div className="report">
                             <span>Report</span>
@@ -346,7 +517,7 @@ const Post = ({post, currentUser}) => {
                     <div className={`data likes ${liked && 'liked'} ${theme}-hover`} onClick={() => !isMutating && handleLike()} style={{ pointerEvents: isMutating ? 'none' : 'auto' }}>
                         {liked ? <IoMdHeart /> : <IoMdHeartEmpty />}
                         <div className="count">
-                            {!!localLikesCount && formatNumber(localLikesCount)}
+                            {!!localLikesCount && !post.isMetricsHidden && formatNumber(localLikesCount)}
                         </div>
                     </div>
                     <div className={`data comments ${theme}-hover`} onClick={handlePostClicked}>
@@ -358,6 +529,7 @@ const Post = ({post, currentUser}) => {
                     <div className={`data repost ${theme}-hover`} onClick={showRepostOptions}>
                         <IoMdRepeat />
                         <div className="count">
+                            {!!post.repostCount && !post.isMetricsHidden && post.repostCount}
                         </div>
                     </div>
                     <div className={`data share ${theme}-hover`}>

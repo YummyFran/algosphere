@@ -198,10 +198,9 @@
                     padding: 0.5rem;
                     font-size: 1rem;
                     border-radius: 0.5rem;
-                    border: 1px solid var(--midtone-dark);
+                    border: 1px solid;
                     cursor: pointer;
                     background-color: transparent;
-                    color: var(--midtone-dark);
                 }
 
                 .follow {
@@ -224,7 +223,6 @@
                 flex: 1;
                 text-align: center;
                 padding: 1rem;
-                color: var(--midtone-dark);
             }
 
             .active-link {

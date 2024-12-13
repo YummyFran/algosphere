@@ -5,6 +5,74 @@
     position: relative;
     cursor: default;
 
+    .edit-post-modal .body{
+        display: grid;
+        grid-template-columns: 2.675rem 1fr;
+        gap: 0.5rem;
+
+        .display-picture {
+            background-color: orange;
+            align-self: self-start;
+            display: flex;
+            border-radius: 50%;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                aspect-ratio: 1;
+                object-fit: cover;
+            }
+        }
+
+        .details {
+            display: flex;
+            flex-direction: column;
+
+            .post-header {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 0.2rem;
+                font-size: 0.9rem;
+                cursor: pointer;
+
+                .name {
+                    font-weight: 600;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
+                .username {
+                    font-weight: 300;
+                }
+
+                .post-time {
+                    font-size: 0.8rem;
+                    margin-left: 0.2rem;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            .context {
+                border: none;
+                margin-right: 0.5rem;
+                padding: 0.5rem 0 0.8rem 0;
+                background-color: transparent;
+                overflow: hidden;
+                resize: none;
+                outline: none;
+                font-size: 1rem;
+                position: sticky;
+                left: 0;
+            }
+        }
+    }
+
     &:last-child {
         border-bottom: none;
     }
@@ -114,6 +182,38 @@
                         background-color: var(--primary-light);
                         filter: brightness(0.9);
                     } */
+                }
+            }
+
+            &.light-shadow > * {
+                border-bottom: 1px solid var(--mono-light);
+                padding: 0.5rem 0;
+
+                &.danger > * {
+                    color: #ff0034;
+                }
+
+                & > * {
+                    padding: 0.7rem;
+                    border-radius: 0.5rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 1rem;
+                    cursor: pointer;
+
+                    &.report {
+                        color: #ff0034;
+                    }
+
+                    & > *:not(span) {
+                        font-size: 1.3rem;
+                    }
+    
+                    &:hover {
+                        background-color: var(--primary-light);
+                        filter: brightness(0.9);
+                    }
                 }
             }
         }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Collection from '../components/Collection'
 import data from '../data/courses.json'
 import '../styles/courses.css'
@@ -8,6 +8,9 @@ const Courses = () => {
   const { collections } = data
   const [theme] = useTheme()
 
+  useEffect(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth'})
+  }, [])
   return (
     <div className={`courses primary-${theme}-bg midtone-${theme}`}>
       <div className="header">

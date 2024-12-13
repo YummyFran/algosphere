@@ -86,6 +86,10 @@ const Feed = () => {
         }
     }, [currentUser, fetchNextPage])
 
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth'})
+    }, [])
+
     if(!user) return <Navigate to="/login"/>
   return (
     <div className={`home primary-${theme}-bg midtone-${theme}`}>

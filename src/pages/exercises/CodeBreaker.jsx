@@ -100,7 +100,7 @@ const CodeBreaker = () => {
       <div className="suggested" style={{background: `${suggestedChallenge?.rank?.color}5f`}} ref={suggestedRef}>
         <div className={`options`} style={{background: `${suggestedChallenge?.rank?.color}`}} ref={optionsRef}>
           <p className="title">Suggested Challenge</p>
-          <div className="dropdowns">
+          <div className="dropdowns midtone-dark">
             <div className="language">
               <select name="language" id="language" value={languageValue} onChange={e => setLanguageValue(e.target.value)}>
                 <option value="javascript">JavaScript</option>
@@ -126,7 +126,7 @@ const CodeBreaker = () => {
             <div className="name">{suggestedChallenge?.name}</div>
           </div>
           <div className="statement">{formatCodeStringToJSX(suggestedChallenge?.problemStatement, theme)}</div>
-          <div className="tags">{suggestedChallenge?.tags?.map((tag, i) => <span className='tag' key={i}>{tag}</span>)}</div>
+          <div className="tags">{suggestedChallenge?.tags?.map((tag, i) => <span className={`tag secondary-${theme}-bg`} key={i}>{tag}</span>)}</div>
         </div>
       </div>
       <div className="problems">

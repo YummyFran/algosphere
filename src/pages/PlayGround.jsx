@@ -37,6 +37,10 @@ const PlayGround = () => {
     mutateCodeBit()
   }
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth'})
+}, [])
+
   return (
     <div className={`playground primary-${theme}-bg midtone-${theme}`}>
       <div className="header">

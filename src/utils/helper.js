@@ -64,6 +64,8 @@ export function getFileType(url) {
       return 'Image';
     case 'gif':
       return 'Image';
+    case 'webp':
+      return 'Image';
     case 'mp3':
       return 'Audio';
     case 'pdf':

@@ -477,7 +477,14 @@
                         border-radius: 0 0 0.5rem 0.5rem;
                         overflow: auto;
                         outline: none !important;
-                        background-color: #0d0d0d;
+                        
+                        &.light {
+                            background-color: #f0edf3;
+                        }
+
+                        &.dark {
+                            background-color: #0d0d0d;
+                        }
     
                         & > * {
                             height: 100%;

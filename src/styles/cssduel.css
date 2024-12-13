@@ -61,6 +61,7 @@
                     left: 1rem;
                     font-family: monospace;
                     user-select: none;
+                    color: var(--midtone-dark);
                 }
             }
 

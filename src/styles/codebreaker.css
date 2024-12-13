@@ -197,7 +197,7 @@
                 .tag {
                     text-transform: uppercase;
                     font-size: 0.6rem;
-                    background-color: #c8c8c832;
+                    /* background-color: #c8c8c832; */
                     padding: 0.2rem 0.5rem;
                 }
             }

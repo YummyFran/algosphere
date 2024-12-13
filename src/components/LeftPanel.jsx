@@ -83,7 +83,7 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                 </div>
                 <div className="name">AlgoSphere</div>
             </NavLink>
-            <NavLink to="/" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`}>
+            <NavLink to="/" className={({isActive}) => `${isActive ? 'active-link' : ""} ${theme}-hover`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth'})}>
                 {pathname === '/' ? <GoHomeFill /> : <GoHome />}
                 <span>Feed</span>
             </NavLink>

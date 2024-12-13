@@ -124,8 +124,18 @@
                         border-radius: 0.5rem 0.5rem 0 0;
                         cursor: pointer;
 
+                        &.secondary-light-bg {
+                            background-color: #f0edf35f;
+                        }
+
                         &.active {
-                            background-color: #0d0d0d;
+                            &.secondary-light-bg {
+                                background-color: #f0edf3;
+                            }
+            
+                            &.secondary-dark-bg {
+                                background-color: #0d0d0d;
+                            }
                         }
                     }
                 }
@@ -138,7 +148,14 @@
                         border-radius: 0 0 0.5rem 0.5rem;
                         overflow: auto;
                         outline: none !important;
-                        background-color: #0d0d0d;
+                        
+                        &.light {
+                            background-color: #f0edf3;
+                        }
+        
+                        &.dark {
+                            background-color: #0d0d0d;
+                        }
         
                         & > * {
                             height: 100%;

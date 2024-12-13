@@ -246,6 +246,10 @@ export const addRepost = async (user, originalPostId) => {
         quoted: false
     })
 
+    await updateDoc(doc(db, "posts", originalPostId), {
+        repostCount: increment(1)
+    })
+
     return docRef.id
 }
 
@@ -286,6 +290,106 @@ export const updatePost = async (postId, data) => {
 
 export const deletePost = async (postId) => {
     await deleteDocument('posts', postId)
+}
+
+export const savePost = async (postId, userId) => {
+    try {
+        const userDocRef = doc(db, "users", userId)
+        const savedPostDocRef = doc(userDocRef, "saved-posts", postId)
+
+        const savedPost = await getDoc(savedPostDocRef)
+
+        if(savedPost.exists()) {
+            await deleteDoc(savedPostDocRef)
+            return true
+        }
+
+        await setDoc(savedPostDocRef, {
+            postId: postId,
+            timestamp: serverTimestamp()
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const isPostSaved = async (postId, userId) => {
+    try {
+        const userDocRef = doc(db, "users", userId)
+        const savedPostDocRef = doc(userDocRef, "saved-posts", postId)
+
+        const savedPost = await getDoc(savedPostDocRef)
+
+        return savedPost.exists()
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const pinPost = async (postId, userId) => {
+    try {
+        const userDocRef = doc(db, "users", userId)
+
+        const userDoc = await getDoc(userDocRef)
+
+        if(userDoc.data().pinnedPost === postId) {
+            await updateDoc(userDocRef, {
+                pinnedPost: null
+            })
+            return true
+        }
+
+        await updateDoc(userDocRef, {
+            pinnedPost: postId
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const isPostPinned = async (postId, userId) => {
+    try {
+        const userDocRef = doc(db, "users", userId)
+
+        const userDoc = await getDoc(userDocRef)
+
+        return userDoc.data().pinnedPost === postId
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const toggleMetrics = async (postId) => {
+    try {
+        const postRef = doc(db, "posts", postId)
+
+        const postDoc = await getDoc(postRef)
+
+        if(postDoc.data().isMetricsHidden) {
+            await updateDoc(postRef, {
+                isMetricsHidden: false
+            })
+            return true
+        }
+
+        await updateDoc(postRef, {
+            isMetricsHidden: true
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const isPostMetricsHidden = async (postId) => {
+    try {
+        const postRef = doc(db, "posts", postId)
+
+        const postDoc = await getDoc(postRef)
+
+        return !!postDoc.data().isMetricsHidden && postDoc.data().isMetricsHidden
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 // Likes
@@ -740,8 +844,13 @@ export const submitProblem = async (slug, userId, data) => {
         const problemRef = doc(db, "codeproblems", slug)
         const userDocRef = doc(problemRef, "users", userId)
 
-        await setDoc(userDocRef, { submissions: [] }, { merge: true })
-        
+        const userDoc = await getDoc(userDocRef)
+        if (!userDoc.exists()) {
+            await setDoc(userDocRef, { submissions: [] }, { merge: true });
+        } else if (!userDoc.data().submissions) {
+            await updateDoc(userDocRef, { submissions: [] });
+        }
+
         if(data.status === "accepted") {
             await updateDoc(problemRef, { successSubmissions: increment(1) })
             await updateDoc(userDocRef, { status: "accepted" })
@@ -754,6 +863,46 @@ export const submitProblem = async (slug, userId, data) => {
                 timestamp: Timestamp.now()
             })
         })
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+// Duels
+
+export const addDuel = async (slug, name) => {
+    try {
+        await setDoc(doc(db, "duels", slug), {
+            slug: slug,
+            submissions: 0,
+            name: name
+        })
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+export const submitDuel = async (slug, userId, data) => {
+    try {
+        const duelRef = doc(db, "duels", slug)
+        const userDocRef = doc(duelRef, "users", userId)
+
+        await setDoc(userDocRef, {
+            ...data
+        })
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+export const getUserDuelData = async (slug, userId) => {
+    try {
+        const duelRef = doc(db, "duels", slug)
+        const userDocRef = doc(duelRef, "users", userId)
+
+        const userDoc = await getDoc(userDocRef)
+
+        return userDoc.exists() && userDoc.data()
     } catch(err) {
         console.log(err)
     }

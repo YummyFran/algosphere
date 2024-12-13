@@ -274,7 +274,7 @@ const Problem = () => {
                 </div>
                 <div className={`tab secondary-${theme}-bg`}>Solution</div>
                 <CodeMirror 
-                  className={`code-area primary-${theme}-bg`}
+                  className={`code-area primary-${theme}-bg ${theme}`}
                   value={solution}
                   extensions={[javascript({jsx: true})]} 
                   theme={theme === "dark" ? tokyoNightStorm : tokyoNightDay}
@@ -284,7 +284,7 @@ const Problem = () => {
               <div className="test-cases">
                 <div className={`tab secondary-${theme}-bg`}>Test Cases</div>
                 <CodeMirror 
-                  className={`code-area primary-${theme}-bg`}
+                  className={`code-area primary-${theme}-bg ${theme}`}
                   value={testCode}
                   extensions={[javascript({jsx: true})]} 
                   theme={theme === "dark" ? tokyoNightStorm : tokyoNightDay}
@@ -374,7 +374,7 @@ const Problem = () => {
               </div>
               <div className={`tab secondary-${theme}-bg`}>Solution</div>
               <CodeMirror 
-                className={`code-area primary-${theme}-bg`}
+                className={`code-area primary-${theme}-bg ${theme}`}
                 value={problem?.starterCode}
                 extensions={[javascript({jsx: true})]} 
                 theme={theme === "dark" ? tokyoNightStorm : tokyoNightDay}
@@ -384,7 +384,7 @@ const Problem = () => {
             <div className="test-cases">
               <div className={`tab secondary-${theme}-bg`}>Test Cases</div>
               <CodeMirror 
-                className={`code-area primary-${theme}-bg`}
+                className={`code-area primary-${theme}-bg ${theme}`}
                 value={testCode}
                 extensions={[javascript({jsx: true})]} 
                 theme={theme === "dark" ? tokyoNightStorm : tokyoNightDay}

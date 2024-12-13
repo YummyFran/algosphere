@@ -21,7 +21,7 @@ const Web = ({codebit, code, setCode}) => {
         <div className="code-renderer">
             {currentTab === "html" &&
                 <CodeMirror
-                    className={`code primary-${theme}-bg`}
+                    className={`code primary-${theme}-bg ${theme}`}
                     value={code.html}
                     extensions={[html({selfClosingTags: true}), EditorView.lineWrapping]}
                     theme={theme === "dark" ? tokyoNightStorm : tokyoNightDay}
@@ -30,7 +30,7 @@ const Web = ({codebit, code, setCode}) => {
             }
             {currentTab === "css" &&
                 <CodeMirror
-                    className={`code primary-${theme}-bg`}
+                    className={`code primary-${theme}-bg ${theme}`}
                     value={code.css}
                     extensions={[less(), EditorView.lineWrapping]}
                     theme={theme === "dark" ? tokyoNightStorm : tokyoNightDay}
@@ -39,7 +39,7 @@ const Web = ({codebit, code, setCode}) => {
             }
             {currentTab === "js" &&
                 <CodeMirror
-                    className={`code primary-${theme}-bg`}
+                    className={`code primary-${theme}-bg ${theme}`}
                     value={code.js}
                     extensions={[javascript(), EditorView.lineWrapping]}
                     theme={theme === "dark" ? tokyoNightStorm : tokyoNightDay}
