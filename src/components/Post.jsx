@@ -23,7 +23,6 @@ import Repost from './Repost';
 import RepostModal from './RepostModal';
 import Modal from './Modal';
 
-
 const Post = ({post, currentUser, isPinned}) => {
     const [liked, setLiked] = useState(false)
     const [vidmMuted, setVidMuted] = useState(true)

@@ -5,6 +5,11 @@
     "level": "Beginner",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course introduces the fundamentals of Node.js, a powerful JavaScript runtime for building server-side applications. You will learn how to set up a Node.js environment, understand core modules, work with file systems, and build basic HTTP servers. By the end of the course, you will have a solid foundation to start building backend applications with Node.js."
+      },    
+      {
         "title": "Introduction to Node.js",
         "slug": "introduction-to-nodejs",
         "description": "Get familiar with Node.js and its use cases.",

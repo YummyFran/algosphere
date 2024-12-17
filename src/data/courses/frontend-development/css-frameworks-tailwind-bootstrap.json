@@ -5,6 +5,11 @@
     "level": "Intermediate",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course explores two popular CSS frameworks, Tailwind CSS and Bootstrap, to help you build modern, responsive, and visually appealing websites quickly. You will learn the utility-first approach of Tailwind CSS and the pre-built components of Bootstrap to streamline development. By the end of the course, you will be able to efficiently style web applications and create responsive layouts with minimal custom CSS."
+      },    
+      {
         "title": "Introduction to CSS Frameworks",
         "slug": "introduction-to-css-frameworks",
         "description": "Understand what CSS frameworks are and why they are useful.",

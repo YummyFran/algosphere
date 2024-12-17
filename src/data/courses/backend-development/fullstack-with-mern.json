@@ -5,6 +5,11 @@
     "level": "Advanced",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course guides you through building fullstack applications using the MERN stack: MongoDB, Express.js, React, and Node.js. You will learn how to develop a complete web application, from designing the database and building RESTful APIs to creating dynamic frontend interfaces and connecting the entire system. By the end of the course, you will be able to build and deploy fullstack web applications using the MERN stack."
+      },    
+      {
         "title": "Introduction to MERN Stack",
         "slug": "introduction-to-mern",
         "description": "Get an overview of the MERN stack and how the technologies fit together.",

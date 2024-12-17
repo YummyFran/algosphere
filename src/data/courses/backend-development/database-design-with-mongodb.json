@@ -5,6 +5,11 @@
     "level": "Intermediate",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course introduces you to database design using MongoDB, a popular NoSQL database. You will learn how to structure data with collections and documents, design schemas, perform CRUD operations, and optimize queries. By the end of the course, you will be able to design efficient, scalable databases and integrate MongoDB into modern applications."
+      },    
+      {
         "title": "Introduction to MongoDB",
         "slug": "introduction-to-mongodb",
         "description": "Learn the basics of MongoDB, a NoSQL database.",

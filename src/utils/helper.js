@@ -7,6 +7,10 @@ import React from 'react'
 import axios from 'axios'
 import html5 from '../assets/html5.svg'
 import nodejs from '../assets/nodejs.svg'
+import python from '../assets/python.svg'
+import java from '../assets/java.svg'
+import php from '../assets/php.svg'
+import csharp from '../assets/csharp.svg'
 
 export function timeAgo(postedTime) {
     if(!postedTime) return
@@ -413,10 +417,10 @@ const API = axios.create({
   baseURL: "https://emkc.org/api/v2/piston"
 })
 
-export const executeCode = async (language, code) => {
+export const executeCodeBit = async (language, code) => {
   const response = await API.post("/execute", {
-    "language": language,
-    "version": '18.15.0',
+    "language": language == 'c#' ? 'csharp' : language,
+    "version": languageVersions[language == 'c#' ? 'csharp' : language],
     "files": [
       {
         "content": code
@@ -427,20 +431,52 @@ export const executeCode = async (language, code) => {
   return response.data
 }
 
+export const languageVersions = {
+  javascript: '18.15.0',
+  python: '3.10.0',
+  java: '15.0.2',
+  php: '8.2.3',
+  csharp: '6.12.0'
+}
+
 export const languagesOptions = [
   {
     name: "Web",
     tech: "HTML/CSS/JS",
     icon: html5
   },
-  // {
-  //   name: "JavaScript",
-  //   tech: "Node.js",
-  //   icon: nodejs
-  // },
+  {
+    name: "JavaScript",
+    tech: "Node.js",
+    icon: nodejs
+  },
+  {
+    name: "Python",
+    tech: "CPython",
+    icon: python
+  },
+  {
+    name: "Java",
+    tech: "OpenJDK",
+    icon: java
+  },
+  {
+    name: "PHP",
+    tech: "PHP 8.2",
+    icon: php
+  },
+  {
+    name: "C#",
+    tech: ".NET CLI",
+    icon: csharp
+  }
 ]
 
 export const iconMap = {
   "Web": html5,
-  "JavaScript": nodejs
+  "JavaScript": nodejs,
+  "Python": python,
+  "Java": java,
+  "PHP": php,
+  "C#": csharp
 }

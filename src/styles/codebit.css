@@ -78,6 +78,10 @@
                         color: var(--midtone-dark);
                     }
                 }
+
+                &:disabled {
+                    opacity: 0.5;
+                }
             }
         }
     }
@@ -106,8 +110,62 @@
         }
 
         .code-area {
-            padding: 0 0.5rem 0.5rem;
-            height: calc(100% - 2rem);
+            padding: 0 0 0.5rem 0.5rem;
+            height: 100%;
+
+            .code-editor {
+                height: 100%;
+                
+                .code {
+                    height: 100%;
+                    border-radius: 0 0 0.5rem 0.5rem;
+                    overflow: auto;
+                    outline: none !important;
+                    border-radius: 0.5rem;
+                    
+                    &.light {
+                        background-color: #f0edf3;
+                    }
+    
+                    &.dark {
+                        background-color: #0d0d0d;
+                    }
+    
+                    & > * {
+                        height: 100%;
+                    }
+                    
+                    * {
+                        font-family: monospace;
+                        font-size: 1rem;
+                        text-wrap: wrap ;
+                        overflow: visible;
+                    }
+    
+                    &::-webkit-scrollbar {
+                        height: 0.5rem;
+                        width: 0.5rem;
+                    }
+                    
+                    &::-webkit-scrollbar-thumb {
+                        background: #888;
+                        border-radius: 5px;
+                    }
+                    
+                    &::-webkit-scrollbar-thumb:hover {
+                        background: #555; 
+                    }
+    
+                    .cm-editor, .cm-gutters {
+                        background-color: inherit;
+                    }
+    
+                    .cm-foldGutter [title="Fold line"] {
+                        position: relative;
+                        top: -0.3rem;
+                    }
+                }
+            }
 
             .web {
                 display: flex;
@@ -141,7 +199,7 @@
                 }
 
                 .code-renderer {
-                    height: 100%;
+                    height: calc(100% - 2rem);
 
                     .code {
                         height: 100%;
@@ -198,11 +256,36 @@
         .output {
             padding: 0 0.5rem 0.5rem;
 
+            &:has(> .output-logs) {
+                padding: 0 0.5rem 0.5rem 0;
+            }
+
             .output-frame {
                 height: 100%;
                 width: 100%;
                 border: none;
                 background-color: white;
+            }
+
+            .output-logs {
+                height: 100%;
+                width: 100%;
+                padding: 0.5rem 1rem;
+                font-family: monospace;
+                font-size: 1.1rem;
+                border-radius: 0.5rem;
+
+                &.light {
+                    background-color: #f0edf3;
+                }
+
+                &.dark {
+                    background-color: #0d0d0d;
+                }
+
+                &.error {
+                    color: var(--error-color);
+                }
             }
         }
     }

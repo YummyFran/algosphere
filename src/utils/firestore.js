@@ -213,6 +213,40 @@ export const getUserReposts = async (param, userId) => {
     }
 }
 
+export const getUserSavedPosts = async (param, userId) => {
+    try {
+        let q
+
+        if(param?.pageParam) {
+            q = query(collection(doc(db, "users", userId), "saved-posts"), orderBy("timestamp", "desc"), startAfter(param.pageParam), limit(10))
+        } else {
+            q = query(collection(doc(db, "users", userId), "saved-posts"), orderBy('timestamp', 'desc'), limit(10))
+        }
+
+        const snapshot = await getDocs(q)
+        let lastDoc = null;
+
+        const postPromises = snapshot.docs.map(async (savedPostDoc) => {
+            const savedPostData = savedPostDoc.data();
+            const postId = savedPostData.postId;
+
+            return await getPost(postId)
+        })
+    
+        const savedPosts = (await Promise.all(postPromises)).filter((post) => post !== null);
+
+        console.log("done getting posts", savedPosts)
+    
+        if (snapshot.docs.length > 0) {
+            lastDoc = snapshot.docs[snapshot.docs.length - 1];
+        }
+    
+        return { posts: savedPosts, lastDoc };
+    } catch(err) {
+        console.log(err)
+    }
+}
+
 export const getPost = async (postId) => {
     const postData = await getDocument("posts", postId)
 
@@ -681,9 +715,19 @@ export const createCodeBit = async (name, language, user) => {
             }
             break;
         case "JavaScript":
-            codeObj = {
-                js: ''
-            }
+            codeObj = 'console.log("Hello World")'
+            break;
+        case "Python":
+            codeObj = `def greet(name):\n\tprint("Hello," + name + "!")\n\ngreet("Alex")\n`
+            break;
+        case "Java":
+            codeObj = `public class HelloWorld {\n\tpublic static void main(String[] args) {\n\tSystem.out.println("Hello World");\n\t}\n}`
+            break;
+        case "PHP":
+            codeObj = `<?php\n\n$name = "Alex";\necho $name;\n`
+            break;
+        case "C#":
+            codeObj = `using System;\n\nnamespace HelloWorld\n{\n\tclass Hello { \n\t\tstatic void Main(string[] args) {\n\t\t\tConsole.WriteLine("Hello World in C#");\n\t\t}\n\t}\n}\n`
             break;
     }
 

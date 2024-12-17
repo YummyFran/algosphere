@@ -60,7 +60,7 @@ const CreatePost = ({
                     name="post" 
                     id="post-input" 
                     rows='1' 
-                    placeholder={`What's new, ${isLoading ? "Today" : currentUser?.displayName.split(' ')[0]}?`}
+                    placeholder={`What's new, ${isLoading ? "Today" : currentUser?.displayName?.split(' ')[0]}?`}
                     value={postContent.context}
                     onChange={e => setPostContent(prev => ({...prev, context: e.target.value}))}
                     className={`post-area midtone-${theme}`}

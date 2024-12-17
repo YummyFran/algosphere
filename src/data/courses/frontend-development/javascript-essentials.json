@@ -5,6 +5,11 @@
     "level": "Intermediate",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course covers the fundamental concepts of JavaScript, the programming language of the web. You will learn how to add interactivity to websites, understand core programming concepts such as variables, functions, loops, and events, and work with the Document Object Model (DOM). By the end of the course, you will be able to create dynamic web pages and write clean, efficient JavaScript code."
+      },    
+      {
         "title": "Introduction to JavaScript",
         "slug": "introduction",
         "description": "Get started with JavaScript and understand its purpose.",

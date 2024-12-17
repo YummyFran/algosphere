@@ -5,6 +5,11 @@
     "level": "Beginner",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course introduces version control using Git and GitHub, essential tools for modern software development. You will learn how to track changes, collaborate with teams, manage branches, and resolve conflicts. By the end of the course, you will be able to use Git commands effectively and leverage GitHub for hosting repositories, reviewing code, and managing projects."
+      },    
+      {
         "title": "Introduction to Version Control",
         "slug": "introduction-version-control",
         "description": "Understand the need for version control and how Git fits in.",

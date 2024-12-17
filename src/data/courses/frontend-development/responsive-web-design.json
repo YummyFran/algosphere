@@ -5,6 +5,11 @@
     "level": "Intermediate",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course teaches the principles of responsive web design, focusing on creating websites that adapt seamlessly across different screen sizes and devices. You will learn techniques such as fluid grids, media queries, and flexible layouts to ensure that your websites look great on desktops, tablets, and smartphones. By the end of the course, you will be able to build fully responsive, mobile-first websites."
+      },    
+      {
         "title": "Introduction to Responsive Web Design",
         "slug": "introduction",
         "description": "Learn the importance of responsive design and its principles.",

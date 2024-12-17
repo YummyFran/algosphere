@@ -5,6 +5,11 @@
     "level": "Intermediate",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course introduces the principles and practices of Agile software development. You will learn Agile methodologies such as Scrum and Kanban, explore iterative development, and understand roles, ceremonies, and tools used in Agile teams. By the end of the course, you will be equipped to contribute effectively to Agile projects and deliver software efficiently with continuous improvement."
+      },    
+      {
         "title": "Introduction to Agile",
         "slug": "introduction-to-agile",
         "description": "Understand the core principles and benefits of Agile development.",

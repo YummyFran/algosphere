@@ -61,8 +61,10 @@ const Course = () => {
                     <div className="title">Chapters</div>
                     <div className="close" onClick={toggleChapterMenu}>&times;</div>
                 </div>
-                <NavLink onClick={toggleChapterMenu} to={`/courses/${collectionSlug}/${courseSlug}`} end>Overview</NavLink>
                 {courseData?.chapters.map((chapter, i) => {
+                    if(chapter.slug == "")
+                        return <NavLink onClick={toggleChapterMenu} to={`/courses/${collectionSlug}/${courseSlug}`} end>Overview</NavLink>
+
                     return <NavLink onClick={toggleChapterMenu} key={i} to={`/courses/${collectionSlug}/${courseSlug}/${chapter.slug}`} className={({isActive}) => isActive ? "active" : ''}>{chapter.title}</NavLink>
                 })}
             </div>

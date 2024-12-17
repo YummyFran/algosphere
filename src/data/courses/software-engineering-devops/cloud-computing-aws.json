@@ -5,6 +5,11 @@
     "level": "Advanced",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course introduces the fundamentals of cloud computing using Amazon Web Services (AWS). You will learn about core AWS services such as EC2, S3, Lambda, and RDS, and understand how to deploy, manage, and scale applications in the cloud. By the end of the course, you will be able to leverage AWS to build secure, scalable, and cost-effective cloud-based solutions."
+      },    
+      {
         "title": "Introduction to Cloud Computing",
         "slug": "introduction-cloud-computing",
         "description": "Get an overview of cloud computing and its benefits.",

@@ -5,6 +5,11 @@
     "level": "Beginner",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course introduces the foundational concepts of web development using HTML and CSS. You will learn how to structure web pages with HTML and style them using CSS to create visually appealing and responsive designs. By the end of the course, you will be able to build basic web pages, understand core layout techniques, and apply styles effectively."
+      },
+      {
         "title": "Introduction to HTML & CSS",
         "slug": "introduction",
         "description": "Overview of HTML, CSS, and how they work together to build web pages.",

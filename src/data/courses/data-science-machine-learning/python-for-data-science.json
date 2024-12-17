@@ -5,6 +5,11 @@
     "level": "Beginner",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course covers the use of Python for data science, including data manipulation, analysis, and visualization. You will learn to work with libraries such as Pandas, NumPy, and Matplotlib to process and visualize data. Additionally, you will explore statistical analysis and machine learning techniques. By the end of the course, you will have the skills to analyze datasets and draw insights using Python."
+      },    
+      {
         "title": "Introduction to Python and Data Science",
         "slug": "intro-python-data-science",
         "description": "Get an overview of Python and its role in data science.",

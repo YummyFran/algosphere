@@ -12,13 +12,17 @@ import Split from 'react-split'
 import { FaPlay } from "react-icons/fa"
 import { Switch } from '@mui/material'
 import { AiOutlineCloudUpload } from "react-icons/ai"
-import { generateWebIframCode } from '../utils/helper'
+import { converLanguage, executeCodeBit, generateWebIframCode } from '../utils/helper'
 
 import '../styles/codebit.css'
 import { useUser } from '../provider/UserProvider'
 
 const CodeBit = () => {
     const [webCode, setWebCode] = useState({html: '', css: '', js: ''})
+    const [code, setCode] = useState()
+    const [output, setOutput] = useState()
+    const [codeIsError, setCodeIsError] = useState(false)
+    const [isExecuting, setIsExecuting] = useState(false)
     const [onMobile, setOnMobile] = useState()
     const [theme] = useTheme()
     const [addToast] = useToast()
@@ -27,6 +31,7 @@ const CodeBit = () => {
     const nav = useNavigate()
     const outputRef = useRef()
     const queryClient = useQueryClient()
+    const init = useRef(false)
 
     const {data: codebitData, isLoading} = useQuery({
         queryKey: ['codebit', codebitId],
@@ -37,6 +42,8 @@ const CodeBit = () => {
         mutationFn: async () => {
             if(codebitData.language === "Web") {
                 await updateCodeBit(codebitId, {code: webCode})
+            } else {
+                await updateCodeBit(codebitId, {code: code})
             }
         },
         onSuccess: () => {
@@ -45,11 +52,7 @@ const CodeBit = () => {
     })
 
     const {mutate: mutatePublic} = useMutation({
-        mutationFn: async () => {
-            if(codebitData.language === "Web") {
-                await updateCodeBit(codebitId, {public: !codebitData.public})
-            }
-        },
+        mutationFn: async () => await updateCodeBit(codebitId, {public: !codebitData.public}),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['codebit', codebitId]})
             addToast("Visibility Changed!", `Your code bit is now ${!codebitData.public ? "public" : "private"}`)
@@ -64,10 +67,10 @@ const CodeBit = () => {
         mutateCodeBit()
     }
 
-    const executeCode = () => {
-        if(!outputRef) return
-
+    const executeCode = async () => {
         if(codebitData.language === "Web") {
+            if(!outputRef) return
+
             const outputDoc = outputRef.current.contentDocument || outputRef.current.contentWindow.document
 
             outputDoc.open()
@@ -75,15 +78,31 @@ const CodeBit = () => {
             outputDoc.close()
 
             return
+        } else {
+            try {
+                setIsExecuting(true)
+                const res = await executeCodeBit(codebitData.language.toLowerCase(), code)
+                setIsExecuting(false)
+    
+                res.run.code === 1 ? setCodeIsError(true) : setCodeIsError(false)
+    
+                setOutput(res.run.output)
+            } catch(err) {
+                addToast("An error occured", "There's something wrong executing your code", "error")
+            }
         }
     }
 
     useEffect(() => {
-        if(!codebitData) return
+        if(!codebitData || init.current) return
 
         if(codebitData.language === "Web") {
             setWebCode(codebitData.code)
+        } else {
+            setCode(codebitData.code)
         }
+
+        init.current = true
     }, [codebitData])
 
     useEffect(() => {
@@ -137,9 +156,9 @@ const CodeBit = () => {
             </div>}
 
             <div className="buttons">
-                <button className={`run secondary-${theme}-bg midtone-${theme}`} onClick={() => executeCode()}>
+                <button className={`run secondary-${theme}-bg midtone-${theme}`} onClick={() => executeCode()} disabled={isExecuting}>
                     <FaPlay />
-                    Run Code
+                    {isExecuting ? 'Running' : 'Run Code'}
                 </button>
                 {codebitData?.author.uid === user?.uid && <button className={`save secondary-${theme}-bg accent-color`} onClick={() => saveCode()}>
                     <AiOutlineCloudUpload />
@@ -152,11 +171,14 @@ const CodeBit = () => {
                 <div className="code-area">
                     {codebitData.language === "Web" ? 
                         <Web codebit={codebitData} code={webCode} setCode={setWebCode}/> :
-                        <CodeEditor codebit={codebitData}/>
+                        <CodeEditor codebit={codebitData} code={code} setCode={setCode}/>
                     }
                 </div>
                 <div className="output">
-                    <iframe className='output-frame' ref={outputRef}></iframe>
+                    {codebitData.language === "Web" ?
+                        <iframe className='output-frame' ref={outputRef}></iframe> :
+                        <pre className={`output-logs ${theme} ${codeIsError ? 'error' : ''}`}>{output}</pre>
+                    }
                 </div>
             </Split>
         </div>

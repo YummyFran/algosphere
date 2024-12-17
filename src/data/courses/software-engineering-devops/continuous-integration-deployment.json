@@ -5,6 +5,11 @@
     "level": "Intermediate",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course focuses on implementing Continuous Integration and Continuous Deployment (CI/CD) pipelines to streamline software development workflows. You will learn how to automate building, testing, and deploying applications using tools like GitHub Actions, Jenkins, and other CI/CD platforms. By the end of the course, you will be able to set up robust pipelines to ensure faster, reliable, and efficient software delivery."
+      },    
+      {
         "title": "Introduction to CI/CD",
         "slug": "introduction-to-ci-cd",
         "description": "Understand the fundamentals of CI/CD and how it improves software delivery.",

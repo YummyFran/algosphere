@@ -9,7 +9,7 @@ import Feed from "./pages/Feed";
 import PostPage from "./pages/PostPage";
 import Profile from "./pages/Profile";
 import Timeline from "./components/Timeline";
-import Wall from "./components/Wall";
+import Saved from "./components/Saved";
 import Reposts from "./components/Reposts";
 import Course from "./pages/Course";
 import Lessons from "./components/Lessons";
@@ -47,7 +47,7 @@ function App() {
         <Route path=":username/post/:postId/activity" element={<PostActivity />} />
         <Route path=":username" element={<Profile />}>
           <Route index element={<Timeline />} />
-          <Route path="wall" element={<Wall />} />
+          <Route path="saved" element={<Saved />} />
           <Route path="reposts" element={<Reposts />} />
         </Route>
         <Route path=":username" element={<Metrics />}>
@@ -56,6 +56,7 @@ function App() {
         </Route>
 
         <Route path="/courses/:collectionSlug/:courseSlug" element={<Course />}>
+          <Route index element={<Lessons />} />
           <Route path=":lessonSlug" element={<Lessons />}/>
         </Route>
 

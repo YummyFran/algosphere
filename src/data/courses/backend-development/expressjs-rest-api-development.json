@@ -5,6 +5,11 @@
     "level": "Intermediate",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course covers building robust and scalable RESTful APIs using Express.js, a lightweight Node.js framework. You will learn how to set up API routes, handle HTTP requests and responses, work with middleware, and connect to databases. By the end of the course, you will be able to develop and deploy RESTful APIs to power modern web and mobile applications."
+      },    
+      {
         "title": "Introduction to Express.js",
         "slug": "introduction-to-expressjs",
         "description": "Get started with Express.js, the popular Node.js framework.",

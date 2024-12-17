@@ -5,6 +5,11 @@
     "level": "Advanced",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course focuses on implementing secure authentication systems using JSON Web Tokens (JWT) and OAuth. You will learn how JWT enables stateless authentication, explore OAuth for third-party logins, and understand best practices for securing APIs and user data. By the end of the course, you will be able to integrate robust authentication mechanisms into your applications."
+      },    
+      {
         "title": "Introduction to Authentication",
         "slug": "introduction-to-authentication",
         "description": "Overview of authentication protocols and why they matter.",

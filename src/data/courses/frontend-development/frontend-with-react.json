@@ -5,6 +5,11 @@
     "level": "Advanced",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course covers the fundamentals of building modern web applications using React. You will learn how to create dynamic, state-driven user interfaces, work with React components, manage application state with hooks, and integrate APIs. By the end of the course, you will have the skills to build interactive and scalable React applications."
+      },    
+      {
         "title": "Introduction to React",
         "slug": "introduction-to-react",
         "description": "Understand the fundamentals of React and why it's popular.",

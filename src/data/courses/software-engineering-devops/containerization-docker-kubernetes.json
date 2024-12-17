@@ -5,6 +5,11 @@
     "level": "Advanced",
     "chapters": [
       {
+        "title": "Overview",
+        "slug": "",
+        "description": "This course covers the fundamentals of containerization using Docker and orchestration with Kubernetes. You will learn how to package applications into containers, manage dependencies, and deploy them consistently across environments. By exploring Kubernetes, you will understand how to automate deployment, scaling, and management of containerized applications. By the end of the course, you will be able to build, deploy, and manage modern containerized workflows efficiently."
+      },    
+      {
         "title": "Introduction to Containers",
         "slug": "introduction-to-containers",
         "description": "Get an overview of containers and their benefits in modern development.",

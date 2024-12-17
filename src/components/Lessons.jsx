@@ -8,16 +8,16 @@ const Lessons = () => {
     const [theme] = useTheme()
     const courseData = useOutletContext()
     const chapters = courseData?.chapters.map(chap => chap.slug)
-    const chapter = courseData?.chapters[chapters.indexOf(lessonSlug)]
+    const chapter = courseData?.chapters[chapters.indexOf(lessonSlug || "")]
 
   return (
     <div className={`lessons-outlet midtone-${theme}`}>
       <div className="header">
         <h2 className="title">{chapter?.title}</h2>
-        <p className="desc">{chapter?.description}</p>
+        <p className="desc" style={{marginTop: (!lessonSlug ? '2rem' : ''), fontSize: !lessonSlug ? '1.2rem' : '1rem'}}>{chapter?.description}</p>
       </div>
       <div className="links">
-        {chapter?.lessons.map((lesson, i) => {
+        {chapter?.lessons?.map((lesson, i) => {
           return (
             <Link to={`./${i+1}`} key={i} className={`secondary-${theme}-bg midtone-${theme}`} replace>{lesson.title}</Link>
           )

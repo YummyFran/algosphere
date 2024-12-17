@@ -52,7 +52,7 @@ const PlayGround = () => {
           <div className={`tabs midton-${theme}`}>
             <NavLink to={'/playground'} className={({isActive}) => isActive ? 'active' : ''} end replace>Recents</NavLink>
             <NavLink to={'popular'} className={({isActive}) => isActive ? 'active' : ''} replace>Popular</NavLink>
-            <NavLink to={'followed'} className={({isActive}) => isActive ? 'active' : ''} replace>Followed</NavLink>
+            {/* <NavLink to={'followed'} className={({isActive}) => isActive ? 'active' : ''} replace>Followed</NavLink> */}
             <NavLink to={'mycodebits'} className={({isActive}) => isActive ? 'active' : ''} replace>My Code Bits</NavLink>
           </div>
           <div className="tab">

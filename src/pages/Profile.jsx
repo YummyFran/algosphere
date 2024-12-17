@@ -181,15 +181,15 @@ const Profile = () => {
                 {user.uid === currentUser?.uid ? 
                     <button className={`edit midtone-${theme}`} onClick={() => setIsEditModalOpen(true)}>Edit Profile</button> :
                     <>
-                        <button className={`follow-btn ${isFollowing ? "following" : "follow"}`} onClick={() => isFollowing ? mutateUnFollow() : mutateFollow()} disabled={isFollowPending}>{isFollowing ? "Following" : "Follow"}</button>
-                        <button className='message'>Message</button>
+                        <button className={`follow-btn ${isFollowing ? "following" : "follow"} midtone-${theme}`} onClick={() => isFollowing ? mutateUnFollow() : mutateFollow()} disabled={isFollowPending}>{isFollowing ? "Following" : "Follow"}</button>
+                        <button className={`message midtone-${theme}`}>Message</button>
                     </>
                 }
                 </div>
             </div>
-            <div className={`profile-nav midton-${theme}-bg`}>
+            <div className={`profile-nav midtone-${theme}`}>
                 <NavLink to={`/${user.username}`} className={({ isActive }) => `${isActive ? 'active-link' : ''}`} end replace>Posts</NavLink>
-                <NavLink to={`wall`} className={({ isActive }) => `${isActive ? 'active-link' : ''}`} replace>Wall</NavLink>
+                <NavLink to={`saved`} className={({ isActive }) => `${isActive ? 'active-link' : ''}`} replace>Saved</NavLink>
                 <NavLink to={`reposts`} className={({ isActive }) => `${isActive ? 'active-link' : ''}`} replace>Reposts</NavLink>
             </div>
             <Outlet context={[user, username, isLoading]}/>
