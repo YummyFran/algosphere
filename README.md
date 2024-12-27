@@ -1,70 +1,101 @@
-# Getting Started with Create React App
+# AlgoSphere
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+AlgoSphere is a **web-based social learning platform** designed to enhance and engage developer skills. By combining social media features with learning tools, AlgoSphere offers a unique space for developers, tech students, and enthusiasts to learn, practice, and collaborate.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### Social Media for Developers
+- Create and share posts.
+- Like, comment, and interact with fellow developers.
+- Collaborate and share insights.
 
-### `npm start`
+### Coding Challenges
+- Solve coding problems similar to LeetCode.
+- Participate in competitive coding challenges.
+- Categories from beginner to expert levels (1kyu to 8kyu).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Typing Tests
+- Improve your typing speed and accuracy with engaging tests.
+- Track progress and compete with others.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### CSS Battles
+- Practice CSS skills by replicating target designs.
+- Earn points for pixel-perfect accuracy.
 
-### `npm test`
+### SQL Practice
+- Hone your database skills with real-world SQL problems.
+- Instant feedback on query performance.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Code Playground
+- Write, compile, and share code snippets online.
+- Test code in a live iframe environment.
 
-### `npm run build`
+### Online Courses
+- Learn programming with interactive tutorials.
+- Cover topics like HTML, CSS, JavaScript, and more.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Tech Stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+AlgoSphere is built using modern web technologies:
+- **Frontend**: React.js
+- **Backend**: Firebase (authentication, Firestore for database, and hosting)
+- **Styling**: CSS with responsive design
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Unique Selling Point
+AlgoSphere stands out by combining:
+1. **Social Media Features**: For collaboration and networking.
+2. **Learning Tools**: To improve coding and technical skills.
+3. **Gamification**: Leaderboards, challenges, and reputation systems.
 
-### `npm run eject`
+## Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+To run AlgoSphere locally:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/algosphere.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd algosphere
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the development server:
+   ```bash
+   npm start
+   ```
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Contribution
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+We welcome contributions from the community! To contribute:
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Add feature-name"
+   ```
+4. Push to your branch:
+   ```bash
+   git push origin feature-name
+   ```
+5. Create a pull request.
 
-## Learn More
+## License
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This project is licensed under the [MIT License](LICENSE).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contact
 
-### Code Splitting
+Have questions or suggestions? Reach out to us:
+- **Website**: [algosphere.tech](https://algosphere.tech)
+- **Email**: support@algosphere.tech
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Join AlgoSphere and take your development skills to the next level!
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
