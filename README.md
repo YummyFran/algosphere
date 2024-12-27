@@ -87,15 +87,6 @@ We welcome contributions from the community! To contribute:
    ```
 5. Create a pull request.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## Contact
-
-Have questions or suggestions? Reach out to us:
-- **Website**: [algosphere.tech](https://algosphere.tech)
-- **Email**: support@algosphere.tech
 
 Join AlgoSphere and take your development skills to the next level!
 
