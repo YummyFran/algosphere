@@ -54,10 +54,10 @@ const Signup = () => {
     }
 
     useEffect(() => {
-        if(credentials.email && 
-            credentials.password && 
-            credentials.username &&
-            credentials.displayName) {
+        if(credentials.email.trim() && 
+            credentials.password.trim() && 
+            credentials.username.trim() &&
+            credentials.displayName.trim()) {
             setDisabled(false)
         } else {
             setDisabled(true)

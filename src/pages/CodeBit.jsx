@@ -143,7 +143,7 @@ const CodeBit = () => {
   return (
     <div className={`code-bit-page primary-${theme}-bg midtone-${theme}`}>
         <div className="header">
-            <div className="logo" onClick={() => nav(-1)}>
+            <div className="logo" onClick={() => nav('/playground')}>
                 <img src={`${process.env.PUBLIC_URL}/assets/logo.svg`} alt="algosphere logo" />
             </div>
             <div className="details">
