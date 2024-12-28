@@ -7,6 +7,7 @@ import { useTheme } from '../provider/ThemeProvider'
 import { IoArrowBackOutline } from 'react-icons/io5'
 import { AiOutlineMore } from 'react-icons/ai'
 import "../styles/metrics.css"
+import Loading from '../components/Loading'
 
 const PostActivity = () => {
     const {postId} = useParams()
@@ -30,7 +31,7 @@ const PostActivity = () => {
         fetchUsers();
     }, [likedUserIds, isLoading]);
 
-    if(isLoading) return "Loading..."
+    if(isLoading) return <Loading />
   return (
     <div className={`post-activity primary-${theme}-bg midtone-${theme}`}>
         <div className="activity">

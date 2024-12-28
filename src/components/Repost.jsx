@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router'
 import { useTheme } from '../provider/ThemeProvider'
 import PostAttachments from './PostAttachments'
 import dp from '../assets/defaultDP.jpg'
+import Loading from './Loading'
 
 const Repost = ({postReference, vidmMuted, vidRef, toggleMute, togglePaused, playIconRef, vidPaused}) => {
     const navigate = useNavigate()
@@ -29,7 +30,7 @@ const Repost = ({postReference, vidmMuted, vidRef, toggleMute, togglePaused, pla
         navigate(`/${postOwner?.username}`)
     }
 
-    if(isOriginalPostLoading || isUserLoading) return "Loading..."
+    if(isOriginalPostLoading || isUserLoading) return <Loading />
   return (
     <div className={`repost mono-${theme}-border`}>
         <div className="post-header">

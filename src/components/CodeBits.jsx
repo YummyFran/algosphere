@@ -4,6 +4,7 @@ import { useOutletContext, useParams } from 'react-router'
 import { getCodeBits } from '../utils/firestore'
 import { useUser } from '../provider/UserProvider'
 import CodeBitItem from './CodeBitItem'
+import Loading from './Loading'
 
 const CodeBits = () => {
     const { filterBy } = useParams()
@@ -15,7 +16,7 @@ const CodeBits = () => {
         queryFn: async () => await getCodeBits(filterBy, user.uid)
     })
 
-    if(isLoading) return "Loading.."
+    if(isLoading) return <Loading />
   return (
     <>
         {codeBits?.length <= 0 ? (

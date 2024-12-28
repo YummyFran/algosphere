@@ -10,6 +10,7 @@ import { useTheme } from '../provider/ThemeProvider'
 import { uploadPostMedias } from '../utils/bucket'
 import { arrayUnion } from 'firebase/firestore'
 import { useToast } from '../provider/ToastProvider'
+import Loading from '../components/Loading'
 
 const Feed = () => {
     const [postContent, setPostContent] = useState({context: '', attachments: [], attachmentPreviews: []})
@@ -115,7 +116,7 @@ const Feed = () => {
                         </div>
                     )) :
                     <div className="no-post">
-                        {isPostLoading ? 'Loading' : 'No posts yet'}
+                        {isPostLoading ? <Loading /> : 'No posts yet'}
                     </div>
                 }
                 {!hasNextPage && posts?.pages[0].posts.length > 1 && <div className='no-post'>You've reach the end</div>}

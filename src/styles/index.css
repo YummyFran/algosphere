@@ -133,3 +133,21 @@ a {
 .red {
     background-color: red !important;
 }
+
+.loading {
+    padding: 2rem;
+    height: min-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    svg {
+        width: min(5rem, 30vw);
+        height: min(5rem, 30vw);
+    }
+}
+
+#root > .loading {
+    height: 100vh;
+}

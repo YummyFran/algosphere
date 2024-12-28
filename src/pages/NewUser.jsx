@@ -5,6 +5,7 @@ import { Navigate } from 'react-router'
 
 import '../styles/login.css'
 import { validateUsername } from '../utils/helper'
+import Loading from '../components/Loading'
 
 const NewUser = () => {
     const [user] = useUser()
@@ -56,7 +57,7 @@ const NewUser = () => {
         }
     }, [username])
 
-    if(loading) return "Loading..."
+    if(loading) return <Loading />
     if(currentUserName) return <Navigate to={'/'} />
   return (
     <div className='new-user'>

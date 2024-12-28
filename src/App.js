@@ -24,6 +24,7 @@ import Duel from "./components/Duel";
 import CodeBits from "./components/CodeBits";
 import CodeBit from "./pages/CodeBit";
 import { updateAllPost } from "./utils/firestore";
+import Loading from "./components/Loading";
 
 function App() {
   return (
@@ -65,6 +66,8 @@ function App() {
         <Route path="exercises/css-duel/:duelSlug" element={<Duel />}/>
 
         <Route path="codebit/:codebitId" element={<CodeBit />}/>
+
+        <Route path="loading" element={<Loading />} />
         
         <Route path="*" element={'404 not found'} />
       </Routes>

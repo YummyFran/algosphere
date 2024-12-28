@@ -12,6 +12,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useToast } from '../provider/ToastProvider'
 import dp from '../assets/defaultDP.jpg'
 import Modal from '../components/Modal'
+import Loading from '../components/Loading'
 
 const Profile = () => {
     const { username } = useParams()
@@ -112,7 +113,7 @@ const Profile = () => {
         }
     }, [user])
 
-    if (isLoading || username !== user?.username) return <div>Loading...</div>
+    if (isLoading || username !== user?.username) return <Loading />
   return (
     <div className={`profile-page primary-${theme}-bg midtone-${theme}`}>
         <Modal 

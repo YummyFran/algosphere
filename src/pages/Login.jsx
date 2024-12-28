@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { signIn } from '../utils/authentication'
 import '../styles/login.css'
 import LoginButtons from '../components/LoginButtons'
+import Loading from '../components/Loading'
 
 const Login = () => {
     const [user, loading] = useUser()
@@ -36,7 +37,7 @@ const Login = () => {
     }, [credentials])
 
     if (!loading && user) return <Navigate to='/'/>
-    if (loading) return "loading..."
+    if (loading) return <Loading />
 
   return (
     <div className='login'>

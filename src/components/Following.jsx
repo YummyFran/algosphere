@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router'
 import { getFollowing, getUser } from '../utils/firestore'
 import UserItem from './UserItem'
+import Loading from './Loading'
 
 const Following = () => {
     const userId = useOutletContext()
@@ -24,14 +25,14 @@ const Following = () => {
         fetchUsers();
     }, [followingIds, isLoading]);
 
-    if(isLoading) return "Loading..."
+    if(isLoading) return <Loading />
   return (
     <div className='list'>
         {following.length > 0 && !isLoading ? 
             following.map((followedUser, idx) => <UserItem key={idx} userData={followedUser}/>) :
         followingIds.length === 0 ?
             <p>No users followed</p> :
-            "Loading..."
+            <Loading />
         }
     </div>
   )

@@ -4,6 +4,7 @@ import { getUser, getUserReposts, getUserSavedPosts } from '../utils/firestore'
 import Post from './Post'
 import { useUser } from '../provider/UserProvider'
 import { useOutletContext } from 'react-router'
+import Loading from './Loading'
 
 const Saved = () => {
   const [user] = useUser()
@@ -48,7 +49,7 @@ const Saved = () => {
 
   }, [currentUser, fetchNextPage])
 
-  if(isTimelineUserLoading) return <div>Loading...</div>
+  if(isTimelineUserLoading) return <Loading />
 
   return (
     <div className='timeline'>
@@ -61,10 +62,10 @@ const Saved = () => {
               </div>
           )) :
           <div className="no-post">
-              {isPostLoading ? 'Loading' : 'No posts yet'}
+              {isPostLoading ? <Loading /> : 'No posts yet'}
           </div>
       }
-      {isFetchingNextPage && "loading..."}
+      {isFetchingNextPage && <Loading />}
       {!hasNextPage && posts?.pages[0].posts.length > 1 && <div className='no-post'>You've reach the end</div>}
     </div>
   )

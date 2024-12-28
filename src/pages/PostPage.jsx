@@ -11,6 +11,7 @@ import { useTheme } from '../provider/ThemeProvider'
 import { IoArrowBackOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 import { useToast } from '../provider/ToastProvider'
+import Loading from '../components/Loading'
 
 const PostPage = () => {
     const [commentContent, setCommentContent] = useState({context: '', attachments: []})
@@ -78,7 +79,7 @@ const PostPage = () => {
         }
     }, [fetchNextPage])
 
-    if(isLoading || loadingUser || !post) return "Loading..."
+    if(isLoading || loadingUser || !post) return <Loading />
   return (
     <div className={`post-page primary-${theme}-bg midtone-${theme}`}>
         <div className="post-container">

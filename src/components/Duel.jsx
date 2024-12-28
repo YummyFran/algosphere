@@ -15,6 +15,7 @@ import { useToast } from '../provider/ToastProvider'
 import { getUserDuelData, submitDuel } from '../utils/firestore'
 import { useUser } from '../provider/UserProvider'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import Loading from './Loading'
 
 const Duel = () => {
   const [cssCode, setCssCode] = useState()
@@ -207,7 +208,7 @@ const Duel = () => {
   }, [userDuelData])
 
   if(isNaN(duelSlug) || duelSlug <= 0 || duelSlug > duels.flat().length) return "Invalid duel"
-  if(!duel) return "Loading..."
+  if(!duel) return <Loading />
 
   return (
     <div className={`duel primary-${theme}-bg midtone-${theme}`}>

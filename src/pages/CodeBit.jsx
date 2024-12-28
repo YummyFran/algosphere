@@ -16,6 +16,7 @@ import { converLanguage, executeCodeBit, generateWebIframCode } from '../utils/h
 
 import '../styles/codebit.css'
 import { useUser } from '../provider/UserProvider'
+import Loading from '../components/Loading'
 
 const CodeBit = () => {
     const [webCode, setWebCode] = useState({html: '', css: '', js: ''})
@@ -137,7 +138,7 @@ const CodeBit = () => {
         }
       }, [])
 
-    if(isLoading) return "Loading..."
+    if(isLoading) return <Loading />
     if(!codebitData?.public && codebitData?.author.uid !== user?.uid) return "403 Forbidden"
 
   return (

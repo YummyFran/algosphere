@@ -4,6 +4,7 @@ import { getUser, getUserReposts } from '../utils/firestore'
 import Post from './Post'
 import { useUser } from '../provider/UserProvider'
 import { useOutletContext } from 'react-router'
+import Loading from './Loading'
 
 const Reposts = () => {
   const [user] = useUser()
@@ -48,7 +49,7 @@ const Reposts = () => {
 
   }, [currentUser, fetchNextPage])
 
-  if(isTimelineUserLoading || posts?.pages[0]?.posts[0]?.userId !== timelineUser?.uid) return <div>Loading...</div>
+  if(isTimelineUserLoading || posts?.pages[0]?.posts[0]?.userId !== timelineUser?.uid) return <Loading />
 
   return (
     <div className='timeline'>

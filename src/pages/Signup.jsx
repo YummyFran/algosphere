@@ -7,6 +7,7 @@ import { updateProfile } from 'firebase/auth'
 import { addUser, usernameExisted } from '../utils/firestore'
 import '../styles/login.css'
 import { validateUsername } from '../utils/helper'
+import Loading from '../components/Loading'
 
 const Signup = () => {
     const [user, userLoading] = useUser()
@@ -65,7 +66,7 @@ const Signup = () => {
     }, [credentials])
 
     if (!userLoading && user) return <Navigate to='/'/>
-    if (userLoading) return "loading..."
+    if (userLoading) return <Loading />
 
   return (
     <div className='login'>

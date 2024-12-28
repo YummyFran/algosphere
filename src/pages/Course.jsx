@@ -5,6 +5,7 @@ import { IoArrowBackOutline, IoMenu } from 'react-icons/io5'
 import { NavLink } from 'react-router-dom'
 import { useTheme } from '../provider/ThemeProvider'
 import data from '../data/courses.json'
+import Loading from '../components/Loading'
 
 const Course = () => {
     const [courseData, setCourseData] = useState(null)
@@ -41,7 +42,7 @@ const Course = () => {
         importJSON()
     }, [courseSlug, collectionSlug])
 
-    if(loading && !courseData) return "Loading..."
+    if(loading && !courseData) return <Loading />
     if(error) return error
   return (
     <div className={`course-page primary-${theme}-bg`}>
