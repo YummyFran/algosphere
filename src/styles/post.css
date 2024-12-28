@@ -451,6 +451,12 @@
     }
 }
 
+@media (max-width: 35em) {
+    .post .post-details .content .post-header .username {
+        display: none;
+    }
+}
+
 @keyframes show-toggle-pause {
     0% {
         opacity: 0;
