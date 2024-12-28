@@ -12,18 +12,18 @@ const NUMBER_OF_WORDS = 100
 const COUNTDOWN_TIME = 60
 
 const TypingChallenge = () => {
-    const [words, setWords] = useState('')
-    const [userTyped, setUserTyped] = useState('')
-    const [timeLeft, setTimeLeft] = useState(COUNTDOWN_TIME)
+    const [words, setWords] = useState('') //
+    const [userTyped, setUserTyped] = useState('') //
+    const [timeLeft, setTimeLeft] = useState(COUNTDOWN_TIME) //
     const [results, setResults] = useState({})
     const [theme] = useTheme()
-    const [caretPos, setCaretPos] = useState({ top: 0, left: 0 })
+    const [caretPos, setCaretPos] = useState({ top: 0, left: 0 }) //
     const [hasFocus, setHasFocus] = useState(false)
-    const wordsRef = useRef(null)
-    const intervalRef = useRef(null)
+    const wordsRef = useRef(null) //
+    const intervalRef = useRef(null) //
     const inputRef = useRef(null)
-    const secondLine = useRef(0)
-    const initialScroll = useRef(0)
+    const secondLine = useRef(0) //
+    const initialScroll = useRef(0) //
     const nav = useNavigate()
 
     const hasTimerEnded = timeLeft <= 0;
@@ -39,6 +39,10 @@ const TypingChallenge = () => {
         setUserTyped('')
     }
 
+    const resetCaretPos = () => {
+        setCaretPos({ top: 0, left: 0 })
+    }
+
     const restart = () => {
         if(inputRef.current) {
             inputRef.current.focus()
@@ -48,6 +52,7 @@ const TypingChallenge = () => {
         clearUserTyped()
         resetCountdown()
         resetScrollWords()
+        resetCaretPos()
     }
 
     const handleKeyDown = useCallback((e) => {
@@ -68,7 +73,8 @@ const TypingChallenge = () => {
     const resetScrollWords = () => {
         if(wordsRef.current) {
             wordsRef.current.scrollTop = 0;
-            secondLine.current = null
+            initialScroll.current = 0
+            secondLine.current = 0
         }
     }
 
@@ -97,7 +103,7 @@ const TypingChallenge = () => {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
         setTimeLeft(COUNTDOWN_TIME);
-    }, []);
+    }, [setTimeLeft, intervalRef.current]);
 
     useEffect(() => {
         if (hasTyped && !isRunning) {
@@ -129,18 +135,9 @@ const TypingChallenge = () => {
         const totalTypedLength = userTyped.length
 
         if(totalTypedLength <= 0) {
-            const firstChar = chars[0]
-            if (firstChar) {
-                const { offsetTop, offsetLeft } = firstChar
-            
-                setCaretPos({
-                    top: offsetTop,
-                    left: offsetLeft,
-                })
-            }
-
             return
         }
+
         
         const targetChar = chars[totalTypedLength - 1]
         const { offsetTop, offsetLeft, offsetWidth } = targetChar
@@ -150,7 +147,10 @@ const TypingChallenge = () => {
         }
 
         setCaretPos(prev => {
+            console.log(prev.top, initialScroll.current, offsetTop)
+            console.log(prev.top !== initialScroll.current, prev.top !== offsetTop)
             const lineChange = prev.top !== initialScroll.current && prev.top !== offsetTop
+            
             if(lineChange) {
                 if(!secondLine.current) {
                     secondLine.current = offsetTop
