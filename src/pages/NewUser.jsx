@@ -57,7 +57,7 @@ const NewUser = () => {
         }
     }, [username])
 
-    if(loading) return <Loading />
+    if(loading || !user.uid) return <Loading />
     if(currentUserName) return <Navigate to={'/'} />
   return (
     <div className='new-user'>
