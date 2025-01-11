@@ -92,6 +92,7 @@ const Feed = () => {
     }, [])
 
     if(!user) return <Navigate to="/login"/>
+    if(!currentUser?.username) <Navigate to="/login/newuser" />
   return (
     <div className={`home primary-${theme}-bg midtone-${theme}`}>
         <div className="feed">

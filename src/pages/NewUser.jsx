@@ -8,7 +8,7 @@ import { validateUsername } from '../utils/helper'
 import Loading from '../components/Loading'
 
 const NewUser = () => {
-    const [user] = useUser()
+    const [user, isLoading] = useUser()
     const [loading, setLoading] = useState(false)
     const [disabled, setDisabled] = useState(false)
     const [username, setUsername] = useState('')
@@ -32,8 +32,10 @@ const NewUser = () => {
             return
         }
 
+        setDisabled(true)
         await updateUsername(user, username)
         setCurrentUserName(username)
+        setDisabled(false)
     }
 
     useEffect(() => {
@@ -41,6 +43,11 @@ const NewUser = () => {
         const checkUser = async () => {
             setLoading(true)
             const userData = await getUser(user?.uid)
+
+            if(!userData) {
+                setLoading(false)
+                return
+            }
 
             setCurrentUserName(userData?.username)
             setLoading(false)
@@ -57,7 +64,7 @@ const NewUser = () => {
         }
     }, [username])
 
-    if(loading || !user.uid) return <Loading />
+    if(loading || !user?.uid || isLoading) return <Loading />
     if(currentUserName) return <Navigate to={'/'} />
   return (
     <div className='new-user'>

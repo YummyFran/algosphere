@@ -77,9 +77,14 @@ export const addUser = async (user, username) => {
 }
 
 export const getUser = async (userId) => {
-    const userData = await getDocument("users", userId)
-
-    return userData
+    try {
+        const userData = await getDocument("users", userId)
+    
+        return userData
+    } catch (err) {
+        console.log(err)
+        return false
+    }
 }
 
 export const getUserByUsername = async (username) => {

@@ -32,6 +32,8 @@ const MainLayout = () => {
     }, [])
 
     if(!user) return <Navigate to='/login' />
+    if(!currentUser?.username) return <Navigate to="/login/newuser" />
+    
   return (
     <div className='main'>
         <LeftPanel user={currentUser} isLoading={isLoading} menuRef={menuRef} menuMobileRef={menuMobileRef}/>

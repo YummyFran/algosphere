@@ -18,8 +18,8 @@
     }
 
     .form {
-        display: flex;
-        flex-direction: column;
+        display: flex !important;
+        flex-direction: column !important;
         gap: 1rem;
         width: min(400px, 90vw);
 
