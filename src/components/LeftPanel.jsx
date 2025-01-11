@@ -67,7 +67,7 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                             <img src={user?.photoURL ? user.photoURL : dp} alt={user?.displayName}/>
                         </div>
                         <div className="name">
-                            <div className={`display-name ${isLoading && 'loading'}`}>{user?.displayName.split(" ")[0]}</div>
+                            <div className={`display-name ${isLoading && 'loading'}`}>{user?.displayName?.split(" ")[0]}</div>
                             <div className={`username ${isLoading && 'loading'}`}>{user && `@${user.username}`}</div>
                         </div>
                     </div>
@@ -106,7 +106,7 @@ const LeftPanel = ({user, isLoading, menuRef, menuMobileRef}) => {
                 <img src={user?.photoURL ? user.photoURL : dp} alt={user?.displayName}/>
             </div>
             <div className="name">
-                <div className={`display-name ${isLoading && 'loading'}`}>{user?.displayName.split(" ")[0]}</div>
+                <div className={`display-name ${isLoading && 'loading'}`}>{user?.displayName?.split(" ")[0]}</div>
                 <div className={`username ${isLoading && 'loading'}`}>{user && `@${user.username}`}</div>
             </div>
             <div className="meatball-menu" onClick={showMenu}>
