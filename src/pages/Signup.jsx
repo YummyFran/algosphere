@@ -51,6 +51,7 @@ const Signup = () => {
     }
 
     const handleChange = e => {
+        if(credentials.displayName.length > 30 && e.nativeEvent.inputType != "deleteContentBackward") return
         setCredentials(prev => ({...prev, [e.target.name]: e.target.value}))
     }
 
